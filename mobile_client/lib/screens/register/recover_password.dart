@@ -28,10 +28,20 @@ class RecoverPassword extends StatelessWidget {
           padding: EdgeInsets.only(top: 40),
           child: TextFormFieldWithoutIcon(
             label: "Correo electrónico",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
         ),
         Spacer(),
-        AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+        AppContinueElevatedButton(
+          isButtonDisabled: false,
+          onPressed: () {},
+          label: "Continuar",
+        )
       ],
     );
   }

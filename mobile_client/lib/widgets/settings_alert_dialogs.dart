@@ -41,7 +41,9 @@ class VerificationToDeleteBook extends StatelessWidget {
               SizedBox(
                 width: 150,
                 child: AppContinueElevatedButton(
-                    onPressed: () {}, label: "Continuar"),
+                    isButtonDisabled: false,
+                    onPressed: () {},
+                    label: "Continuar"),
               ),
             ],
           )
@@ -90,7 +92,10 @@ class VerificationToDeleteUser extends StatelessWidget {
               SizedBox(
                 width: 150,
                 child: AppContinueElevatedButton(
-                    onPressed: () {}, label: "Continuar"),
+                  isButtonDisabled: false,
+                  onPressed: () {},
+                  label: "Continuar",
+                ),
               ),
             ],
           )
@@ -129,7 +134,10 @@ class VerificationToSignOut extends StatelessWidget {
               SizedBox(
                 width: 175,
                 child: AppContinueElevatedButton(
-                    onPressed: () {}, label: "Cerrar sesión"),
+                  isButtonDisabled: false,
+                  onPressed: () {},
+                  label: "Cerrar sesión",
+                ),
               ),
             ],
           )

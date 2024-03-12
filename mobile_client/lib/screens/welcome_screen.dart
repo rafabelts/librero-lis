@@ -28,9 +28,11 @@ class Welcome extends StatelessWidget {
                 runSpacing: 22.0,
                 children: <Widget>[
                   AppContinueElevatedButton(
-                      onPressed: () =>
-                          Navigator.pushNamed(context, Routes.signUpScreen),
-                      label: "Crear cuenta"),
+                    isButtonDisabled: false,
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Routes.signUpScreen),
+                    label: "Crear cuenta",
+                  ),
                   AppOutlinedButton(
                       onPressed: () =>
                           Navigator.pushNamed(context, Routes.logInScreen),

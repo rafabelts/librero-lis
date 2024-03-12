@@ -28,13 +28,41 @@ class ChangePassword extends StatelessWidget {
               Wrap(
                 runSpacing: 25,
                 children: [
-                  PasswordTextFormField(label: "Contraseña"),
-                  PasswordTextFormField(label: "Contraseña nueva"),
-                  PasswordTextFormField(label: "Confirmar contraseña nueva"),
+                  PasswordTextFormField(
+                    label: "Contraseña",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter text';
+                      }
+                      return null;
+                    },
+                  ),
+                  PasswordTextFormField(
+                    label: "Contraseña nueva",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter text';
+                      }
+                      return null;
+                    },
+                  ),
+                  PasswordTextFormField(
+                    label: "Confirmar contraseña nueva",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter text';
+                      }
+                      return null;
+                    },
+                  ),
                 ],
               ),
               Spacer(),
-              AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+              AppContinueElevatedButton(
+                isButtonDisabled: false,
+                onPressed: () {},
+                label: "Continuar",
+              )
             ],
           ),
         ),

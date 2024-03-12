@@ -28,7 +28,8 @@ class EditBook extends StatelessWidget {
               ),
               AddBookForm(),
               Spacer(),
-              AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+              AppContinueElevatedButton(
+                  isButtonDisabled: false, onPressed: () {}, label: "Continuar")
             ],
           ),
         ),

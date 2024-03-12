@@ -27,9 +27,19 @@ class ChangeName extends StatelessWidget {
               ),
               TextFormFieldWithoutIcon(
                 label: "Nuevo nombre",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter text';
+                  }
+                  return null;
+                },
               ),
               Spacer(),
-              AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+              AppContinueElevatedButton(
+                isButtonDisabled: false,
+                onPressed: () {},
+                label: "Continuar",
+              )
             ],
           ),
         ),

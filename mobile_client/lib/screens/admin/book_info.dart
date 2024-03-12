@@ -28,9 +28,9 @@ class BookInfo extends StatelessWidget {
                 padding: EdgeInsets.only(top: 60, bottom: 60.0),
                 child: BookInfoCard(
                   title: book.title,
-                  author: book.author,
+                  author: book.authorName,
                   editorial: book.editorial,
-                  year: book.year,
+                  year: book.publishYear,
                   image: book.image,
                 ),
               ),

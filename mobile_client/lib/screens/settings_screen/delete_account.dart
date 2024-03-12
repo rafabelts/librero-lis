@@ -31,17 +31,25 @@ class DeleteAccount extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: PasswordTextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter text';
+                    }
+                    return null;
+                  },
                   label: "Contraseña",
                 ),
               ),
               Spacer(),
               AppContinueElevatedButton(
-                  onPressed: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            ErrorDeletingAccount(bookTitle: "bookTitle"),
-                      ),
-                  label: "Continuar")
+                isButtonDisabled: false,
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      ErrorDeletingAccount(bookTitle: "bookTitle"),
+                ),
+                label: "Continuar",
+              )
             ],
           ),
         ),

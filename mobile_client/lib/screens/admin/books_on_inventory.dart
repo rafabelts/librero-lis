@@ -38,10 +38,11 @@ class BooksOnInventory extends StatelessWidget {
           ),
           itemCount: books.length,
           itemBuilder: (BuildContext context, int index) {
-            String image = books[index]!["image"]!
-            String title = books[index]!["title"]!
-            
-            Book book = Book(123, image, title, "as", 2024, 2); 
+            String image = books[index]!["image"]!;
+            String title = books[index]!["title"]!;
+
+            Book book =
+                Book(image, 123, title, "Jhon Doe", "Editorial", 2012, 2);
             return BookOnInventoryCard(
               image: book.image,
               title: book.title,

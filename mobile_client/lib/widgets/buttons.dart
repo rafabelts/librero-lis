@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:mobile_client/utils/theme.dart';
 
@@ -19,10 +21,12 @@ class AppBackButton extends StatelessWidget {
 }
 
 class AppContinueElevatedButton extends StatelessWidget {
-  final Function() onPressed;
+  final bool isButtonDisabled;
+  final void Function() onPressed;
   final String label;
   const AppContinueElevatedButton({
     super.key,
+    required this.isButtonDisabled,
     required this.onPressed,
     required this.label,
   });
@@ -32,7 +36,21 @@ class AppContinueElevatedButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onPressed,
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(isButtonDisabled
+              ? Color.fromARGB(255, 136, 134, 144)
+              : appColorScheme.onPrimary),
+          overlayColor: MaterialStateProperty.all(
+            isButtonDisabled ? Colors.transparent : Color(0xFF113A6F),
+          ),
+          elevation: MaterialStateProperty.all(
+            isButtonDisabled ? 0 : 5,
+          ),
+          backgroundColor: MaterialStateProperty.all(isButtonDisabled
+              ? Color.fromARGB(255, 230, 230, 230)
+              : appColorScheme.primary),
+        ),
+        onPressed: isButtonDisabled ? null : onPressed,
         child: Text(
           label,
           style: const TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),

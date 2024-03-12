@@ -15,18 +15,48 @@ class AddBookForm extends StatelessWidget {
         children: [
           TextFormFieldWithoutIcon(
             label: "Nombre",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
           TextFormFieldWithoutIcon(
             label: "Autor (es)",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
           TextFormFieldWithoutIcon(
             label: "Editorial",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
           TextFormFieldWithoutIcon(
             label: "Año de publicación",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
           TextFormFieldWithoutIcon(
             label: "Cantidad",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter text';
+              }
+              return null;
+            },
           ),
           _upLoadImage(context),
         ],

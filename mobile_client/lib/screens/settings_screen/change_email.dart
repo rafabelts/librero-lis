@@ -29,9 +29,21 @@ class ChangeEmail extends StatelessWidget {
                 runSpacing: 25.0,
                 children: [
                   TextFormFieldWithoutIcon(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter text';
+                      }
+                      return null;
+                    },
                     label: "Nuevo correo electrónico",
                   ),
                   TextFormFieldWithoutIcon(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter text';
+                      }
+                      return null;
+                    },
                     label: "Confirmar nuevo correo electrónico",
                   ),
                 ],
@@ -41,9 +53,21 @@ class ChangeEmail extends StatelessWidget {
                 child: Title2Text(
                     text: "Para realizar el cambio ingrese su contraseña"),
               ),
-              PasswordTextFormField(label: "Contraseña"),
+              PasswordTextFormField(
+                label: "Contraseña",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter text';
+                  }
+                  return null;
+                },
+              ),
               Spacer(),
-              AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+              AppContinueElevatedButton(
+                isButtonDisabled: false,
+                onPressed: () {},
+                label: "Continuar",
+              )
             ],
           ),
         ),

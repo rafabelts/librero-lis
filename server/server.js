@@ -1,27 +1,32 @@
 import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import { createClient } from "@supabase/supabase-js";
+import { handleSignUp } from "./auth.js";
+dotenv.config();
+
+const ip = "10.50.15.12";
+
+const supabase_url = process.env.SUPABASE_URL;
+const supabase_key = process.env.SUPABASE_KEY;
 
 const app = express();
 
-dotenv.config();
-app.use(bodyParser.json());
+export const supabase = createClient(supabase_url, supabase_key);
 
-app.get("/", (req, res) => {
-	res.send("<h1>Hello user</h1>");
+app.use(bodyParser.json());
+app.get("/librero-lis/api", (req, res) => {
+    res.send("<h1>API Librero LIS</h1>")
 });
+
 
 app.post("/api/sign-up", (req, res) => {
-	const {id, email, name} = req.body;
-	const userData = {
-		"id": id,
-		"email": email,
-		"name": name,
-		"user_type": "student",
-	}
-	console.log(`Matrícula: ${userData.id}, nombre: ${userData.name}, email: ${userData.email}`);
+    const { student_id, email, password, name, user_type } = req.body;
+    handleSignUp( student_id, email, password, name, user_type );
+
+    res.json({name: name, student_id: student_id, user_type: user_type});
 });
 
-app.listen(3001, () => {
-	console.log(`Listening at http://localhost:3001`)
+app.listen(port, () => {
+	console.log(`Listening at http://localhost:${port}/librero-lis/api`)
 });

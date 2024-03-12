@@ -28,6 +28,19 @@ class AppInputDecoration {
       horizontal: 15.0,
     ), // Set height of the text input
     suffixIconColor: const Color.fromARGB(255, 113, 111, 122),
-    errorBorder: const OutlineInputBorder(),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: const BorderSide(
+        width: 1.0,
+        color: Color.fromARGB(255, 205, 47, 27),
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: const BorderSide(
+        width: 2.0,
+        color: Color.fromARGB(255, 205, 47, 27),
+      ),
+    ),
   );
 }

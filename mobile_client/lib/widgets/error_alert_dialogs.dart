@@ -72,6 +72,7 @@ class ErrorDeletingAccount extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: AppContinueElevatedButton(
+                isButtonDisabled: false,
                 onPressed: () =>
                     Navigator.pushNamed(context, Routes.mainPageScreen),
                 label: "Ir a libros prestados"),

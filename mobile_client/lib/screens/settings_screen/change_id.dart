@@ -27,9 +27,19 @@ class ChangeStudentID extends StatelessWidget {
               ),
               TextFormFieldWithoutIcon(
                 label: "Nueva matrícula",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter text';
+                  }
+                  return null;
+                },
               ),
               Spacer(),
-              AppContinueElevatedButton(onPressed: () {}, label: "Continuar")
+              AppContinueElevatedButton(
+                isButtonDisabled: false,
+                onPressed: () {},
+                label: "Continuar",
+              )
             ],
           ),
         ),
