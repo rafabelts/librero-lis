@@ -5,10 +5,13 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:mobile_client/hooks/handleSignUp.dart';
+import 'package:mobile_client/models/auth_service.dart';
 import 'package:mobile_client/routes/app_routes.dart';
+import 'package:mobile_client/screens/admin/add_book.dart';
+import 'package:mobile_client/utils/capitalize_string.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
+import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_fields.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
@@ -113,6 +116,21 @@ class _SignUpState extends State<SignUp> {
                           });
                           return "Por favor ingresa tu correo electrónico";
                         }
+
+                        final isStudentEmail =
+                            RegExp(r'^[\w.%+-]+@estudiantes\.uv\.mx$')
+                                .hasMatch(value);
+
+                        final isInstitutionalEmail =
+                            RegExp(r'^[\w.%+-]+@uv\.mx$').hasMatch(value);
+
+                        if (!isStudentEmail || !isInstitutionalEmail) {
+                          setState(() {
+                            _errorInEmail = true;
+                          });
+                          return "Por favor utiliza tu correo institucional";
+                        }
+
                         return null;
                       },
                       onChanged: (email) {
@@ -132,13 +150,15 @@ class _SignUpState extends State<SignUp> {
                           });
                           return "Por favor ingresa tu contraseña";
                         }
-                        final isValid =
-                            RegExp(r'^[A-Za-z0-9_]{8,16}$').hasMatch(value);
+                        final isValid = RegExp(
+                                r'^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z!@#$%^&*(),.?":{}|<>]{8,16}$')
+                            .hasMatch(value);
+
                         if (!isValid) {
                           setState(() {
                             _errorInPassword = true;
                           });
-                          return "La contraseña debe tener de 8 a 16 carácteres alfanuméricos";
+                          return "La contraseña debe tener de 8 a 16 caracteres, al menos un número y al menos un símbolo";
                         }
                         return null;
                       },
@@ -212,12 +232,13 @@ class _SignUpState extends State<SignUp> {
                       label: "Continuar",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          createUser(
-                              _studentIdController.text,
-                              _emailController.text,
-                              _confirmPasswordController.text,
-                              _nameController.text);
-                          // Navigator.pushNamed(context, Routes.mainPageScreen);
+                          AuthService.signUp(
+                            context,
+                            _studentIdController.text.capitalize(),
+                            _emailController.text.toLowerCase(),
+                            _confirmPasswordController.text,
+                            _nameController.text,
+                          );
                         }
                       },
                     ),
