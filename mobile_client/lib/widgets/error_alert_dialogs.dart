@@ -83,3 +83,101 @@ class ErrorDeletingAccount extends StatelessWidget {
     );
   }
 }
+
+class ErrorStudenIDAlreadyTaken extends StatelessWidget {
+  final String studentID;
+  const ErrorStudenIDAlreadyTaken({super.key, required this.studentID});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        children: [
+          H3BoldText(
+            text: "Error",
+            color: Color.fromARGB(255, 205, 47, 27),
+          ),
+          Title2Text(
+            text:
+                "La matrícula $studentID ya se encuentra registrada en el sistema, intente de nuevo con una diferente",
+          ),
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 252, 235, 233),
+    );
+  }
+}
+
+class ErrorEmailAlreadyTaken extends StatelessWidget {
+  const ErrorEmailAlreadyTaken({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        direction: Axis.vertical,
+        children: [
+          H3BoldText(
+            text: "Error",
+            color: Color.fromARGB(255, 205, 47, 27),
+          ),
+          Title2Text(
+            text: "Correo electrónico ya registrado",
+          ),
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 252, 235, 233),
+    );
+  }
+}
+
+class ErrorLogingIn extends StatelessWidget {
+  const ErrorLogingIn({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        children: [
+          Title1Text(
+            text: "Correo electrónico o contraseña incorrecta",
+          ),
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 252, 235, 233),
+    );
+  }
+}
+
+class ErrorInServer extends StatelessWidget {
+  const ErrorInServer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        direction: Axis.vertical,
+        children: [
+          H3BoldText(
+            text: "Error en el servidor",
+            color: Color.fromARGB(255, 205, 47, 27),
+          ),
+          Title2Text(
+            text: "Por favor intenta de nuevo más tarde",
+          ),
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 252, 235, 233),
+    );
+  }
+}

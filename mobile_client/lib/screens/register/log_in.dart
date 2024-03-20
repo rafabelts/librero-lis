@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:mobile_client/routes/app_routes.dart';
+import 'package:mobile_client/models/auth_service.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
 import 'package:mobile_client/widgets/text_fields.dart';
@@ -48,20 +48,21 @@ class _LogInState extends State<LogIn> {
                   runSpacing: 25.0,
                   children: <Widget>[
                     TextFormFieldWithoutIcon(
+                      label: "Correo electrónico",
                       controller: _emailController,
                       errorInField: _errorInEmail,
-                      label: "Correo electrónico",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           setState(() {
                             _errorInEmail = true;
                           });
-                          return 'Please enter text';
+                          return 'Por favor ingresa tu correo electrónico';
                         }
                         return null;
                       },
                     ),
                     PasswordTextFormField(
+                      label: "Contraseña",
                       controller: _passwordController,
                       errorInField: _errorInPassword,
                       onChanged: (value) {
@@ -74,11 +75,10 @@ class _LogInState extends State<LogIn> {
                           setState(() {
                             _errorInPassword = true;
                           });
-                          return 'Please enter text';
+                          return 'Por favor ingresa tu contraseña';
                         }
                         return null;
                       },
-                      label: "Contraseña",
                     )
                   ],
                 ),
@@ -86,7 +86,14 @@ class _LogInState extends State<LogIn> {
                 AppContinueElevatedButton(
                   isButtonDisabled: _isButtonDisabled,
                   label: "Continuar",
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      AuthService.logIn(
+                          context,
+                          _emailController.text.toLowerCase(),
+                          _passwordController.text);
+                    }
+                  },
                 ),
               ],
             ),

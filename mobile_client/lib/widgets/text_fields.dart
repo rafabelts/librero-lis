@@ -105,6 +105,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
       maxLength: 16,
       cursorColor: const Color.fromARGB(255, 22, 75, 143),
       decoration: InputDecoration(
+        errorMaxLines: 2,
         labelStyle: TextStyle(
           color: widget.errorInField == true
               ? Color.fromARGB(255, 205, 47, 27)

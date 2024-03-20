@@ -86,3 +86,30 @@ class DevolutionSuccess extends StatelessWidget {
     );
   }
 }
+
+class AccountVerification extends StatelessWidget {
+  final String email;
+  const AccountVerification({super.key, required this.email});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        runSpacing: 10,
+        children: [
+          H3BoldText(
+            text: "¡Verifica tu cuenta!",
+            color: Color.fromARGB(255, 17, 73, 36),
+          ),
+          Title2Text(
+            text:
+                "Se ha enviado un link a tu correo $email para la verificación",
+            color: Color.fromARGB(255, 42, 41, 49),
+          )
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 234, 247, 238),
+    );
+  }
+}
