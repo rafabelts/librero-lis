@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:mobile_client/models/auth_service.dart';
+import 'package:mobile_client/services/auth_service.dart';
+
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
 import 'package:mobile_client/widgets/text_fields.dart';

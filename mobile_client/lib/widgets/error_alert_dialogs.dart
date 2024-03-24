@@ -69,14 +69,6 @@ class ErrorDeletingAccount extends StatelessWidget {
           Title2Text(
               text:
                   "No es posible eliminar tu cuenta ya que tienes un adeudo con el libro: $bookTitle"),
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: AppContinueElevatedButton(
-                isButtonDisabled: false,
-                onPressed: () =>
-                    Navigator.pushNamed(context, Routes.mainPageScreen),
-                label: "Ir a libros prestados"),
-          ),
         ],
       ),
       backgroundColor: Color.fromARGB(255, 252, 235, 233),

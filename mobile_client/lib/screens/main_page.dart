@@ -11,26 +11,36 @@ import 'student/student_books_on_loan.dart';
 import 'student/student_settings.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  const MainPage({
+    super.key,
+  });
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  static String userType = "admin";
-  String selectedScreen =
-      userType == "admin" ? "Books On Inventory" : "Books On Loan";
+  late String userType;
+  late String selectedScreen;
+  late Map<String, Widget> screens;
 
-  Map<String, Widget> screens = {
-    // Student screens
-    "Books On Loan":
-        userType == "student" ? StudentBooksOnLoan() : AdminOnLoan(),
-    "Books On Inventory": BooksOnInventory(),
-    "Students": Students(),
-    "Settings": userType == "student" ? StudentSettings() : AdminSettings(),
-    // Admin screens
-  };
+  @override
+  void initState() {
+    super.initState();
+    userType = "admin";
+    selectedScreen =
+        userType == "admin" ? "Books On Inventory" : "Books On Loan";
+
+    screens = {
+      // Student screens
+      "Books On Loan":
+          userType == "student" ? StudentBooksOnLoan() : AdminOnLoan(),
+      "Books On Inventory": BooksOnInventory(),
+      "Students": Students(),
+      "Settings": userType == "student" ? StudentSettings() : AdminSettings(),
+      // Admin screens
+    };
+  }
 
   @override
   Widget build(BuildContext context) {

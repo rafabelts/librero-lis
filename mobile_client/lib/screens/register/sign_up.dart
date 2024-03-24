@@ -5,13 +5,11 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:mobile_client/models/auth_service.dart';
 import 'package:mobile_client/routes/app_routes.dart';
-import 'package:mobile_client/screens/admin/add_book.dart';
+import 'package:mobile_client/services/auth_service.dart';
 import 'package:mobile_client/utils/capitalize_string.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
-import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_fields.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
@@ -124,7 +122,7 @@ class _SignUpState extends State<SignUp> {
                         final isInstitutionalEmail =
                             RegExp(r'^[\w.%+-]+@uv\.mx$').hasMatch(value);
 
-                        if (!isStudentEmail || !isInstitutionalEmail) {
+                        if (!isStudentEmail && !isInstitutionalEmail) {
                           setState(() {
                             _errorInEmail = true;
                           });

@@ -1,5 +1,6 @@
 //ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
+import 'package:mobile_client/services/auth_service.dart';
 import 'package:mobile_client/widgets/buttons.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
@@ -135,7 +136,7 @@ class VerificationToSignOut extends StatelessWidget {
                 width: 175,
                 child: AppContinueElevatedButton(
                   isButtonDisabled: false,
-                  onPressed: () {},
+                  onPressed: () => AuthService.signOut(context),
                   label: "Cerrar sesión",
                 ),
               ),
