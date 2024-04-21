@@ -23,6 +23,11 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors(corsOptions));
 
 
+app.get("*", (req, res) => {
+    res.send("<h1>Hola!</h1>");
+})
+
+
 app.get("/api/librero-lis", (req, res) => {
     res.send("<h1>API Librero LIS</h1>")
 });
@@ -44,4 +49,4 @@ app.post("/api/librero-lis/books/add", addBook);
 app.post("/api/librero-lis/books/return-book", returnToInventory);
 app.post("/api/librero-lis/books/add-loan", addBookToLoan);
 
-app.listen(port);
+app.listen(3001);
