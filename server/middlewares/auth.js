@@ -1,22 +1,28 @@
-const supabase = require("../index.js");
 const v4 = require('uuid');
+const { createClient } = require("@supabase/supabase-js");
+
+const dotenv = require("dotenv");
+dotenv.config();
+const supabase_url = process.env.SUPABASE_URL;
+const supabase_key = process.env.SUPABASE_KEY;
+
+const supabaseClient = createClient(supabase_url, supabase_key);
 
 // Authentication service
-
 /*
     This function recieves as arguments the student_id, email, password, name and user_type and
-    creates the user using the supabase function, also it checks if the student_id or the email
+    creates the user using the supabaseClient function, also it checks if the student_id or the email
     are already taken
 */
 async function handleSignUp (req, res) {
     const { student_id, email, password, name, user_type } = req.body;  
     try{    
-        const { data: studentIdIsTaken } = await supabase.rpc('check_if_student_id_exists', { user_student_id: student_id.toString() });
+        const { data: studentIdIsTaken } = await supabaseClient.rpc('check_if_student_id_exists', { user_student_id: student_id.toString() });
 
         if (studentIdIsTaken === true){
              res.status(409).json({ message: "Student ID already taken" });
         } else {
-            const {data} = await supabase.auth.signUp({ 
+            const {data} = await supabaseClient.auth.signUp({ 
                 email: email,
                 password: password,
                 options: {
@@ -48,25 +54,30 @@ async function handleSignUp (req, res) {
 */
 
 async function handleLogIn(req, res) {
+    console.log("log in called");
     const { email, password } = req.body;
 
     try {
-        const { error: logInError }  = await supabase.auth.signInWithPassword({
+        const { error: logInError }  = await supabaseClient.auth.signInWithPassword({
             email,
             password,
         });
         
         if (logInError) {
+            console.log(logInError)
             res.status(401).json({ error: "Invalid credentials" });
         } else {
             try {
-                const { data, error: rpcError } =  await supabase.rpc('get_user_data', { user_email: email });
+                const { data, error: rpcError } =  await supabaseClient.rpc('get_user_data', { user_email: email });
                 if (rpcError) {
+                    console.log(rpcError);
                     res.status(404).json({ error: "User data not found" });
                 } else {
+                    console.log("succes");
                     res.status(201).json({ id: data.id, name: data.name, student_id: data.student_id, user_type: data.user_type, email });
                 }
             } catch (error) {
+                console.log(error)
                 res.status(500).json({ error: "Error on rpc" });
             }
         }
@@ -79,18 +90,19 @@ async function handleLogIn(req, res) {
     This function checks if the user is already logged on
 */
 async function userSessionStatus(req, res){
-    const { data, error } = await supabase.auth.getUser();
 
     try {
+        const { data, error } = await supabaseClient.auth.getUser();
         if (error){ 
             res.status(404).json({ error: "User not found or not logged in" });
         } else {
             res.status(201).json({ message: "User logged in" });
         }
 
-        supabase.auth.onAuthStateChange((event, session) => {
+        supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN') console.log('SIGNED_IN', session)
         });
+
     } catch(e) {
         res.status(500).json({ error: "Internal error" });
     }
@@ -101,9 +113,8 @@ async function userSessionStatus(req, res){
     This function signs out the user
 */
 async function signOut(req, res) {
-    const { error } = await supabase.auth.signOut();
-        
     try {
+        const { error } = await supabaseClient.auth.signOut();
         if(error) {
             res.status(500).json({ error: "Internal error" });
         } else {
@@ -117,7 +128,7 @@ async function signOut(req, res) {
 async function changeName(req, res) {
     const { name } = req.body;
     try {
-        const { error: onChangeNameError } = await supabase.auth.updateUser({
+        const { error: onChangeNameError } = await supabaseClient.auth.updateUser({
             data: { name: name }
         });
         if (onChangeNameError) {
@@ -133,7 +144,7 @@ async function changeName(req, res) {
 async function sendEmailToRecoverPassword(req, res) {
     const { email } = req.body;
     try {
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email);
 
         if(error) {
             res.status(505).json({ error: "Cannot send email" });
@@ -150,9 +161,9 @@ async function changePassword(req, res) {
     const { new_password } = req.body;
     try {
 
-        supabase.auth.onAuthStateChange(async(event, session) => {
+        supabaseClient.auth.onAuthStateChange(async(event, session) => {
             if (event == "PASSWORD_RECOVERY") {
-                const { data, error: onChangePasswordError } = await supabase.auth.updateUser({
+                const { data, error: onChangePasswordError } = await supabaseClient.auth.updateUser({
                     password: new_password,
                     nonce: v4()
                 });

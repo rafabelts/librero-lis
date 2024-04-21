@@ -2,31 +2,23 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { createClient } = require("@supabase/supabase-js");
 const { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword } = require("./middlewares/auth.js");
 const { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory } = require("./middlewares/book_management.js");
 
 dotenv.config();
 
 const port = process.env.PORT;
-const supabase_url = process.env.SUPABASE_URL;
-const supabase_key = process.env.SUPABASE_KEY;
 
 const app = express();
 
 const corsOptions = {
     origin: true,
     optionSuccessStatus: 201,
-    credentials: true,
 };
 
-const supabase = createClient(supabase_url, supabase_key);
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors(corsOptions));
-
-
-
 
 app.get("/", (req, res) => {
     res.send("<h1>API Librero LIS</h1>")
@@ -50,7 +42,3 @@ app.post("/books/return-book", returnToInventory);
 app.post("/books/add-loan", addBookToLoan);
 
 app.listen(port);
-
-module.exports = supabase
-module.exports = app;
-
