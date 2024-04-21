@@ -51,4 +51,4 @@ app.post("/api/librero-lis/books/add-loan", addBookToLoan);
 
 app.listen(port);
 
-module.exports = app
+// module.exports = app
