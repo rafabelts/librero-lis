@@ -64,16 +64,14 @@ async function handleLogIn(req, res) {
         });
         
         if (logInError) {
-            console.log(logInError)
             res.status(401).json({ error: "Invalid credentials" });
         } else {
             try {
                 const { data, error: rpcError } =  await supabaseClient.rpc('get_user_data', { user_email: email });
                 if (rpcError) {
-                    console.log(rpcError);
                     res.status(404).json({ error: "User data not found" });
                 } else {
-                    console.log("succes");
+                    console.log("success");
                     res.status(201).json({ id: data.id, name: data.name, student_id: data.student_id, user_type: data.user_type, email });
                 }
             } catch (error) {
@@ -99,9 +97,9 @@ async function userSessionStatus(req, res){
             res.status(201).json({ message: "User logged in" });
         }
 
-        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') console.log('SIGNED_IN', session)
-        });
+/*        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN') console.log('SIGNED_IN')
+        }); */ 
 
     } catch(e) {
         res.status(500).json({ error: "Internal error" });
