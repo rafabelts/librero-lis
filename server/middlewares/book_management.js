@@ -1,5 +1,5 @@
-import { decode } from "base64-arraybuffer";
-import { supabase } from "../index.js";
+const decode = require("base64-arraybuffer");
+const supabase = require("../index.js");
 
 
 // Book management service
@@ -140,4 +140,4 @@ async function returnToInventory(req, res){
     }
 } 
 
-export { fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, addBook, addBookToLoan, returnToInventory };
+module.exports = { fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, addBook, addBookToLoan, returnToInventory };

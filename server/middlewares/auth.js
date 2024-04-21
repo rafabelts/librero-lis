@@ -1,5 +1,5 @@
-import { supabase } from "../index.js";
-import {v4 as uuidv4} from 'uuid';
+const supabase = require("../index.js");
+const v4 = require('uuid');
 
 // Authentication service
 
@@ -154,7 +154,7 @@ async function changePassword(req, res) {
             if (event == "PASSWORD_RECOVERY") {
                 const { data, error: onChangePasswordError } = await supabase.auth.updateUser({
                     password: new_password,
-                    nonce: uuidv4()
+                    nonce: v4()
                 });
                 if (onChangePasswordError) {
                     console.log(onChangePasswordError);
@@ -171,4 +171,4 @@ async function changePassword(req, res) {
     }
 }
 
-export { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, sendEmailToRecoverPassword, changePassword };
+module.exports = { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, sendEmailToRecoverPassword, changePassword }

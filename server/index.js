@@ -1,10 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import cors from "cors";
-import { createClient } from "@supabase/supabase-js";
-import { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword } from "./middlewares/auth.js";
-import { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory } from "./middlewares/book_management.js";
+const express = require("express");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const { createClient } = require("@supabase/supabase-js");
+const { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword } = require("./middlewares/auth.js");
+const { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory } = require("./middlewares/book_management.js");
+
 dotenv.config();
 
 const port = process.env.PORT;
@@ -17,7 +18,7 @@ const corsOptions = {
     optionSuccessStatus: 201,
 };
 
-export const supabase = createClient(supabase_url, supabase_key);
+const supabase = createClient(supabase_url, supabase_key);
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors(corsOptions));
@@ -51,4 +52,6 @@ app.post("/api/librero-lis/books/add-loan", addBookToLoan);
 
 app.listen(port);
 
-// module.exports = app
+module.exports = supabase
+module.exports = app;
+
