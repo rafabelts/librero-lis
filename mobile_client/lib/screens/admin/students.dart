@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobile_client/services/book_management.dart';
+import 'package:mobile_client/services/auth_service.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
@@ -18,8 +18,7 @@ class _StudentsState extends State<Students> {
   late List<dynamic> students = [];
 
   Future<void> _loadStudentsData() async {
-    List<dynamic> fetchedStudentsData =
-        await BookManagmentService.fetchStudentsData();
+    List<dynamic> fetchedStudentsData = await AuthService.fetchStudentsData();
     setState(() {
       students = fetchedStudentsData;
     });

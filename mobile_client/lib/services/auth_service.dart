@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_client/routes/app_routes.dart';
 import 'package:mobile_client/services/shared_preferences.dart';
-import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/error_alert_dialogs.dart';
 import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String url = "http://192.168.1.219:3001"; // 192.168.1.173
+String url = "https://librero-server.vercel.app/auth";
 
 class AuthService {
   static void signUp(
@@ -22,7 +21,7 @@ class AuthService {
     String name,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/api/librero-lis/auth/sign-up'),
+      Uri.parse('$url/sign-up'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -74,7 +73,7 @@ class AuthService {
   static Stream<bool?> checkUserLoggedOn() {
     return http
         .get(
-          Uri.parse("$url/api/librero-lis/user-session-status"),
+          Uri.parse('$url/user-session-status'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -97,50 +96,53 @@ class AuthService {
     String email,
     String password,
   ) async {
-    final response = await http.post(
-      Uri.parse("$url/api/librero-lis/auth/log-in"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, String>{
-          "email": email,
-          "password": password,
+    try {
+      final response = await http.post(
+        Uri.parse("https://librero-server.vercel.app/auth/log-in"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
         },
-      ),
-    );
-
-    if (response.statusCode == 201) {
-      Map<String, dynamic> data = jsonDecode(response.body);
-
-      SharedPreferencesService.saveUserData(
-        data['id'],
-        data['name'],
-        data['student_id'],
-        data['user_type'],
-      );
-
-      Future.microtask(
-          () => Navigator.pushReplacementNamed(context, Routes.mainPage));
-    } else if (response.statusCode == 401) {
-      Future.microtask(
-        () => showDialog(
-          context: context,
-          builder: (BuildContext context) => ErrorLogingIn(),
+        body: jsonEncode(
+          <String, String>{
+            "email": email,
+            "password": password,
+          },
         ),
       );
-    } else {
-      Future.microtask(
-        () => showDialog(
-          context: context,
-          builder: (BuildContext context) => ErrorInServer(),
-        ),
-      );
+
+      if (response.statusCode == 201) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        SharedPreferencesService.saveUserData(
+          data['id'],
+          data['name'],
+          data['student_id'],
+          data['user_type'],
+        );
+
+        Future.microtask(
+            () => Navigator.pushReplacementNamed(context, Routes.mainPage));
+      } else if (response.statusCode == 401) {
+        Future.microtask(
+          () => showDialog(
+            context: context,
+            builder: (BuildContext context) => ErrorLogingIn(),
+          ),
+        );
+      } else {
+        Future.microtask(
+          () => showDialog(
+            context: context,
+            builder: (BuildContext context) => ErrorInServer(),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   static void signOut(BuildContext context) async {
-    final response = await http.get(Uri.parse("$url/api/librero-lis/sign-out"));
+    final response = await http.get(Uri.parse("$url/sign-out"));
 
     if (response.statusCode == 201) {
       Future.microtask(() {
@@ -162,7 +164,7 @@ class AuthService {
     String email,
   ) async {
     final response = await http.post(
-      Uri.parse("$url/api/librero-lis/send-recovery-email"),
+      Uri.parse("$url/send-recovery-email"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -209,7 +211,7 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
 
     final respone = await http.post(
-      Uri.parse("$url/api/librero-lis/change-name"),
+      Uri.parse("$url/change-name"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -249,6 +251,17 @@ class AuthService {
           builder: (BuildContext context) => ErrorInServer(),
         ),
       );
+    }
+  }
+
+  static Future<List<dynamic>> fetchStudentsData() async {
+    final response = await http.get(
+      Uri.parse('$url/fetch-students-data'),
+    );
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      return [];
     }
   }
 }

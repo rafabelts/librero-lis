@@ -15,7 +15,9 @@ const supabase_key = process.env.SUPABASE_KEY;
 const app = express();
 
 const corsOptions = {
+    origin: true,
     optionSuccessStatus: 201,
+    credentials: true,
 };
 
 const supabase = createClient(supabase_url, supabase_key);

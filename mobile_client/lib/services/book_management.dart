@@ -3,13 +3,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String ip = "10.50.15.12"; //192.168.1.194
-String url = "http://192.168.1.219:3001";
+String url = "https://librero-server.vercel.app/books";
 
 class BookManagmentService {
   static Future<List<dynamic>> fetchBooksData() async {
     final response = await http.get(
-      Uri.parse('$url/api/librero-lis/fetch-books-data'),
+      Uri.parse('$url/fetch-books-data'),
     );
     if (response.statusCode == 201) {
       if (response.body.isNotEmpty) {
@@ -24,7 +23,7 @@ class BookManagmentService {
 
   static Future<List<dynamic>> fetchBooksOnLoanData() async {
     final response = await http.get(
-      Uri.parse('$url/api/librero-lis/fetch-books-on-loan-data'),
+      Uri.parse('$url/fetch-books-on-loan-data'),
     );
     if (response.statusCode == 201) {
       if (response.body.isNotEmpty) {
@@ -32,17 +31,6 @@ class BookManagmentService {
       } else {
         return [];
       }
-    } else {
-      return [];
-    }
-  }
-
-  static Future<List<dynamic>> fetchStudentsData() async {
-    final response = await http.get(
-      Uri.parse('$url/api/librero-lis/fetch-students-data'),
-    );
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body);
     } else {
       return [];
     }
@@ -59,7 +47,7 @@ class BookManagmentService {
     String image_base64,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/api/librero-lis/books/add'),
+      Uri.parse('$url/add'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -86,7 +74,7 @@ class BookManagmentService {
     String title,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/api/librero-lis/books/delete'),
+      Uri.parse('$url/delete-book'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -106,7 +94,7 @@ class BookManagmentService {
     String copy_id,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/api/librero-lis/books/delete-copy'),
+      Uri.parse('$url/delete-copy'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -122,13 +110,32 @@ class BookManagmentService {
     }
   }
 
+  static Future<void> returnBookToInventory(String bookId) async {
+    final response = await http.post(
+      Uri.parse('$url/return-book'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'book_id': bookId,
+        },
+      ),
+    );
+    if (response.statusCode == 201) {
+      print('Book returned');
+    } else {
+      print('error');
+    }
+  }
+
   static Future<void> addLoan(
     String bookId,
     String devolutionDate,
     String studentBorrower,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/api/librero-lis/books/add-loan'),
+      Uri.parse('$url/add-loan'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -142,25 +149,6 @@ class BookManagmentService {
     );
     if (response.statusCode == 201) {
       print('Book added to loan');
-    } else {
-      print('error');
-    }
-  }
-
-  static Future<void> returnBookToInventory(String bookId) async {
-    final response = await http.post(
-      Uri.parse('$url/api/librero-lis/books/return-book'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-        <String, dynamic>{
-          'book_id': bookId,
-        },
-      ),
-    );
-    if (response.statusCode == 201) {
-      print('Book returned');
     } else {
       print('error');
     }
