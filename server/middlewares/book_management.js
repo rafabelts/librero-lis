@@ -1,5 +1,5 @@
 import { decode } from "base64-arraybuffer";
-import { supabase } from "../server.js";
+import { supabase } from "../index.js";
 
 
 // Book management service

@@ -1,4 +1,4 @@
-import { supabase } from "../server.js";
+import { supabase } from "../index.js";
 import {v4 as uuidv4} from 'uuid';
 
 // Authentication service

@@ -50,3 +50,5 @@ app.post("/api/librero-lis/books/return-book", returnToInventory);
 app.post("/api/librero-lis/books/add-loan", addBookToLoan);
 
 app.listen(port);
+
+module.exports = app
