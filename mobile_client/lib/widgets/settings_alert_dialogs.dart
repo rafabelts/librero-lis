@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_client/services/auth_service.dart';
 import 'package:mobile_client/widgets/buttons.dart';
+import 'package:mobile_client/widgets/text_fields.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
 class VerificationToDeleteBook extends StatelessWidget {
-  final String bookTitle;
-  const VerificationToDeleteBook({super.key, required this.bookTitle});
+  final String optionToDelete;
+  const VerificationToDeleteBook({super.key, required this.optionToDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +21,36 @@ class VerificationToDeleteBook extends StatelessWidget {
             color: Color.fromARGB(255, 32, 32, 37),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 20.0),
-            child: Title2Text(
-              text:
-                  "Si presiona continuar, el libro $bookTitle será eliminado definitivamente",
-              color: Color.fromARGB(255, 42, 41, 49),
+            padding: EdgeInsets.only(bottom: 40.0),
+            child: Column(
+              children: [
+                RichTexts(
+                  alignment: Alignment.centerLeft,
+                  principalText: 'Ingrese ',
+                  otherTextsList: [
+                    TextSpan(
+                      text: optionToDelete == 'copy'
+                          ? 'id de la copia'
+                          : 'continuar',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                        text: optionToDelete == 'copy'
+                            ? ' que desea elminar'
+                            : ' para eliminar el libro y sus copias')
+                  ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextFormFieldWithoutIcon(
+                    label: '',
+                    validator: (validate) {
+                      return null;
+                    })
+              ],
             ),
           ),
           Wrap(
@@ -42,9 +68,10 @@ class VerificationToDeleteBook extends StatelessWidget {
               SizedBox(
                 width: 150,
                 child: AppContinueElevatedButton(
-                    isButtonDisabled: false,
-                    onPressed: () {},
-                    label: "Continuar"),
+                  isButtonDisabled: false,
+                  onPressed: () {},
+                  label: "Eliminar",
+                ),
               ),
             ],
           )

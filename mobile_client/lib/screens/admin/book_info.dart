@@ -1,25 +1,34 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_client/models/book.dart';
 import 'package:mobile_client/utils/buttons_theme.dart';
 import 'package:mobile_client/widgets/book_info.dart';
 import 'package:mobile_client/widgets/buttons.dart';
-import 'package:mobile_client/widgets/text_sections.dart';
 
-class BookInfo extends StatelessWidget {
+class BookInfo extends StatefulWidget {
   const BookInfo({
     super.key,
   });
 
   @override
+  State<BookInfo> createState() => _BookInfoState();
+}
+
+class _BookInfoState extends State<BookInfo> {
+  @override
   Widget build(BuildContext context) {
-    final Book book = ModalRoute.of(context)!.settings.arguments as Book;
+    final book = ModalRoute.of(context)!.settings.arguments as Book;
 
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          // padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: Platform.isAndroid
+              ? const EdgeInsets.all(20.0)
+              : const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -27,38 +36,28 @@ class BookInfo extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 60, bottom: 60.0),
                 child: BookInfoCard(
+                  isbn: book.isbn,
                   title: book.title,
-                  author: book.authorName,
+                  author: book.author,
                   editorial: book.editorial,
-                  year: book.publishYear,
-                  image: book.image,
+                  year: book.publication_year,
+                  image: book.image_url,
+                  copies: book.copies,
                 ),
               ),
               BookInfoTable(
-                bookRows: [
-                  TableRow(children: [
-                    Center(
-                      child: Title1Text(text: "1L"),
-                    ),
-                    Center(
-                      child: Title1Text(text: "En biblioteca"),
-                    ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () => print("Tap"),
-                        child: Title1TextBold(
-                          text: "Descargar",
-                          color: Color.fromARGB(255, 36, 157, 78),
-                        ),
-                      ),
-                    )
-                  ])
-                ],
-              ),
+                data: book.copiesData,
+                bookTitle: book.title,
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

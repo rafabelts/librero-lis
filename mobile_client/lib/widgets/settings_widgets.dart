@@ -1,6 +1,6 @@
 //ignore_for_file:prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:mobile_client/routes/app_routes.dart';
+import 'package:mobile_client/screens/settings_screen/profile_settings.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
@@ -12,7 +12,11 @@ class SettingsUserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.profileSettingsScreen),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => ProfileSettings(name: name),
+          )),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         color: Color.fromARGB(255, 17, 58, 111),

@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_client/utils/buttons_theme.dart';
-import 'package:mobile_client/widgets/book_info.dart';
+
+import 'package:mobile_client/widgets/books_forms.dart';
 import 'package:mobile_client/widgets/buttons.dart';
 
 import 'package:mobile_client/widgets/text_sections.dart';

@@ -1,128 +1,57 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mobile_client/widgets/text_fields.dart';
+import 'package:flutter/services.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:mobile_client/utils/buttons_theme.dart';
+import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 
-class AddBookForm extends StatelessWidget {
-  const AddBookForm({super.key});
+class RenderBooksOnLoan extends StatelessWidget {
+  final int itemCount;
+  final Widget? Function(BuildContext, int) itemBuilder;
+  const RenderBooksOnLoan({
+    super.key,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Wrap(
-        runSpacing: 25.0,
-        children: [
-          TextFormFieldWithoutIcon(
-            label: "Nombre",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter text';
-              }
-              return null;
-            },
-          ),
-          TextFormFieldWithoutIcon(
-            label: "Autor (es)",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter text';
-              }
-              return null;
-            },
-          ),
-          TextFormFieldWithoutIcon(
-            label: "Editorial",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter text';
-              }
-              return null;
-            },
-          ),
-          TextFormFieldWithoutIcon(
-            label: "Año de publicación",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter text';
-              }
-              return null;
-            },
-          ),
-          TextFormFieldWithoutIcon(
-            label: "Cantidad",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter text';
-              }
-              return null;
-            },
-          ),
-          _upLoadImage(context),
-        ],
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 26,
+        childAspectRatio: 162 / 210, // Aspect ratio = width / height
+        mainAxisSpacing: 22,
       ),
-    ]);
-  }
-
-  Widget _upLoadImage(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Color.fromARGB(255, 237, 237, 238),
-          ),
-          width: 150,
-          height: 200,
-          child: Icon(
-            Icons.image,
-            color: Color.fromARGB(255, 200, 199, 204),
-            size: 96,
-          ),
-        ),
-        Spacer(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            H5BoldText(text: "Subir imagen"),
-            ElevatedButton(
-              style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(
-                  Color.fromARGB(255, 28, 123, 61),
-                ),
-                backgroundColor: MaterialStateProperty.all(
-                  Color.fromARGB(255, 40, 173, 86),
-                ),
-                fixedSize: MaterialStateProperty.all(
-                  Size(204, 30),
-                ),
-              ),
-              onPressed: () {},
-              child: Title2TextBold(
-                text: "Buscar en la galería",
-              ),
-            )
-          ],
-        )
-      ],
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
     );
   }
 }
 
 class BookInfoCard extends StatelessWidget {
+  final String isbn;
   final String title;
   final String author;
   final String editorial;
-  final String image;
   final int year;
+  final int copies;
+  final String image;
   const BookInfoCard({
     super.key,
+    required this.isbn,
     required this.title,
     required this.author,
     required this.editorial,
     required this.year,
+    required this.copies,
     required this.image,
   });
 
@@ -136,11 +65,8 @@ class BookInfoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              width: 200,
-              child: H3BoldText(
-                text: title,
-              ),
+            H3BoldText(
+              text: title,
             ),
             Padding(
               padding: EdgeInsets.only(top: 10),
@@ -148,9 +74,11 @@ class BookInfoCard extends StatelessWidget {
                 spacing: 8,
                 direction: Axis.vertical,
                 children: [
+                  BodyText(text: "ISBN: $isbn"),
                   BodyText(text: "Autor(es): $author"),
                   BodyText(text: "Editorial: $editorial"),
-                  BodyText(text: "Año de publicación: $year")
+                  BodyText(text: "Año de publicación: $year"),
+                  BodyText(text: "Copias: $copies")
                 ],
               ),
             ),
@@ -178,41 +106,135 @@ class BookInfoCard extends StatelessWidget {
   }
 }
 
-class BookInfoTable extends StatelessWidget {
-  final List<TableRow> bookRows;
-  const BookInfoTable({super.key, required this.bookRows});
+class BookInfoTable extends StatefulWidget {
+  final String bookTitle;
+  final List<dynamic> data;
+
+  const BookInfoTable({
+    super.key,
+    required this.bookTitle,
+    required this.data,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Table(
-      border: TableBorder.all(
-          color: Color.fromARGB(255, 24, 82, 157),
-          borderRadius: BorderRadius.circular(4)),
-      children: [
-        TableRow(
+  State<BookInfoTable> createState() => _BookInfoTableState();
+}
+
+class _BookInfoTableState extends State<BookInfoTable> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  ScreenshotController screenShotController = ScreenshotController();
+  String? imageBase64;
+
+  void generateQr(String copyId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Transform.scale(
+          scale: 1.5,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: appColorScheme.background,
+            ),
+          ),
+        );
+      },
+    );
+
+    screenShotController
+        .captureFromWidget(
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: appColorScheme.background),
+        width: 200,
+        height: 250,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: H5Text(
-                text: "ID",
-                color: Color.fromARGB(255, 13, 45, 86),
-              ),
+            H3BoldText(
+              text: widget.bookTitle,
+              color: Colors.black,
             ),
             Center(
-              child: H5Text(
-                text: "Status",
-                color: Color.fromARGB(255, 13, 45, 86),
-              ),
-            ),
-            Center(
-              child: H5Text(
-                text: "Código QR",
-                color: Color.fromARGB(255, 13, 45, 86),
+              child: QrImageView(
+                data: copyId,
               ),
             ),
           ],
         ),
-        ...bookRows,
+      ),
+    )
+        .then(
+      (Uint8List bytes) async {
+        Navigator.pop(context); // Cerrar el diálogo de carga
+        setState(
+          () {
+            imageBase64 = base64Encode(bytes);
+          },
+        );
+
+        final result =
+            await ImageGallerySaver.saveImage(bytes.buffer.asUint8List());
+
+        print(result);
+
+        if (result['isSuccess']) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => DownloadSuccesful(),
+          );
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      border: TableBorder.all(
+        color: Color.fromARGB(255, 24, 82, 157),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      columns: [
+        DataColumn(label: H5BoldText(text: 'ID')),
+        DataColumn(label: H5BoldText(text: 'Status')),
+        DataColumn(label: H5BoldText(text: 'QR')),
       ],
+      rows: widget.data
+          .map(
+            (item) => DataRow(
+              cells: <DataCell>[
+                DataCell(Title2Text(
+                        text: item['copy_id'].toString().split('-').first)
+                    // H5text(text: item['copy_id'] ),
+                    ),
+                DataCell(
+                  Title2Text(
+                      text: item['on_loan'] ? 'En prestamo' : 'En librero'),
+                ),
+                DataCell(GestureDetector(
+                  onTap: () {
+                    generateQr(item['copy_id']);
+                  },
+                  child: H5BoldText(
+                    text: "Descargar",
+                    color: Color.fromARGB(255, 36, 157, 78),
+                  ),
+                ))
+              ],
+            ),
+          )
+          .toList(),
     );
   }
 }

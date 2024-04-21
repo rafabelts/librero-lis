@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
+import 'package:mobile_client/widgets/book_info.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 

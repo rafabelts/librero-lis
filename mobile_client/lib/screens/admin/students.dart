@@ -2,20 +2,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile_client/services/book_management.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
-class Students extends StatelessWidget {
+class Students extends StatefulWidget {
   const Students({super.key});
 
-  static const students = {
-    0: {
-      'name': 'Jhon Doe',
-      'studentID': 'S23015364',
-      'debts': 2,
-    },
-  };
+  @override
+  State<Students> createState() => _StudentsState();
+}
+
+class _StudentsState extends State<Students> {
+  late List<dynamic> students = [];
+
+  Future<void> _loadStudentsData() async {
+    List<dynamic> fetchedStudentsData =
+        await BookManagmentService.fetchStudentsData();
+    setState(() {
+      students = fetchedStudentsData;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentsData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +47,9 @@ class Students extends StatelessWidget {
           itemCount: students.length,
           itemBuilder: (BuildContext context, int index) {
             return StudentCard(
-              name: students[index]!["name"]!.toString(),
-              studentId: students[index]!["studentID"]!.toString(),
-              debts: int.parse(students[index]!["debts"].toString()),
+              name: students[index]["name"],
+              studentId: students[index]["student_id"],
+              debts: students[index]["books_in_debt"],
             );
           },
         ),

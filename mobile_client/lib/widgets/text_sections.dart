@@ -18,8 +18,10 @@ class RichTexts extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           style: TextStyle(
-              fontSize: 14,
-              color: AppColorScheme.lightColorScheme.onBackground),
+            fontSize: 14,
+            fontFamily: 'Puritan',
+            color: AppColorScheme.lightColorScheme.onBackground,
+          ),
           text: principalText,
           children: otherTextsList,
         ),
@@ -89,6 +91,7 @@ class H5Text extends StatelessWidget {
     return Text(
       text,
       textAlign: alignment,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(fontSize: 21, color: color),
     );
   }

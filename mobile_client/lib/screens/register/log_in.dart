@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:mobile_client/routes/app_routes.dart';
+import 'package:mobile_client/screens/register/recover_password.dart';
 import 'package:mobile_client/services/auth_service.dart';
 
 import 'package:mobile_client/utils/theme.dart';
@@ -62,24 +64,47 @@ class _LogInState extends State<LogIn> {
                         return null;
                       },
                     ),
-                    PasswordTextFormField(
-                      label: "Contraseña",
-                      controller: _passwordController,
-                      errorInField: _errorInPassword,
-                      onChanged: (value) {
-                        setState(() {
-                          _isButtonDisabled = value.isEmpty;
-                        });
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          setState(() {
-                            _errorInPassword = true;
-                          });
-                          return 'Por favor ingresa tu contraseña';
-                        }
-                        return null;
-                      },
+                    Wrap(
+                      alignment: WrapAlignment.end,
+                      children: [
+                        PasswordTextFormField(
+                          label: "Contraseña",
+                          controller: _passwordController,
+                          errorInField: _errorInPassword,
+                          onChanged: (value) {
+                            if (_emailController.text.isNotEmpty &&
+                                _passwordController.text.isNotEmpty) {
+                              setState(() {
+                                _isButtonDisabled = value.isEmpty;
+                              });
+                            }
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                _errorInPassword = true;
+                              });
+                              return 'Por favor ingresa tu contraseña';
+                            }
+                            return null;
+                          },
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    RecoverPassword(recover: true),
+                              ),
+                            );
+                          },
+                          child: Title1TextBold(
+                            text: "Recuperar contraseña",
+                            color: appColorScheme.secondary,
+                          ),
+                        )
+                      ],
                     )
                   ],
                 ),

@@ -5,7 +5,9 @@ import 'package:mobile_client/screens/admin/admin_books_on_loan.dart';
 import 'package:mobile_client/screens/admin/admin_settings.dart';
 import 'package:mobile_client/screens/admin/books_on_inventory.dart';
 import 'package:mobile_client/screens/admin/students.dart';
+import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/widgets/bottom_navigator_bars.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'student/student_books_on_loan.dart';
 import 'student/student_settings.dart';
@@ -20,26 +22,37 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late String userType;
-  late String selectedScreen;
-  late Map<String, Widget> screens;
+  String userType = '';
+  String userStudentId = '';
+  String selectedScreen = '';
+  Map<String, Widget> screens = {};
 
-  @override
-  void initState() {
-    super.initState();
-    userType = "admin";
+  Future<void> _setScreens() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userType = SharedPreferencesService.get_user_type(prefs);
+      userStudentId = SharedPreferencesService.get_user_student_id(prefs);
+    });
     selectedScreen =
         userType == "admin" ? "Books On Inventory" : "Books On Loan";
-
     screens = {
-      // Student screens
       "Books On Loan":
           userType == "student" ? StudentBooksOnLoan() : AdminOnLoan(),
       "Books On Inventory": BooksOnInventory(),
       "Students": Students(),
-      "Settings": userType == "student" ? StudentSettings() : AdminSettings(),
-      // Admin screens
+      "Settings": userType == "student"
+          ? StudentSettings(
+              studentId: userStudentId,
+            )
+          : AdminSettings(),
     };
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _setScreens();
   }
 
   @override

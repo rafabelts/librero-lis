@@ -2,6 +2,27 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
+class DownloadSuccesful extends StatelessWidget {
+  const DownloadSuccesful({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      content: Wrap(
+        runSpacing: 10,
+        children: [
+          H3BoldText(
+            text: "¡QR descargado con éxito!",
+            color: Color.fromARGB(255, 17, 73, 36),
+          ),
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 234, 247, 238),
+    );
+  }
+}
+
 class BookAddedToLoan extends StatelessWidget {
   final String bookTitle;
   final String limitDate;

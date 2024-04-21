@@ -149,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                           return "Por favor ingresa tu contraseña";
                         }
                         final isValid = RegExp(
-                                r'^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z!@#$%^&*(),.?":{}|<>]{8,16}$')
+                                r'^(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8,16}$')
                             .hasMatch(value);
 
                         if (!isValid) {

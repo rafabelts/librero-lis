@@ -3,7 +3,6 @@
   Made by: Rafael Alejandro Beltrán Santos
 */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_client/utils/buttons_theme.dart';
 import 'package:mobile_client/utils/colors.dart';

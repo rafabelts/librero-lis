@@ -2,13 +2,35 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_client/routes/app_routes.dart';
+import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
 import 'package:mobile_client/widgets/settings_alert_dialogs.dart';
 import 'package:mobile_client/widgets/settings_widgets.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class StudentSettings extends StatelessWidget {
-  const StudentSettings({super.key});
+class StudentSettings extends StatefulWidget {
+  final String studentId;
+  const StudentSettings({super.key, required this.studentId});
+
+  @override
+  State<StudentSettings> createState() => _StudentSettingsState();
+}
+
+class _StudentSettingsState extends State<StudentSettings> {
+  String userName = '';
+  Future<void> _getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = SharedPreferencesService.get_user_name(prefs);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +42,10 @@ class StudentSettings extends StatelessWidget {
         AppSearchBar(),
         Padding(
           padding: EdgeInsets.only(top: 20.0, bottom: 40.0),
-          child: SettingsUserCard(name: "Jhon Doe", id: "S23015364"),
+          child: SettingsUserCard(
+            name: userName,
+            id: widget.studentId,
+          ),
         ),
         Wrap(
           runSpacing: 50.0,

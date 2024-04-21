@@ -1,4 +1,6 @@
 //ignore_for_file:prefer_const_constructors
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_client/routes/app_routes.dart';
 import 'package:mobile_client/utils/theme.dart';
@@ -36,20 +38,7 @@ class _StudentBottomNavigatorBarState extends State<StudentBottomNavigatorBar> {
               color: onFocus("Books On Loan"),
             ),
           ),
-          widget.screen == "Settings"
-              ? const Spacer()
-              : Expanded(
-                  child: Row(
-                    children: [
-                      Spacer(),
-                      BottomNavigatorButton(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, Routes.bookScanner),
-                          icon: Icons.add),
-                      Spacer(),
-                    ],
-                  ),
-                ),
+          Spacer(),
           InkWell(
             borderRadius: BorderRadius.circular(50.0),
             onTap: () => widget.changeScreen("Settings"),
@@ -118,7 +107,8 @@ class _AdminBottomNavigatorBarState extends State<AdminBottomNavigatorBar> {
           widget.screen == "Settings" || widget.screen == "Students"
               ? Padding(padding: EdgeInsets.symmetric(horizontal: 29))
               : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 34),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Platform.isAndroid ? 34 : 25),
                   child: BottomNavigatorButton(
                     onPressed: () => widget.screen == "Books On Inventory"
                         ? Navigator.pushNamed(context, Routes.addBook)

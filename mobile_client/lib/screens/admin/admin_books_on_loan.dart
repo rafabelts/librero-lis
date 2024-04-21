@@ -2,33 +2,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile_client/services/book_management.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
+import 'package:mobile_client/widgets/book_info.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
-class AdminOnLoan extends StatelessWidget {
+class AdminOnLoan extends StatefulWidget {
   const AdminOnLoan({super.key});
 
-  static const books = {
-    0: {
-      'image':
-          'https://files.passeidireto.com/a0172480-e9cb-4bbf-8b43-40482f09adad/bg1.png',
-      'title': 'Introducción a la programación',
-      'student': 'Jhon Doe',
-    },
-    1: {
-      'image':
-          'https://files.passeidireto.com/a0172480-e9cb-4bbf-8b43-40482f09adad/bg1.png',
-      'title': 'Introducción a la programación',
-      'student': 'Jhon Doe',
-    },
-    2: {
-      'image':
-          'https://files.passeidireto.com/a0172480-e9cb-4bbf-8b43-40482f09adad/bg1.png',
-      'title': 'Introducción a la programación',
-      'student': 'Jhon Doe',
-    },
-  };
+  @override
+  State<AdminOnLoan> createState() => _AdminOnLoanState();
+}
+
+class _AdminOnLoanState extends State<AdminOnLoan> {
+  late List<dynamic> booksOnLoan = [];
+
+  Future<void> _loadBooksOnLoanData() async {
+    List<dynamic> fetchedBooksOnLoan =
+        await BookManagmentService.fetchBooksOnLoanData();
+    setState(() {
+      booksOnLoan = fetchedBooksOnLoan;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBooksOnLoanData();
+    print(booksOnLoan);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -39,16 +43,22 @@ class AdminOnLoan extends StatelessWidget {
           padding: EdgeInsets.only(top: 5, bottom: 30),
           child: AppSearchBar(),
         ),
-        RenderBooksOnLoan(
-          itemCount: books.length,
-          itemBuilder: (context, index) {
-            return BookCard(
-              image: books[index]!["image"]!,
-              title: books[index]!["title"]!,
-              content: "Prestado a: ${books[index]!["student"]!}",
-            );
-          },
-        ),
+        booksOnLoan.isEmpty
+            ? Center(
+                child: H1BoldText(
+                  text: 'Por el momento no hay libros en préstamo',
+                ),
+              )
+            : RenderBooksOnLoan(
+                itemCount: booksOnLoan.length,
+                itemBuilder: (context, index) {
+                  return BookCard(
+                    image: booksOnLoan[index]['image_url'],
+                    title: 'Id: ${booksOnLoan[index]['book_id']}',
+                    content: "Prestado a: ${booksOnLoan[index]!["borrower"]!}",
+                  );
+                },
+              ),
       ],
     );
   }

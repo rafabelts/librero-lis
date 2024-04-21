@@ -1,12 +1,14 @@
+// ignore_for_file: non_constant_identifier_names
 class Book {
-  final String image;
-  final int isbn;
+  final String isbn;
   final String title;
-  final String authorName;
   final String editorial;
-  final int publishYear;
-  final int quantity;
+  final String author;
+  final int publication_year;
+  final int copies;
+  final List<dynamic> copiesData;
+  final String image_url;
 
-  Book(this.image, this.isbn, this.title, this.authorName, this.editorial,
-      this.publishYear, this.quantity);
+  Book(this.isbn, this.title, this.editorial, this.author,
+      this.publication_year, this.copies, this.copiesData, this.image_url);
 }
