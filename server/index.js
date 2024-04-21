@@ -24,31 +24,28 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors(corsOptions));
 
 
+
+
 app.get("/", (req, res) => {
-    res.send("<h1>Hola!</h1>");
-})
-
-
-app.get("/api", (req, res) => {
     res.send("<h1>API Librero LIS</h1>")
 });
 
-app.post("/api/auth/sign-up", handleSignUp);
-app.post("/api/auth/log-in", handleLogIn);
-app.post("/api/change-name", changeName);
-app.post("/api/send-recovery-email", sendEmailToRecoverPassword);
-app.post("/api/change-password", changePassword);
+app.post("/auth/sign-up", handleSignUp);
+app.post("/auth/log-in", handleLogIn);
+app.post("/auth/change-name", changeName);
+app.post("/auth/send-recovery-email", sendEmailToRecoverPassword);
+app.post("/auth/change-password", changePassword);
 
-app.get("/api/user-session-status", userSessionStatus);
-app.get("/api/sign-out", signOut)
+app.get("/auth/user-session-status", userSessionStatus);
+app.get("/auth/sign-out", signOut)
 
-app.get("/api/fetch-books-data", fetchBooksData);
-app.get("/api/fetch-books-on-loan-data", fetchBooksOnLoanData);
-app.get("/api/fetch-students-data", fetchStudentsData);
+app.get("/books/fetch-books-data", fetchBooksData);
+app.get("/books/fetch-books-on-loan-data", fetchBooksOnLoanData);
+app.get("/auth/fetch-students-data", fetchStudentsData);
 
-app.post("/api/books/add", addBook);
-app.post("/api/books/return-book", returnToInventory);
-app.post("/api/books/add-loan", addBookToLoan);
+app.post("/books/add", addBook);
+app.post("/books/return-book", returnToInventory);
+app.post("/books/add-loan", addBookToLoan);
 
 app.listen(port);
 
