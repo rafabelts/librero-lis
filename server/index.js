@@ -2,8 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword } = require("./middlewares/auth.js");
-const { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory } = require("./middlewares/book_management.js");
+const { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword, createAdminAccount } = require("./middlewares/auth.js");
+const { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory, deleteBook, deleteBookCopy } = require("./middlewares/book_management.js");
 
 dotenv.config();
 
@@ -32,13 +32,16 @@ app.post("/auth/change-password", changePassword);
 
 app.get("/auth/user-session-status", userSessionStatus);
 app.get("/auth/sign-out", signOut)
+app.get("/auth/fetch-students-data", fetchStudentsData);
 
 app.get("/books/fetch-books-data", fetchBooksData);
 app.get("/books/fetch-books-on-loan-data", fetchBooksOnLoanData);
-app.get("/auth/fetch-students-data", fetchStudentsData);
 
 app.post("/books/add", addBook);
 app.post("/books/return-book", returnToInventory);
 app.post("/books/add-loan", addBookToLoan);
+
+app.post("/books/delete-book", deleteBook);
+app.post("/books/delete-book-copy", deleteBookCopy);
 
 app.listen(port);

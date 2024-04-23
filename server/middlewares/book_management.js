@@ -1,23 +1,17 @@
-const decode = require("base64-arraybuffer");
-const { createClient } = require("@supabase/supabase-js");
-const dotenv = require("dotenv");
-dotenv.config();
-const supabase_url = process.env.SUPABASE_URL;
-const supabase_key = process.env.SUPABASE_KEY;
-const supabaseClient = createClient(supabase_url, supabase_key);
-
+const decoder = require("base64-arraybuffer");
+const supabaseClient = require("./supaClient");
 
 
 // Book management service
-
 async function fetchBooksData(req, res) {
+    console.log("fetch data");
     try {
         const { data, error } = await supabaseClient.rpc('get_books_data');
 
         if (error) {
-            console.log("error");
-            res.status(505).json({ error: 'Failed to fetch books' });
+            res.status(505).json({ error: 'Failed to fetch students' });
         } else {
+            console.log(data);
             res.status(201).send(data);
         }
     
@@ -64,7 +58,7 @@ async function addBook(req, res) {
     try {
        const {  error: bucketError } = await supabaseClient.storage.from('books_images').upload(
             `${title}.${image_extension}`,
-            decode(image_base64),
+            decoder.decode(image_base64),
             {
                 contentType: `image/${image_extension}`
             }
@@ -84,20 +78,17 @@ async function addBook(req, res) {
         const { error } = await supabaseClient.rpc('add_new_book', { book_isbn: isbn, book_title: title, book_editorial: editorial, book_publication_year: publication_year, book_copies: copies, author: author, image_url: image_url });
 
         if (error) {
-            console.log("error");
+            console.log(error);
             res.status(505).json({ error: 'Failed to add new book' });
         } else {
             res.status(201).json({ success: 'Book added succesfully' });
         }           
-
-
        
     } catch(errorOnAdd) {
         console.log(errorOnAdd);
         res.status(505).json({ error: 'Internal error' });
     }
 }
-
 
 async function addBookToLoan(req, res) {
     const {borrower_id, book_id, devolution_date, student_borrower} = req.body;
@@ -144,6 +135,36 @@ async function returnToInventory(req, res){
     } catch(onReturnError){
         res.status(505).json({ error: 'Internal error' }); 
     }
-} 
+}
 
-module.exports = { fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, addBook, addBookToLoan, returnToInventory };
+async function deleteBook(req, res) {
+    const { isbn } = req.body;
+
+    try {
+        const {error} = await supabaseClient.rpc('delete_book', { isbn_of_book: isbn });
+
+        if(error) {
+            res.status(505).json({error: 'Can\'t delete the book selected'});
+        } else {
+            res.status(201).json({ success: 'Book succesfully deleted' });
+        }
+    } catch(onDeleteError){
+        res.status(505).json({ error: 'Internal error' });
+    }
+}
+
+async function deleteBookCopy(req, res){
+    const {id} = req.body;
+    try {
+        const { error } = await supabaseClient.rpc('delete_book_copy', { id_of_book_copy: id });
+        if(error) {
+            res.status(505).json({ error: 'Can\'t delete book copy' });
+        } else {
+            res.status(201).json({ success: 'Copy succesfully deleted' });
+        }
+    } catch(onDeleteCopyError) {
+        res.status(505).json({ error: 'Internal error' });
+    }
+}
+
+module.exports = { fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, addBook, addBookToLoan, returnToInventory, deleteBook, deleteBookCopy };

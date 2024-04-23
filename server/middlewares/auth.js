@@ -1,12 +1,5 @@
 const v4 = require('uuid');
-const { createClient } = require("@supabase/supabase-js");
-
-const dotenv = require("dotenv");
-dotenv.config();
-const supabase_url = process.env.SUPABASE_URL;
-const supabase_key = process.env.SUPABASE_KEY;
-
-const supabaseClient = createClient(supabase_url, supabase_key);
+const supabaseClient = require('./supaClient');
 
 // Authentication service
 /*
@@ -22,24 +15,30 @@ async function handleSignUp (req, res) {
         if (studentIdIsTaken === true){
              res.status(409).json({ message: "Student ID already taken" });
         } else {
-            const {data} = await supabaseClient.auth.signUp({ 
-                email: email,
-                password: password,
-                options: {
-                    data: {
-                        student_id: student_id,
-                        name: name,
-                        user_type: user_type,
-                    }
-                }
-            });
+            
 
             const emailIsTaken = data.user && data.user.identities && data.user.identities.length === 0;
 
             if (emailIsTaken) {
                 res.status(409).json({ message: "Email already taken" });
             } else {
-                res.status(201).json({ message: "User created correctly" });
+                const {error} = await supabaseClient.auth.signUp({ 
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            student_id: student_id,
+                            name: name,
+                            user_type: user_type,
+                            books_in_debt: 0,
+                        }
+                    }
+                });
+                if(error) {
+                    res.status(409).json({ error: 'Error creating account' })
+                } else {
+                    res.status(201).json({ message: "User created correctly" });
+                }
             }
         }
     } catch (e) {
@@ -163,7 +162,7 @@ async function changePassword(req, res) {
             if (event == "PASSWORD_RECOVERY") {
                 const { data, error: onChangePasswordError } = await supabaseClient.auth.updateUser({
                     password: new_password,
-                    nonce: v4()
+                    nonce: v4.v4()
                 });
                 if (onChangePasswordError) {
                     console.log(onChangePasswordError);
@@ -180,4 +179,6 @@ async function changePassword(req, res) {
     }
 }
 
-module.exports = { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, sendEmailToRecoverPassword, changePassword }
+module.exports = { supabaseClient, handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, sendEmailToRecoverPassword, changePassword }
+
+
