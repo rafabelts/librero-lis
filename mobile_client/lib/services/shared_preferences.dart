@@ -18,19 +18,19 @@ class SharedPreferencesService {
   }
 
   static String get_user_id(SharedPreferences prefs) {
-    return prefs.getString('id')!;
+    return prefs.getString('id') ?? '';
   }
 
   static String get_user_name(SharedPreferences prefs) {
-    return prefs.getString('name')!;
+    return prefs.getString('name') ?? '';
   }
 
   static String get_user_student_id(SharedPreferences prefs) {
-    return prefs.getString('student_id')!;
+    return prefs.getString('student_id') ?? '';
   }
 
   static String get_user_type(SharedPreferences prefs) {
-    return prefs.getString('user_type')!;
+    return prefs.getString('user_type') ?? '';
   }
 
   static void add_new_user_name(SharedPreferences prefs, String name) {

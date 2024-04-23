@@ -45,6 +45,7 @@ class _StudentsState extends State<Students> {
           physics: NeverScrollableScrollPhysics(),
           itemCount: students.length,
           itemBuilder: (BuildContext context, int index) {
+            print(students);
             return StudentCard(
               name: students[index]["name"],
               studentId: students[index]["student_id"],

@@ -30,6 +30,7 @@ class _BooksOnInventoryState extends State<BooksOnInventory> {
   void initState() {
     super.initState();
     _loadBooksData();
+    print(infoOfCopies);
   }
 
   @override

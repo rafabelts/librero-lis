@@ -10,7 +10,8 @@ import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String url = "https://librero-server.vercel.app/auth";
+// String url = "https://librero-server.vercel.app/auth";
+String url = "http://192.168.1.115:3001/auth";
 
 class AuthService {
   static void signUp(
@@ -91,53 +92,47 @@ class AuthService {
   }
 
   // Handdle log in function
-  static void logIn(
-    BuildContext context,
-    String email,
-    String password,
-  ) async {
-    try {
-      final response = await http.post(
-        Uri.parse("https://librero-server.vercel.app/auth/log-in"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+  static void logIn(BuildContext context, String email, String password) async {
+    final response = await http.post(
+      Uri.parse("$url/log-in"),
+      headers: <String, String>{
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: jsonEncode(
+        <String, String>{
+          "email": email,
+          "password": password,
         },
-        body: jsonEncode(
-          <String, String>{
-            "email": email,
-            "password": password,
-          },
+      ),
+    );
+
+    if (response.statusCode == 201) {
+      Future.microtask(
+        () => Navigator.pushReplacementNamed(context, Routes.mainPage),
+      );
+      Map<String, dynamic> data = jsonDecode(response.body);
+      SharedPreferencesService.saveUserData(
+          data['id'], data['name'], data['student_id'], data['user_type']);
+      /* SharedPreferencesService.saveUserData(
+        data['id'],
+        data['name'],
+        data['student_id'],
+        data['user_type'],
+      );*/
+    } else if (response.statusCode == 401) {
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorLogingIn(),
         ),
       );
-
-      if (response.statusCode == 201) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        SharedPreferencesService.saveUserData(
-          data['id'],
-          data['name'],
-          data['student_id'],
-          data['user_type'],
-        );
-
-        Future.microtask(
-            () => Navigator.pushReplacementNamed(context, Routes.mainPage));
-      } else if (response.statusCode == 401) {
-        Future.microtask(
-          () => showDialog(
-            context: context,
-            builder: (BuildContext context) => ErrorLogingIn(),
-          ),
-        );
-      } else {
-        Future.microtask(
-          () => showDialog(
-            context: context,
-            builder: (BuildContext context) => ErrorInServer(),
-          ),
-        );
-      }
-    } catch (e) {
-      print(e);
+    } else {
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorInServer(),
+        ),
+      );
     }
   }
 
@@ -145,6 +140,11 @@ class AuthService {
     final response = await http.get(Uri.parse("$url/sign-out"));
 
     if (response.statusCode == 201) {
+      final pref = await SharedPreferences.getInstance();
+      pref.remove('id');
+      pref.remove('name');
+      pref.remove('student_id');
+      pref.remove('user_type');
       Future.microtask(() {
         Navigator.pop(context);
         Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
