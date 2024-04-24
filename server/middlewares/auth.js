@@ -89,8 +89,10 @@ async function signOut(req, res) {
     try {
         const { error } = await supabaseClient.auth.signOut();
         if(error) {
+            console.error(error);
             res.status(500).json({ error: "Internal error" });
         } else {
+            console.log("Signed out");
             res.status(201).json({ succes: "Sign out succesful" });
         }
     } catch (e) {
