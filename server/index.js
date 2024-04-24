@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, changePassword, sendEmailToRecoverPassword } = require("./middlewares/auth.js");
+const { handleSignUp, handleLogIn, signOut, changeName, changePassword, sendEmailToRecoverPassword } = require("./middlewares/auth.js");
 const { addBook, addBookToLoan, fetchBooksData, fetchBooksOnLoanData, fetchStudentsData, returnToInventory, deleteBook, deleteBookCopy, fetchStudentBooksOnLoanData } = require("./middlewares/book_management.js");
 
 dotenv.config();
@@ -30,7 +30,6 @@ app.post("/auth/change-name", changeName);
 app.post("/auth/send-recovery-email", sendEmailToRecoverPassword);
 app.post("/auth/change-password", changePassword);
 
-app.get("/auth/user-session-status", userSessionStatus);
 app.get("/auth/sign-out", signOut)
 app.get("/auth/fetch-students-data", fetchStudentsData);
 

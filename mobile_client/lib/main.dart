@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_client/routes/app_routes.dart';
 import 'package:mobile_client/screens/main_page.dart';
 import 'package:mobile_client/screens/welcome_screen.dart';
-import 'package:mobile_client/services/auth_service.dart';
 import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';

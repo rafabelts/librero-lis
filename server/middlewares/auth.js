@@ -155,6 +155,6 @@ async function changePassword(req, res) {
     }
 }
 
-module.exports = { supabaseClient, handleSignUp, handleLogIn, userSessionStatus, signOut, changeName, sendEmailToRecoverPassword, changePassword }
+module.exports = { supabaseClient, handleSignUp, handleLogIn, signOut, changeName, sendEmailToRecoverPassword, changePassword }
 
 
