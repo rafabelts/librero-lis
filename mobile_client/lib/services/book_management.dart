@@ -2,15 +2,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/widgets/error_alert_dialogs.dart';
 import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 
-// String url = "https://librero-server.vercel.app/books";
-// String url = "http://10.50.15.39:3001/books";
-String url = "http://192.168.1.115:3001/books";
+String url = "${dotenv.env['SERVER']}/books";
 
 class BookManagmentService {
   static Future<List<dynamic>> fetchBooksData() async {

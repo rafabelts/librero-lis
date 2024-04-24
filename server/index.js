@@ -24,6 +24,9 @@ app.get("/", (req, res) => {
     res.send("<h1>API Librero LIS</h1>")
 });
 
+app.get("/auth", (req, res) => {
+    res.send("<h1>Auth</h1>")
+})
 app.post("/auth/sign-up", handleSignUp);
 app.post("/auth/log-in", handleLogIn);
 app.post("/auth/change-name", changeName);

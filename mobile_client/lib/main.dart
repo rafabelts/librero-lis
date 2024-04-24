@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
-
   runApp(const MyApp());
 }
 

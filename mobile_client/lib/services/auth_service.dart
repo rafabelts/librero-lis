@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_client/routes/app_routes.dart';
 import 'package:mobile_client/services/shared_preferences.dart';
@@ -10,8 +11,7 @@ import 'package:mobile_client/widgets/success_alert_dialogs.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// String url = "https://librero-server.vercel.app/auth";
-String url = "http://192.168.1.115:3001/auth";
+String url = "https://librero-server.vercel.app/auth";
 
 class AuthService {
   static void signUp(
@@ -110,49 +110,6 @@ class AuthService {
         );
   }
 
-  // // Handdle log in function
-  // static void logIn(BuildContext context, String email, String password) async {
-  //   final response = await http.post(
-  //     Uri.parse("$url/log-in"),
-  //     headers: <String, String>{
-  //       "Content-Type": "application/json; charset=UTF-8",
-  //     },
-  //     body: jsonEncode(
-  //       <String, String>{
-  //         "email": email,
-  //         "password": password,
-  //       },
-  //     ),
-  //   );
-
-  //   if (response.statusCode == 201) {
-  //     Future.microtask(
-  //       () => Navigator.pushReplacementNamed(context, Routes.mainPage),
-  //     );
-  //     Map<String, dynamic> data = jsonDecode(response.body);
-  //     SharedPreferencesService.saveUserData(
-  //         data['id'], data['name'], data['student_id'], data['user_type']);
-  //   } else if (response.statusCode == 401) {
-  //     Future.microtask(
-  //       () => showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) => ErrorDialog(
-  //           error: "Correo electrónico o contraseña incorrecta",
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     Future.microtask(
-  //       () => showDialog(
-  //         context: context,
-  //         builder: (BuildContext context) => ErrorDialog(
-  //           error: 'Error en el servidor',
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
-
   // Handdle log in function
   static void logIn(
     BuildContext context,
@@ -205,29 +162,37 @@ class AuthService {
     }
   }
 
-  static void signOut(BuildContext context) async {
-    final response = await http.get(Uri.parse("$url/sign-out"));
+  // static void signOut(BuildContext context) async {
+  //   final pref = await SharedPreferences.getInstance();
 
-    if (response.statusCode == 201) {
-      final pref = await SharedPreferences.getInstance();
-      pref.remove('id');
-      pref.remove('name');
-      pref.remove('student_id');
-      pref.remove('user_type');
-      Future.microtask(() {
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
-      });
-    } else {
-      Future.microtask(
-        () => showDialog(
-          context: context,
-          builder: (BuildContext context) => ErrorDialog(
-            error: 'Error en el servidor',
-          ),
-        ),
-      );
-    }
+  //   final response = await http
+  //       .get(Uri.parse("https://librero-server.vercel.app/auth/sign-out"));
+
+  //   if (response.statusCode == 201) {
+  //     Future.microtask(() {
+  //       Navigator.pushReplacementNamed(context, Routes.welcomeScreen);
+  //       pref.remove('id');
+  //       pref.remove('name');
+  //       pref.remove('student_id');
+  //       pref.remove('user_type');
+  //     });
+  //   } else {
+  //     Future.microtask(
+  //       () => showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) => ErrorDialog(
+  //           error: 'Error en el servidor',
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  static void signOut(BuildContext context) async {
+    print("sign out");
+    final response = await http
+        .get(Uri.parse('https://librero-server.vercel.app/auth/sign-out'));
+    print(response.statusCode);
   }
 
   static void sendRecoveryEmail(
