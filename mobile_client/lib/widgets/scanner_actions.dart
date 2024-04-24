@@ -22,7 +22,9 @@ class _SelectScannerActionState extends State<SelectScannerAction> {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       content: _isNewLoan
-          ? AddLoanScreen()
+          ? AddLoanScreen(
+              book_code: widget.book_code!,
+            )
           : Wrap(
               runSpacing: 15,
               children: [
@@ -47,6 +49,7 @@ class _SelectScannerActionState extends State<SelectScannerAction> {
                       AppOutlinedButton(
                         onPressed: () {
                           BookManagmentService.returnBookToInventory(
+                            context,
                             widget.book_code!,
                           );
                         },
@@ -62,7 +65,9 @@ class _SelectScannerActionState extends State<SelectScannerAction> {
 }
 
 class AddLoanScreen extends StatefulWidget {
-  const AddLoanScreen({super.key});
+  final String book_code;
+
+  const AddLoanScreen({super.key, required this.book_code});
 
   @override
   State<AddLoanScreen> createState() => _AddLoanScreenState();
@@ -114,10 +119,12 @@ class _AddLoanScreenState extends State<AddLoanScreen> {
         AppContinueElevatedButton(
             isButtonDisabled: _isButtonDisabled,
             onPressed: () {
-              print(DateTime.now());
-              /*if(_formKey.currentState!.validate()){
-                
-              }*/
+              String date =
+                  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+              if (_formKey.currentState!.validate()) {
+                BookManagmentService.addLoan(
+                    context, widget.book_code, date, _studentIdController.text);
+              }
             },
             label: 'Crear nuevo prestamo')
       ],

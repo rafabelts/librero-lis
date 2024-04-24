@@ -44,6 +44,9 @@ dependencies:
   qr_flutter: ^4.1.0
   screenshot: ^2.3.0
   image_gallery_saver: ^2.0.3
+  provider: ^6.1.2
+  supabase_flutter: ^2.5.1
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +77,7 @@ flutter:
           weight: 700
 
   assets:
+    - .env
     - assets/images/luzio_w_book.png
   # To add assets to your application, add an assets section, like this:
   # assets:

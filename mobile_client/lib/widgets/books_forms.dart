@@ -5,10 +5,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_client/services/book_management.dart';
+import 'package:mobile_client/services/shared_preferences.dart';
+
 import 'package:mobile_client/utils/buttons_theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
 import 'package:mobile_client/widgets/text_fields.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddBookForm extends StatefulWidget {
   const AddBookForm({super.key});
@@ -138,6 +142,7 @@ class _AddBookFormState extends State<AddBookForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     BookManagmentService.addNewBook(
+                      context,
                       _isbnController.text,
                       _titleController.text,
                       _authorController.text,

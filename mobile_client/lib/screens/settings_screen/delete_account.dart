@@ -45,8 +45,10 @@ class DeleteAccount extends StatelessWidget {
                 isButtonDisabled: false,
                 onPressed: () => showDialog(
                   context: context,
-                  builder: (BuildContext context) =>
-                      ErrorDeletingAccount(bookTitle: "bookTitle"),
+                  builder: (BuildContext context) => ErrorDialog(
+                    error:
+                        "No es posible eliminar tu cuenta ya que tienes un adeudo",
+                  ),
                 ),
                 label: "Continuar",
               )

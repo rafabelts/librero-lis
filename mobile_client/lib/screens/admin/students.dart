@@ -1,11 +1,15 @@
 //ignore_for_file:prefer_const_constructors
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mobile_client/services/auth_service.dart';
+import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Students extends StatefulWidget {
   const Students({super.key});
@@ -18,10 +22,20 @@ class _StudentsState extends State<Students> {
   late List<dynamic> students = [];
 
   Future<void> _loadStudentsData() async {
-    List<dynamic> fetchedStudentsData = await AuthService.fetchStudentsData();
-    setState(() {
-      students = fetchedStudentsData;
-    });
+    final prefs = await SharedPreferences.getInstance();
+    final String? studentsData =
+        SharedPreferencesService.getStudentsData(prefs);
+
+    if (studentsData == null || studentsData.isEmpty) {
+      SharedPreferencesService.fetchStudentData();
+    }
+
+    final newData = SharedPreferencesService.getStudentsData(prefs);
+    if (newData != null && newData.isNotEmpty) {
+      setState(() {
+        students = json.decode(newData);
+      });
+    }
   }
 
   @override
@@ -40,20 +54,30 @@ class _StudentsState extends State<Students> {
           padding: EdgeInsets.only(top: 5, bottom: 30),
           child: AppSearchBar(),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: students.length,
-          itemBuilder: (BuildContext context, int index) {
-            print(students);
-            return StudentCard(
-              name: students[index]["name"],
-              studentId: students[index]["student_id"],
-              debts: students[index]["books_in_debt"],
-            );
-          },
-        ),
+        students.isEmpty
+            ? Center(
+                child: H1BoldText(
+                  text: 'Por el momento no hay estudiantes',
+                ),
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: students.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return StudentCard(
+                    name: students[index]["name"],
+                    studentId: students[index]["student_id"],
+                    debts: students[index]["books_in_debt"],
+                  );
+                },
+              ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

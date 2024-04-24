@@ -134,7 +134,7 @@ class _BookInfoTableState extends State<BookInfoTable> {
   ScreenshotController screenShotController = ScreenshotController();
   String? imageBase64;
 
-  void generateQr(String copyId) {
+  void generateQr(BuildContext context, String copyId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -189,9 +189,15 @@ class _BookInfoTableState extends State<BookInfoTable> {
         print(result);
 
         if (result['isSuccess']) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => DownloadSuccesful(),
+          Future.microtask(
+            () => showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                successMessage: [
+                  Title2Text(text: '¡QR descargado exitosamente!')
+                ],
+              ),
+            ),
           );
         }
       },
@@ -224,7 +230,7 @@ class _BookInfoTableState extends State<BookInfoTable> {
                 ),
                 DataCell(GestureDetector(
                   onTap: () {
-                    generateQr(item['copy_id']);
+                    generateQr(context, item['copy_id']);
                   },
                   child: H5BoldText(
                     text: "Descargar",

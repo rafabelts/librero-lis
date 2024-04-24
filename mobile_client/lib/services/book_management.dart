@@ -1,7 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_client/services/shared_preferences.dart';
+import 'package:mobile_client/widgets/error_alert_dialogs.dart';
+import 'package:mobile_client/widgets/success_alert_dialogs.dart';
+import 'package:mobile_client/widgets/text_sections.dart';
 
 // String url = "https://librero-server.vercel.app/books";
 // String url = "http://10.50.15.39:3001/books";
@@ -38,7 +43,33 @@ class BookManagmentService {
     }
   }
 
+  static Future<List<dynamic>> fetchStudentBooksOnLoanData(
+      String studentId) async {
+    final response = await http.post(
+      Uri.parse('$url/fetch-students-books-on-loan-data'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'id_of_student': studentId,
+        },
+      ),
+    );
+
+    if (response.statusCode == 201) {
+      if (response.body.isNotEmpty) {
+        return jsonDecode(response.body);
+      } else {
+        return [];
+      }
+    } else {
+      return [];
+    }
+  }
+
   static Future<void> addNewBook(
+    BuildContext context,
     String isbn,
     String title,
     String author,
@@ -66,14 +97,41 @@ class BookManagmentService {
     );
 
     if (response.statusCode == 201) {
-      print('Added book to db');
+      Future.microtask(
+        () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                    successMessage: [
+                      H3BoldText(
+                        text: "¡Libro agregado!",
+                        color: Color.fromARGB(255, 17, 73, 36),
+                      ),
+                      Title2Text(
+                        text: "$title ha sido agregado al inventario",
+                        color: Color.fromARGB(255, 42, 41, 49),
+                      )
+                    ],
+                  ));
+        },
+      );
+      SharedPreferencesService.fetchInventoryData();
     } else {
-      print('Error');
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
+        ),
+      );
     }
   }
 
   static Future<void> deleteBook(
-    String title,
+    BuildContext context,
+    String isbn,
   ) async {
     final response = await http.post(
       Uri.parse('$url/delete-book'),
@@ -81,40 +139,94 @@ class BookManagmentService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'title': title,
+        'isbn': isbn,
       }),
     );
 
     if (response.statusCode == 201) {
-      print('Deleted book copy');
+      Future.microtask(
+        () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                    successMessage: [
+                      H3BoldText(
+                        text: "¡Libro eliminado!",
+                        color: Color.fromARGB(255, 17, 73, 36),
+                      ),
+                      Title2Text(
+                        text: "El libro con el isbn $isbn ha sido eliminado",
+                        color: Color.fromARGB(255, 42, 41, 49),
+                      )
+                    ],
+                  ));
+        },
+      );
+      SharedPreferencesService.fetchInventoryData();
     } else {
-      print('Error');
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
+        ),
+      );
     }
   }
 
   static Future<void> deleteBookCopy(
-    String copy_id,
+    BuildContext context,
+    String id,
   ) async {
     final response = await http.post(
-      Uri.parse('$url/delete-copy'),
+      Uri.parse('$url/delete-book-copy'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'copy_id': copy_id,
+        'id': id,
       }),
     );
 
     if (response.statusCode == 201) {
-      print('Deleted book copy');
+      Future.microtask(
+        () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                    successMessage: [
+                      H3BoldText(
+                        text: "¡Copia eliminada!",
+                        color: Color.fromARGB(255, 17, 73, 36),
+                      ),
+                      Title2Text(
+                        text: "Se ha eliminado la copia $id",
+                        color: Color.fromARGB(255, 42, 41, 49),
+                      )
+                    ],
+                  ));
+        },
+      );
+      SharedPreferencesService.fetchInventoryData();
     } else {
-      print('Error');
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
+        ),
+      );
     }
   }
 
-  static Future<void> returnBookToInventory(String bookId) async {
+  static Future<void> returnBookToInventory(
+      BuildContext context, String bookId) async {
     final response = await http.post(
-      Uri.parse('$url/return-book'),
+      Uri.parse('$url/return-loan'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -125,13 +237,41 @@ class BookManagmentService {
       ),
     );
     if (response.statusCode == 201) {
-      print('Book returned');
+      Future.microtask(
+        () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                    successMessage: [
+                      H3BoldText(
+                        text: "¡Libro devuelto!",
+                        color: Color.fromARGB(255, 17, 73, 36),
+                      ),
+                      Title2Text(
+                        text: "Se ha devuelto la copia $bookId",
+                        color: Color.fromARGB(255, 42, 41, 49),
+                      )
+                    ],
+                  ));
+        },
+      );
+      SharedPreferencesService.fetchInventoryData();
+      SharedPreferencesService.fetchBooksOnLoan();
     } else {
-      print('error');
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
+        ),
+      );
     }
   }
 
   static Future<void> addLoan(
+    BuildContext context,
     String bookId,
     String devolutionDate,
     String studentBorrower,
@@ -150,9 +290,46 @@ class BookManagmentService {
       ),
     );
     if (response.statusCode == 201) {
-      print('Book added to loan');
+      Future.microtask(
+        () {
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => SuccessDialog(
+                    successMessage: [
+                      H3BoldText(
+                        text: "¡Libro en préstamo!",
+                        color: Color.fromARGB(255, 17, 73, 36),
+                      ),
+                      Title2Text(
+                        text:
+                            "Se ha prestado la copia $bookId al alumno con matrícula $studentBorrower",
+                        color: Color.fromARGB(255, 42, 41, 49),
+                      )
+                    ],
+                  ));
+        },
+      );
+      SharedPreferencesService.fetchInventoryData();
+      SharedPreferencesService.fetchBooksOnLoan();
+    } else if (response.statusCode == 404) {
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'El alumno conn la matrícula $studentBorrower no existe',
+          ),
+        ),
+      );
     } else {
-      print('error');
+      Future.microtask(
+        () => showDialog(
+          context: context,
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
+        ),
+      );
     }
   }
 }

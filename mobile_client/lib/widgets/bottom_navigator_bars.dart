@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_client/main.dart';
 import 'package:mobile_client/routes/app_routes.dart';
 import 'package:mobile_client/utils/theme.dart';
 import 'package:mobile_client/widgets/buttons.dart';
@@ -89,7 +90,9 @@ class _AdminBottomNavigatorBarState extends State<AdminBottomNavigatorBar> {
                         : 34),
             child: InkWell(
               borderRadius: BorderRadius.circular(50.0),
-              onTap: () => widget.changeScreen("Books On Inventory"),
+              onTap: () {
+                widget.changeScreen("Books On Inventory");
+              },
               child: Icon(
                 Icons.menu_book,
                 color: onFocus("Books On Inventory"),

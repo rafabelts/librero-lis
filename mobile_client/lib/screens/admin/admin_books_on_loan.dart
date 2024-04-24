@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobile_client/services/book_management.dart';
+import 'package:mobile_client/services/shared_preferences.dart';
 import 'package:mobile_client/widgets/app_search_bar.dart';
 import 'package:mobile_client/widgets/book_info.dart';
 import 'package:mobile_client/widgets/cards.dart';
 import 'package:mobile_client/widgets/text_sections.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminOnLoan extends StatefulWidget {
   const AdminOnLoan({super.key});
@@ -19,18 +21,25 @@ class _AdminOnLoanState extends State<AdminOnLoan> {
   late List<dynamic> booksOnLoan = [];
 
   Future<void> _loadBooksOnLoanData() async {
-    List<dynamic> fetchedBooksOnLoan =
-        await BookManagmentService.fetchBooksOnLoanData();
-    setState(() {
-      booksOnLoan = fetchedBooksOnLoan;
-    });
+    final prefs = await SharedPreferences.getInstance();
+    final String? bookData = SharedPreferencesService.getBooksOnLoan(prefs);
+
+    if (bookData == null || bookData.isEmpty) {
+      SharedPreferencesService.fetchBooksOnLoan();
+    }
+
+    final newData = SharedPreferencesService.getBooksOnLoan(prefs);
+    if (newData != null && newData.isNotEmpty) {
+      setState(() {
+        booksOnLoan = json.decode(newData);
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _loadBooksOnLoanData();
-    print(booksOnLoan);
   }
 
   @override
@@ -61,5 +70,10 @@ class _AdminOnLoanState extends State<AdminOnLoan> {
               ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

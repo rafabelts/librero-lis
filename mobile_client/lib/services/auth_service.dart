@@ -39,7 +39,19 @@ class AuthService {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => AccountVerification(email: email),
+          builder: (BuildContext context) => SuccessDialog(
+            successMessage: [
+              H3BoldText(
+                text: "¡Verifica tu cuenta!",
+                color: Color.fromARGB(255, 17, 73, 36),
+              ),
+              Title2Text(
+                text:
+                    "Se ha enviado un link a tu correo $email para la verificación",
+                color: Color.fromARGB(255, 42, 41, 49),
+              ),
+            ],
+          ),
         ),
       );
     } else if (response.statusCode == 409) {
@@ -47,7 +59,9 @@ class AuthService {
         Future.microtask(
           () => showDialog(
             context: context,
-            builder: (BuildContext context) => ErrorEmailAlreadyTaken(),
+            builder: (BuildContext context) => ErrorDialog(
+              error: "Correo electrónico ya registrado",
+            ),
           ),
         );
       }
@@ -55,23 +69,28 @@ class AuthService {
       if (response.body.contains("Student ID already taken")) {
         Future.microtask(
           () => showDialog(
-              context: context,
-              builder: (BuildContext context) =>
-                  ErrorStudenIDAlreadyTaken(studentID: student_id)),
+            context: context,
+            builder: (BuildContext context) => ErrorDialog(
+              error:
+                  "La matrícula $student_id ya se encuentra registrada en el sistema, intente de nuevo con una diferente",
+            ),
+          ),
         );
       }
     } else {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorInServer(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
         ),
       );
     }
   }
 
   // This function makes a get request to see if the user is logged on or not
-  static Stream<bool?> checkUserLoggedOn() {
+  static Stream<bool?> checkUserLoggedIn() {
     return http
         .get(
           Uri.parse('$url/user-session-status'),
@@ -91,12 +110,59 @@ class AuthService {
         );
   }
 
+  // // Handdle log in function
+  // static void logIn(BuildContext context, String email, String password) async {
+  //   final response = await http.post(
+  //     Uri.parse("$url/log-in"),
+  //     headers: <String, String>{
+  //       "Content-Type": "application/json; charset=UTF-8",
+  //     },
+  //     body: jsonEncode(
+  //       <String, String>{
+  //         "email": email,
+  //         "password": password,
+  //       },
+  //     ),
+  //   );
+
+  //   if (response.statusCode == 201) {
+  //     Future.microtask(
+  //       () => Navigator.pushReplacementNamed(context, Routes.mainPage),
+  //     );
+  //     Map<String, dynamic> data = jsonDecode(response.body);
+  //     SharedPreferencesService.saveUserData(
+  //         data['id'], data['name'], data['student_id'], data['user_type']);
+  //   } else if (response.statusCode == 401) {
+  //     Future.microtask(
+  //       () => showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) => ErrorDialog(
+  //           error: "Correo electrónico o contraseña incorrecta",
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     Future.microtask(
+  //       () => showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) => ErrorDialog(
+  //           error: 'Error en el servidor',
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
+
   // Handdle log in function
-  static void logIn(BuildContext context, String email, String password) async {
+  static void logIn(
+    BuildContext context,
+    String email,
+    String password,
+  ) async {
     final response = await http.post(
       Uri.parse("$url/log-in"),
       headers: <String, String>{
-        "Content-Type": "application/json; charset=UTF-8",
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
         <String, String>{
@@ -106,31 +172,34 @@ class AuthService {
       ),
     );
 
+    print('Log in');
     if (response.statusCode == 201) {
-      Future.microtask(
-        () => Navigator.pushReplacementNamed(context, Routes.mainPage),
-      );
-      Map<String, dynamic> data = jsonDecode(response.body);
-      SharedPreferencesService.saveUserData(
-          data['id'], data['name'], data['student_id'], data['user_type']);
-      /* SharedPreferencesService.saveUserData(
-        data['id'],
-        data['name'],
-        data['student_id'],
-        data['user_type'],
-      );*/
+      Future.microtask(() {
+        Navigator.pushReplacementNamed(context, Routes.mainPage);
+        Map<String, dynamic> data = jsonDecode(response.body);
+        SharedPreferencesService.saveUserData(
+          data['id'],
+          data['name'],
+          data['student_id'],
+          data['user_type'],
+        );
+      });
     } else if (response.statusCode == 401) {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorLogingIn(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: "Correo electrónico o contraseña incorrecta",
+          ),
         ),
       );
     } else {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorInServer(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
         ),
       );
     }
@@ -153,7 +222,9 @@ class AuthService {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorInServer(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
         ),
       );
     }
@@ -194,14 +265,17 @@ class AuthService {
         () => showDialog(
           context: context,
           builder: (BuildContext context) => ErrorDialog(
-              error: "Error al enviar las instrucciones, intente más tarde"),
+            error: "Error al enviar las instrucciones, intente más tarde",
+          ),
         ),
       );
     } else {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorInServer(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
         ),
       );
     }
@@ -248,7 +322,9 @@ class AuthService {
       Future.microtask(
         () => showDialog(
           context: context,
-          builder: (BuildContext context) => ErrorInServer(),
+          builder: (BuildContext context) => ErrorDialog(
+            error: 'Error en el servidor',
+          ),
         ),
       );
     }

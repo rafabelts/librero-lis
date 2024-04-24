@@ -47,7 +47,6 @@ async function handleSignUp (req, res) {
     }
 }
 
-
 /*
     This function logs in the user using its email and password
 */
@@ -81,29 +80,6 @@ async function handleLogIn(req, res) {
     } catch (authError) {
         res.status(500).json({ error: "Auth error" });
     }
-}
-
-/*
-    This function checks if the user is already logged on
-*/
-async function userSessionStatus(req, res){
-
-    try {
-        const { data, error } = await supabaseClient.auth.getUser();
-        if (error){ 
-            res.status(404).json({ error: "User not found or not logged in" });
-        } else {
-            res.status(201).json({ message: "User logged in" });
-        }
-
-/*        supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') console.log('SIGNED_IN')
-        }); */ 
-
-    } catch(e) {
-        res.status(500).json({ error: "Internal error" });
-    }
-
 }
 
 /*
