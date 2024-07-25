@@ -1,0 +1,59 @@
+.selectorContainer {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 10%;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+  height: 25rem;
+}
+
+.image {
+  width: 20rem;
+  height: 25rem;
+  border-radius: 1rem;
+  /* mobile ->  width: 7.1875rem;
+  height: 8.8125rem; */
+}
+
+.noImage {
+  width: 20rem;
+  height: 25rem;
+  border-radius: 1rem;
+  /* mobile ->  width: 7.1875renm;
+  height: 8.8125rem; */
+  background: gray;
+}
+
+.imageButton {
+  background: blue;
+  padding: 1rem;
+  width: auto;
+  border: none;
+  border-radius: 0.8rem;
+  color: white;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.errorMessage {
+  margin-top: auto;
+  color: red;
+  font-size: 0.8rem;
+}

@@ -1,0 +1,30 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    border: none;
+    font-size: 1.5rem;
+    color: black;
+    font-weight: 400;
+    padding: 1rem;
+}
+
+.input::placeholder {
+    color: gray;
+    font-weight: 500;
+}
+
+.input:focus {
+    border: 1px solid blue;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.errorMessage {
+    margin-top: 0.4rem;
+    margin-left: 1rem;
+    color: red;
+    font-size: 0.8rem;
+}

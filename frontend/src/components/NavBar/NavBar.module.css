@@ -1,0 +1,57 @@
+.navBarDiv {
+    padding-top: 1rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.routesDiv {
+    align-items: center;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10rem;
+}
+
+.navButtons {
+    color: black;
+    text-decoration: none;
+}
+
+.addLoanButton {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: blueviolet;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .navBarDiv {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .routesDiv {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        font-size: 1rem;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        gap: 3rem;
+        padding: 0.4rem;
+        z-index: 1;
+        background: white;
+    }
+
+    .addLoanButton {
+        padding: 0.8rem;
+    }
+}
