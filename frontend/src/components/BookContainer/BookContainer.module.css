@@ -1,60 +1,54 @@
 .bookContainer {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 20rem;
-    height: 25rem;
-}
-
-.bookImage {
-    width: 100%;
-    height: 100%;
-    border-radius: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  height: 25rem;
 }
 
 .infoContainer {
-    position: absolute;
-    background-color: blue;
-    color: #fff;
-    padding: 10px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  position: absolute;
+  background-color: blue;
+  color: #fff;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .bookTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .info {
-    font-size: auto;
+  font-size: auto;
 }
 
 @media (max-width: 1200px) {
-    .bookContainer {
-        height: 13.125rem;
-        width: 10.125rem;
-    }
+  .bookContainer {
+    height: 13.125rem;
+    width: 10.125rem;
+  }
 
-    .bookImage {
-        border-radius: 0.6rem;
-    }
+  .bookImage {
+    border-radius: 0.6rem;
+  }
 
-    .infoContainer {
-        border-radius: 0.6rem;
-    }
+  .infoContainer {
+    border-radius: 0.6rem;
+  }
 
-    .bookTitle {
-        font-size: 1rem;
-        font-weight: 600;
-    }
+  .bookTitle {
+    font-size: 1rem;
+    font-weight: 600;
+  }
 
-    .info {
-        font-size: 0.8rem;
-    }
+  .info {
+    font-size: 0.8rem;
+  }
 }

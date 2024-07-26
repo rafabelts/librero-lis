@@ -8,26 +8,31 @@ export default function AdminPage() {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
       title: 'Fundamentos de la programacion',
+      isbn: '1',
     },
     {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
       title: 'Fundamentos de la programacion',
+      isbn: '1',
     },
     {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
       title: 'Fundamentos de la programacion',
+      isbn: '1',
     },
     {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
       title: 'Fundamentos de la programacion',
+      isbn: '1',
     },
     {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
       title: 'Fundamentos de la programacion',
+      isbn: '1',
     },
   ];
   return (

@@ -4,40 +4,45 @@ import { BackIcon } from './assets/backIcon';
 import { useMemo } from 'react';
 
 const titlePaths: Record<string, string> = {
-    '/': 'Mis adeudos',
-    '/admin': 'Libros en el librero',
-    '/admin/prestamos': 'Libros en prestamo',
-    '/admin/alumnos': 'Alumnos registrados',
-    '/admin/agregar/libro': 'Agregar nuevo libro',
-    '/configuracion': 'Configuracion',
+  '/': 'Mis adeudos',
+  '/admin': 'Libros en el librero',
+  '/admin/prestamos': 'Libros en prestamo',
+  '/admin/alumnos': 'Alumnos registrados',
+  '/admin/agregar/libro': 'Agregar nuevo libro',
+  '/admin/libro/:isbn': 'Detalles del libro', // Or leave empty if you prefer
+  '/configuracion': 'Configuracion',
 };
 
-const hideNavBarPaths = new Set(['/admin/agregar/libro']);
+const hideNavBarPaths = new Set(['/admin/agregar/libro', '/admin/libro/:isbn']);
 
 export default function Layout() {
-    const path = useLocation().pathname;
+  const path = useLocation().pathname;
 
-    const { showNavBar, title, goBackPath } = useMemo(
-        () => ({
-            showNavBar: !hideNavBarPaths.has(path),
-            title: titlePaths[path] || 'Not Found',
-            goBackPath: path.includes('admin') ? '/admin' : '/',
-        }),
-        [path]
-    );
+  const { showNavBar, title, goBackPath } = useMemo(
+    () => ({
+      showNavBar:
+        !hideNavBarPaths.has(path) && !path.startsWith('/admin/libro'),
+      title: path.startsWith('/admin/libro')
+        ? ''
+        : titlePaths[path] || 'Not Found',
 
-    return (
-        <div>
-            {showNavBar && <NavBar title={title} />}
-            <main>
-                {!showNavBar && (
-                    <>
-                        <BackIcon path={goBackPath} />
-                        <h1>{title}</h1>{' '}
-                    </>
-                )}
-                <Outlet />
-            </main>
-        </div>
-    );
+      goBackPath: path.includes('admin') ? '/admin' : '/',
+    }),
+    [path]
+  );
+
+  return (
+    <div>
+      {showNavBar && <NavBar title={title} />}
+      <main>
+        {!showNavBar && (
+          <>
+            <BackIcon path={goBackPath} />
+            <h1>{title}</h1>{' '}
+          </>
+        )}
+        <Outlet />
+      </main>
+    </div>
+  );
 }

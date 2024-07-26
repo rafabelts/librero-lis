@@ -1,9 +1,9 @@
 import { BookContainer } from '../components/BookContainer/BookContainer';
 import { BookList } from '../components/BookList/BookList';
-import { UserBookDebt } from '../types';
+import { BookData } from '../types';
 
 export default function UserDebtsPage() {
-  const bookMockData: Array<UserBookDebt> = [
+  const bookMockData: Array<BookData> = [
     {
       image:
         'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
@@ -37,8 +37,8 @@ export default function UserDebtsPage() {
   ];
   return (
     <BookList>
-      {bookMockData.map((book: UserBookDebt) => (
-        <BookContainer key={book.title} {...book} />
+      {bookMockData.map((book: BookData, index) => (
+        <BookContainer key={index} {...book} />
       ))}
     </BookList>
   );

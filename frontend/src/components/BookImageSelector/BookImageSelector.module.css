@@ -8,23 +8,6 @@
   height: 25rem;
 }
 
-.image {
-  width: 20rem;
-  height: 25rem;
-  border-radius: 1rem;
-  /* mobile ->  width: 7.1875rem;
-  height: 8.8125rem; */
-}
-
-.noImage {
-  width: 20rem;
-  height: 25rem;
-  border-radius: 1rem;
-  /* mobile ->  width: 7.1875renm;
-  height: 8.8125rem; */
-  background: gray;
-}
-
 .imageButton {
   background: blue;
   padding: 1rem;
