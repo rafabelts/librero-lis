@@ -9,11 +9,17 @@ const titlePaths: Record<string, string> = {
   '/admin/prestamos': 'Libros en prestamo',
   '/admin/alumnos': 'Alumnos registrados',
   '/admin/agregar/libro': 'Agregar nuevo libro',
-  '/admin/libro/:isbn': 'Detalles del libro', // Or leave empty if you prefer
+  '/admin/devolucion': ' ',
+  '/agregar/prestamo': ' ',
   '/configuracion': 'Configuracion',
 };
 
-const hideNavBarPaths = new Set(['/admin/agregar/libro', '/admin/libro/:isbn']);
+const hideNavBarPaths = new Set([
+  '/admin/agregar/libro',
+  '/admin/libro/:isbn',
+  '/admin/devolucion',
+  '/agregar/prestamo',
+]);
 
 export default function Layout() {
   const path = useLocation().pathname;

@@ -1,45 +1,33 @@
 import { BookData } from '../types';
 import { BookList } from '../components/BookList/BookList';
 import { BookContainer } from '../components/BookContainer/BookContainer';
+import { useEffect } from 'react';
+import { getBooksService } from '../services/bookServices';
+import { useAppContext } from '../context/ctxt';
 
 export default function AdminPage() {
-  const bookMockData: Array<BookData> = [
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      isbn: '1',
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      isbn: '1',
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      isbn: '1',
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      isbn: '1',
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      isbn: '1',
-    },
-  ];
-  return (
-    <BookList>
-      {bookMockData.map((book: BookData) => (
-        <BookContainer key={book.title} {...book} />
-      ))}
-    </BookList>
-  );
+    const ctxt = useAppContext();
+
+    useEffect(() => {
+        async function handleFetchBooks() {
+            const response = await getBooksService();
+
+            if (response.status === 201) {
+                const data = await response.json();
+                ctxt?.updateBooks(data.message);
+            }
+        }
+
+        handleFetchBooks();
+    }, []);
+
+    return ctxt?.books ? (
+        <BookList>
+            {ctxt.books.map((info: BookData) => (
+                <BookContainer key={info.isbn} {...info} />
+            ))}
+        </BookList>
+    ) : (
+        <p>Error</p>
+    );
 }

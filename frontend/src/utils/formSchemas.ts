@@ -36,9 +36,16 @@ export const BookSchema: ZodType<BookFormData> = z.object({
       },
       { message: 'Recuerda que el ano tiene 4 numeros' }
     ),
-  copies: z.number({
-    required_error: 'Por favor ingresa la cantidad de copias disponibles',
-  }),
+  copies: z
+    .number({
+      required_error: 'Por favor ingresa la cantidad de copias disponibles',
+    })
+    .refine(
+      (val) => {
+        return val <= 10 && val >= 1;
+      },
+      { message: 'Error. Solo se pueden agregar de 1 a 10 copias por libro' }
+    ),
   bookImage: z
     .string({
       required_error: 'Por favor',

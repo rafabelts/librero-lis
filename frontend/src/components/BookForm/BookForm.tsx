@@ -6,6 +6,7 @@ import { FormField } from '../../components/FormField/FormField.tsx';
 import { BookSchema } from '../../utils/formSchemas';
 import styles from './BookForm.module.css';
 import { BookImageSelector } from '../BookImageSelector/BookImageSelector.tsx';
+import { addBookService } from '../../services/bookServices.ts';
 export function AddBookForm() {
   const {
     register,
@@ -14,11 +15,15 @@ export function AddBookForm() {
     formState: { errors },
   } = useForm<z.infer<typeof BookSchema>>({
     resolver: zodResolver(BookSchema),
+
+    defaultValues: {
+      bookImage: ' ',
+    },
   });
 
   const onSubmit = async (data: BookFormData) => {
     try {
-      console.log('SUCCESS', data);
+      addBookService(data);
     } catch (e) {
       console.log(e);
     }
