@@ -4,15 +4,34 @@ import { books, copies } from '../config/db/schema';
 import { BookCopy, BookData } from '../models/books';
 
 export class BookDao {
+  async checkIfBookAlreadyInDb(isbn: string): Promise<boolean> {
+    try {
+      const bookInDb = await db.query.books.findFirst({
+        where: (model, { eq }) => eq(model.isbn, isbn),
+        columns: {
+          isbn: true,
+        },
+      });
+
+      return bookInDb ? true : false;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
   async addBook(bookData: BookData): Promise<void> {
-    await db.insert(books).values({
-      isbn: bookData.isbn,
-      title: bookData.title,
-      author: bookData.author,
-      editorial: bookData.editorial,
-      publicationYear: bookData.publicationYear,
-      copies: bookData.copies,
-    });
+    try {
+      await db.insert(books).values({
+        isbn: bookData.isbn,
+        title: bookData.title,
+        author: bookData.author,
+        editorial: bookData.editorial,
+        publicationYear: bookData.publicationYear,
+        copies: bookData.copies,
+      });
+    } catch (error) {
+      throw new Error(error as string);
+    }
   }
 
   async addBookCopy(isbn: string): Promise<void> {
@@ -45,7 +64,7 @@ export class BookDao {
 
       return copyInLoan ? true : false;
     } catch (error) {
-      throw new Error(`Failed to check loan status: ${error}`);
+      throw new Error(error as string);
     }
   }
 

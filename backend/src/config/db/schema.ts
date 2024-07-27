@@ -1,15 +1,10 @@
-import {
-  integer,
-  sqliteTable,
-  SQLiteTimestamp,
-  text,
-} from 'drizzle-orm/sqlite-core';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { sql } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
 export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
-  studentId: text('studentId').notNull(),
+  studentId: text('studentId').notNull().unique(),
   type: text('type').notNull(),
   name: text('name').notNull(),
 });

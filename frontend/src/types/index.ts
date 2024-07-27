@@ -66,3 +66,19 @@ export interface StudentData {
   student_id: string;
   debts: number;
 }
+
+export interface LoanData {
+  id: string;
+  copyId: string | null;
+  studentId: string | null;
+  loanDate: string;
+  devolutionDate?: string;
+}
+
+export interface LoanAndBook {
+  loan: LoanData;
+  book: {
+    title: string;
+    image: string;
+  } | null;
+}

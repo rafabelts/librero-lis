@@ -1,45 +1,23 @@
 import { BookContainer } from '../components/BookContainer/BookContainer';
 import { BookList } from '../components/BookList/BookList';
-import { BookData } from '../types';
+import { useAppContext } from '../context/ctxt';
+import { useGetLoans } from '../hooks/useGetLoans';
+import { LoanAndBook } from '../types';
 
 export default function UserDebtsPage() {
-  const bookMockData: Array<BookData> = [
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      devolutionDate: new Date(),
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      devolutionDate: new Date(),
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      devolutionDate: new Date(),
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      devolutionDate: new Date(),
-    },
-    {
-      image:
-        'https://editorialcirculorojo.com/wp-content/uploads/publicaciones/fundamentos-de-la-programacion-en-java-estructuras-de-control-e-introduccion-a-la-programacion-orientada-a-objetos/fundamentos-de-programacion-en-java-1.gif',
-      title: 'Fundamentos de la programacion',
-      devolutionDate: new Date(),
-    },
-  ];
-  return (
+  useGetLoans('S23017374');
+
+  const ctxt = useAppContext();
+
+  return ctxt?.loan.length > 0 ? (
     <BookList>
-      {bookMockData.map((book: BookData, index) => (
-        <BookContainer key={index} {...book} />
+      {ctxt.loan.map((loan: LoanAndBook) => (
+        <BookContainer key={loan.loan.id} {...loan.book} />
       ))}
     </BookList>
+  ) : (
+    <div>
+      <p>No tienes adeudos!!</p>
+    </div>
   );
 }

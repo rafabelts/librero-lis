@@ -1,5 +1,6 @@
 import express from 'express';
 import bookRoutes from './routes/bookRoutes';
+import loanRoutes from './routes/loanRoutes';
 import cors from './middlewares/cors';
 
 const app = express();
@@ -9,6 +10,7 @@ app.use(cors);
 app.use(express.json());
 
 app.use('/api/books', bookRoutes);
+app.use('/api/loans', loanRoutes);
 
 app.listen(PORT, () =>
   console.log(`Server listening at: http://localhost:${PORT}`)

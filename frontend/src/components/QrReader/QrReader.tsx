@@ -1,6 +1,8 @@
 import QrScanner from 'qr-scanner';
 import { useEffect, useRef, useState } from 'react';
 import styles from './QrReader.module.css';
+import { addLoanService } from '../../services/loanServices';
+import { toast } from 'sonner';
 export function BookQrReader() {
   const scanner = useRef<QrScanner>();
   const videoElement = useRef<HTMLVideoElement>(null);
@@ -51,10 +53,23 @@ export function BookQrReader() {
     }
   }, [qrOn]);
 
+  async function buttonOnClick(copyId: string, studentId: string) {
+    const response = await addLoanService(copyId, studentId);
+    if (response === 201) {
+      toast.success('Loan Added');
+    }
+  }
+
   return (
     <>
-      <video ref={videoElement} className={styles.qrReader} />
-      <button> Add </button>
+      {/*<video ref={videoElement} className={styles.qrReader} /> */}
+      <button
+        onClick={() =>
+          buttonOnClick('afee3f27-c355-4e40-b02d-504ee8ec1114', 'S23017374')
+        }
+      >
+        Add
+      </button>
     </>
   );
 }

@@ -13,8 +13,7 @@ export async function addBookService(bookData: BookFormData) {
       body: JSON.stringify(bookData),
     }
   );
-
-  return response.status;
+  return response;
 }
 
 export async function getBooksService() {

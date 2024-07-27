@@ -2,6 +2,7 @@ import { NavBar } from './components/NavBar/NavBar';
 import { Outlet, useLocation } from 'react-router-dom';
 import { BackIcon } from './assets/backIcon';
 import { useMemo } from 'react';
+import { Toaster } from 'sonner';
 
 const titlePaths: Record<string, string> = {
   '/': 'Mis adeudos',
@@ -48,6 +49,7 @@ export default function Layout() {
           </>
         )}
         <Outlet />
+        <Toaster />
       </main>
     </div>
   );
