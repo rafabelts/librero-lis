@@ -3,7 +3,7 @@ import { BookFormData, FormFieldProps } from '../../types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormField } from '../../components/FormField/FormField.tsx';
-import { BookSchema } from '../../utils/formSchemas';
+import { BookSchema } from '../../utils/bookSchema';
 import styles from './BookForm.module.css';
 import { BookImageSelector } from '../BookImageSelector/BookImageSelector.tsx';
 import { addBookService } from '../../services/bookServices.ts';

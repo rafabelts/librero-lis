@@ -1,8 +1,16 @@
 import { NavBar } from './components/NavBar/NavBar';
-import { Outlet, useLocation } from 'react-router-dom';
+import {
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { BackIcon } from './assets/backIcon';
-import { useMemo } from 'react';
-import { Toaster } from 'sonner';
+import { useEffect, useMemo } from 'react';
+import { toast, Toaster } from 'sonner';
+import { firebaseAuth } from './firebase_options';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useAppContext } from './context/ctxt';
 
 const titlePaths: Record<string, string> = {
   '/': 'Mis adeudos',
@@ -23,6 +31,8 @@ const hideNavBarPaths = new Set([
 ]);
 
 export default function Layout() {
+  const { userId, isAdmin } = useLoaderData();
+  const navigate = useNavigate();
   const path = useLocation().pathname;
 
   const { showNavBar, title, goBackPath } = useMemo(
@@ -37,6 +47,10 @@ export default function Layout() {
     }),
     [path]
   );
+
+  useEffect(() => {
+    if (isAdmin) navigate('/admin', { replace: true });
+  }, [isAdmin]);
 
   return (
     <div>

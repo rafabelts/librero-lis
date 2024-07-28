@@ -1,10 +1,4 @@
-import {
-  AriaAttributes,
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useState,
-} from 'react';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { BookData, CanBeNull, LoanAndBook } from '../types';
 
 export interface AppContextType {
@@ -25,7 +19,14 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
   const updateLoans = (loans: Array<LoanAndBook>) => setLoan(loans);
 
   return (
-    <AppContext.Provider value={{ books, updateBooks, loan, updateLoans }}>
+    <AppContext.Provider
+      value={{
+        books,
+        updateBooks,
+        loan,
+        updateLoans,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

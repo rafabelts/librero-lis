@@ -7,10 +7,11 @@ export const users = sqliteTable('users', {
   studentId: text('studentId').notNull().unique(),
   type: text('type').notNull(),
   name: text('name').notNull(),
+  email: text('email').notNull(),
 });
 
 export const books = sqliteTable('books', {
-  isbn: text('isbn').primaryKey(),
+  isbn: text('isbn').primaryKey().unique(),
   title: text('title').notNull(),
   author: text('author').notNull(),
   editorial: text('editorial').notNull(),
