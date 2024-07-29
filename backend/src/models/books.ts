@@ -9,7 +9,7 @@ export interface BookData {
 
 export interface BookCopy {
   id?: string;
-  inLoan: boolean;
+  inLoan?: boolean;
   bookId: string | null;
 }
 

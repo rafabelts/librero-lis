@@ -1,14 +1,15 @@
 .booksGrid {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(5, 1fr);
-    align-items: center;
-    justify-content: center;
+  display: grid;
+  width: fit-content;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 1200px) {
-    .booksGrid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2.5rem;
-    }
+  .booksGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
 }

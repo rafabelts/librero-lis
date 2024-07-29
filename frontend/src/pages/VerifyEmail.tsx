@@ -24,21 +24,27 @@ export default function VerifyEmailPage() {
   const handleClick = async () => {
     if (!isDisabled) {
       setIsDisabled(true);
-      await sendEmailVerification(firebaseAuth.currentUser!).catch((error) => {
-        console.log(error.message);
-        if (error.message.includes('too-many-requests')) {
-          toast('Error');
-        }
-      });
+
+      await sendEmailVerification(firebaseAuth.currentUser!)
+        .then(() => {
+          toast.success('Correo enviado');
+        })
+        .catch((error) => {
+          if (error.message.includes('too-many-requests')) {
+            toast('Error');
+          }
+        });
     }
   };
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <Outlet />
       <h1>Por favor verifica tu cuenta!</h1>
-      <p>Checa tu correo electronico para obtener el enlace de verificacion</p>
-      <button onClick={handleClick} disabled={isDisabled}>
+      <p style={{ marginBottom: '3rem' }}>
+        Checa tu correo electronico para obtener el enlace de verificacion
+      </p>
+      <button className="appButton" onClick={handleClick} disabled={isDisabled}>
         {isDisabled
           ? `Por favor espera: ${countdown} segundos`
           : 'Reenviar correo'}

@@ -1,24 +1,34 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../firebase_options';
 import { redirect } from 'react-router-dom';
-import { addUserService, checkIfUserIsAdmin } from '../services/userServices';
+import { addUserService, getUser } from '../services/userServices';
 
 export async function checkUser() {
-  const user: { uid: string; verified: boolean } | null = await new Promise(
-    (resolve) => {
+  const user: { uid: string; userData: any; verified: boolean } | null =
+    await new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
         unsubscribe();
 
-        resolve(user ? { uid: user.uid, verified: user.emailVerified } : null);
+        const userData = await getUser(user!.uid);
+
+        resolve(
+          user
+            ? {
+                uid: user.uid,
+                userData: userData,
+                verified: user.emailVerified,
+              }
+            : null
+        );
       });
-    }
-  );
+    });
 
-  const userIsAdmin = await checkIfUserIsAdmin(user.uid);
+  const userIsAdmin = user?.userData.type === 'admin';
+  localStorage.setItem('user', JSON.stringify(user?.userData));
 
-  if (!user?.uid) return redirect('/auth/login');
+  if (!user.userData.id) return redirect('/auth/login');
   if (!user?.verified) return redirect('/verify');
-  return { userId: user?.uid, isAdmin: userIsAdmin };
+  return { isAdmin: userIsAdmin };
 }
 
 export function checkIfUserVerified() {
@@ -37,17 +47,6 @@ export function checkIfUserVerified() {
         }
         resolve(redirect('/'));
       }
-      resolve(null);
-    });
-  });
-}
-
-export function adminLoader() {
-  return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
-      unsubscribe();
-      const userIsAdmin = await checkIfUserIsAdmin(user!.uid as string);
-      if (!userIsAdmin) resolve(redirect('/'));
       resolve(null);
     });
   });

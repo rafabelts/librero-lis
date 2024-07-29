@@ -64,7 +64,7 @@ export function SignUpForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div>
         {bookFields.map((field) => (
           <FormField
@@ -78,7 +78,13 @@ export function SignUpForm() {
           />
         ))}
       </div>
-      <button>Crear cuenta</button>
+
+      <p style={{ marginBottom: '1rem' }}>
+        Al continuar, aceptas los Términos y Condiciones, y la Política de
+        Privacidad
+      </p>
+
+      <button className="appButton">Continuar</button>
     </form>
   );
 }

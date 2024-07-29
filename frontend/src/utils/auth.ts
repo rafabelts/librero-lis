@@ -51,6 +51,7 @@ export function logIn(userData: LogInFormData) {
 export function signUserOut() {
   signOut(firebaseAuth)
     .then(() => {
+      localStorage.removeItem('userId');
       window.location.href = '/auth/login';
     })
     .catch(() => {});

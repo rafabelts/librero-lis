@@ -24,7 +24,6 @@ export interface User {
   type: string;
   name: string;
   email: string;
-  userVerified: boolean;
 }
 
 // VF for the valid form names and FD for the field values (example, the BookFormData interface)
@@ -69,10 +68,10 @@ export interface BookCopiesInfo {
   qrUrl: string;
 }
 
-export interface StudentData {
+export interface Student {
   id: string;
   name: string;
-  student_id: string;
+  studentId: string;
   debts: number;
 }
 

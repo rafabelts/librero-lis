@@ -12,9 +12,12 @@
   gap: 1rem;
 }
 
-.bookImage {
-  background: grey;
-  width: 20rem;
-  height: 25rem;
-  border-radius: 1rem;
+@media (max-width: 1200px) {
+  .headerContainer {
+    width: fit-content;
+    gap: 4rem;
+  }
+  .bookInfo {
+    font-size: 0.6rem;
+  }
 }

@@ -86,7 +86,7 @@ export function AddBookForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+    <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div className={styles.inputGrid}>
         {bookFields.map((field) => (
           <FormField
@@ -105,7 +105,8 @@ export function AddBookForm() {
         register={register}
         error={errors.bookImage}
       />
-      <button className={styles.formButton}>Agregar</button>
+
+      <button className="appButton">Agregar</button>
     </form>
   );
 }

@@ -40,7 +40,7 @@ export function LogInForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div>
         {bookFields.map((field) => (
           <FormField
@@ -54,7 +54,17 @@ export function LogInForm() {
           />
         ))}
       </div>
-      <button>Iniciar sesion</button>
+
+      <p
+        style={{
+          marginBottom: '2rem',
+          textAlign: 'right',
+          fontSize: '1.2rem',
+        }}
+      >
+        Olvido su contrasena?{' '}
+      </p>
+      <button className="appButton">Iniciar sesion</button>
     </form>
   );
 }

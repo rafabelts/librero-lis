@@ -1,8 +1,7 @@
 export interface UserData {
-    id: string;
-    studentId: string;
-    type?: string;
-    name: string;
-    email: string;
-    userVerified: boolean;
+  id?: string;
+  studentId: string;
+  name: string;
+  email: string;
+  debts?: number;
 }

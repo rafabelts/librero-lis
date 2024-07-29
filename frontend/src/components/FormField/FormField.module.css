@@ -28,3 +28,26 @@
     color: red;
     font-size: 0.8rem;
 }
+
+@media (max-width: 1200px) {
+    .input {
+        border: 0.5px solid blue;
+        font-size: 1.2rem;
+        border-radius: 0.6rem;
+        padding: 0.5rem;
+    }
+
+    .input::placeholder {
+        color: gray;
+        font-weight: 500;
+    }
+
+    .input:focus {
+        padding: 0.5rem;
+        border-radius: 0.6rem;
+    }
+
+    .errorMessage {
+        font-size: 0.7rem;
+    }
+}

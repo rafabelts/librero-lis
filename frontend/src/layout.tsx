@@ -7,9 +7,7 @@ import {
 } from 'react-router-dom';
 import { BackIcon } from './assets/backIcon';
 import { useEffect, useMemo } from 'react';
-import { toast, Toaster } from 'sonner';
-import { firebaseAuth } from './firebase_options';
-import { onAuthStateChanged } from 'firebase/auth';
+import { Toaster } from 'sonner';
 import { useAppContext } from './context/ctxt';
 
 const titlePaths: Record<string, string> = {
@@ -18,8 +16,6 @@ const titlePaths: Record<string, string> = {
   '/admin/prestamos': 'Libros en prestamo',
   '/admin/alumnos': 'Alumnos registrados',
   '/admin/agregar/libro': 'Agregar nuevo libro',
-  '/admin/devolucion': ' ',
-  '/agregar/prestamo': ' ',
   '/configuracion': 'Configuracion',
 };
 
@@ -31,7 +27,8 @@ const hideNavBarPaths = new Set([
 ]);
 
 export default function Layout() {
-  const { userId, isAdmin } = useLoaderData();
+  const { isAdmin } = useLoaderData();
+  const ctxt = useAppContext();
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -39,9 +36,14 @@ export default function Layout() {
     () => ({
       showNavBar:
         !hideNavBarPaths.has(path) && !path.startsWith('/admin/libro'),
-      title: path.startsWith('/admin/libro')
-        ? ''
-        : titlePaths[path] || 'Not Found',
+      title:
+        path.startsWith('/admin/libro') ||
+        path.includes('devolucion') ||
+        path.startsWith('/agregar/prestamo')
+          ? ''
+          : path.includes('configuracion')
+          ? 'Configuracion'
+          : titlePaths[path] || 'Not Found',
 
       goBackPath: path.includes('admin') ? '/admin' : '/',
     }),
@@ -49,7 +51,9 @@ export default function Layout() {
   );
 
   useEffect(() => {
+    ctxt?.updateUser(JSON.parse(localStorage.getItem('user')!));
     if (isAdmin) navigate('/admin', { replace: true });
+    else navigate('/', { replace: true });
   }, [isAdmin]);
 
   return (

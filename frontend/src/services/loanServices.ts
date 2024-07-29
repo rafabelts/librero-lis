@@ -29,3 +29,31 @@ export async function addLoanService(copyId: string, studentId: string) {
 
   return response.status;
 }
+
+export async function getDebts(studentId: string) {
+  const response = await fetch('http://localhost:3030/api/loans/debts', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      studentId: studentId,
+    }),
+  });
+  const data = await response.json();
+  return data.message;
+}
+
+export async function devolutionService(copyId: string) {
+  const response = await fetch('http://localhost:3030/api/loans/devolution', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      copyId: copyId,
+    }),
+  });
+
+  return response.status;
+}

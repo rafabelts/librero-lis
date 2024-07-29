@@ -8,7 +8,7 @@ export default function BookInfoPage() {
   return (
     <div className="bookInfoDiv">
       <BookInfoHeader {...headerInfo} />
-      <BookCopiesTable copiesData={copies} />
+      <BookCopiesTable bookTitle={headerInfo?.title!} copiesData={copies} />
     </div>
   );
 }

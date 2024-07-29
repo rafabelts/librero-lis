@@ -1,44 +1,73 @@
+import { name } from 'drizzle-orm';
+import { LoanDao } from '../daos/loanDao';
 import { UserDao } from '../daos/userDao';
 import { UserData } from '../models/users';
+import { LoanService } from './loanService';
 
 export class UserService {
-    private userDao: UserDao;
-    constructor() {
-        this.userDao = new UserDao();
+  private userDao: UserDao;
+  private loanService: LoanService;
+  constructor() {
+    this.userDao = new UserDao();
+    this.loanService = new LoanService();
+  }
+
+  async checkIfUserAlreadyAdded(studentId: string): Promise<boolean> {
+    try {
+      const userInDb = await this.userDao.checkIfUserAlreadyAdded(studentId);
+
+      if (userInDb) {
+        // Here we are returning a true boolean because the student is in the db
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      throw new Error(error as string);
     }
+  }
 
-    async checkIfUserAlreadyAdded(studentId: string): Promise<boolean> {
-        try {
-            const userInDb = await this.userDao.checkIfUserAlreadyAdded(studentId);
-
-            if (userInDb) {
-                // Here we are returning a true boolean because the student is in the db
-                return true;
-            }
-
-            return false;
-        } catch (error) {
-            throw new Error(error as string);
-        }
+  async getUserData(userId: string): Promise<UserData | undefined> {
+    try {
+      const userData = await this.userDao.getUserData(userId);
+      return userData;
+    } catch (error) {
+      throw new Error(error as string);
     }
+  }
 
-    async checkIfUserIsAdmin(userId: string): Promise<boolean> {
-        try {
-            const userIsAdmin = await this.userDao.checkIfUserIsAdmin(userId);
-            return userIsAdmin;
-        } catch (error) {
-            throw new Error(error as string);
-        }
+  async getStudents(userId: string): Promise<Array<UserData>> {
+    try {
+      const isAdmin = await this.userDao.checkIfUserIsAdmin(userId);
+      if (isAdmin) {
+        const usersData = await this.userDao.getStudents();
+        const userFullData = await Promise.all(
+          usersData.map(async (student) => {
+            const debts = await this.loanService.getDebts(student.studentId);
+            return {
+              studentId: student.studentId,
+              name: student.name,
+              email: student.email,
+              debts: debts.length,
+            };
+          })
+        );
+        return userFullData;
+      }
+      return [];
+    } catch (error) {
+      throw new Error(error as string);
     }
+  }
 
-    async addUser(userData: UserData): Promise<boolean> {
-        try {
-            console.log('User Added');
-            await this.userDao.addUserData(userData);
-            return true;
-        } catch (error) {
-            console.log(error);
-            throw new Error(error as string);
-        }
+  async addUser(userData: UserData): Promise<boolean> {
+    try {
+      console.log('User Added');
+      await this.userDao.addUserData(userData);
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error as string);
     }
+  }
 }

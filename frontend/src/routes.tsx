@@ -3,21 +3,20 @@ import NotFoundPage from './pages/NotFound.tsx';
 import AdminPage from './pages/Admin.tsx';
 import LoansPage from './pages/Loans.tsx';
 import Layout from './layout.tsx';
-import UserDebtsPage from './pages/UserDebts.tsx';
+import UserDebtsPage from './pages/UserLoans.tsx';
 import AddBookPage from './pages/AddBook.tsx';
 import BookInfoPage from './pages/BookInfo.tsx';
 import StudentsPage from './pages/Students.tsx';
 import BookScanner from './pages/Scanner.tsx';
 import SignUpPage from './pages/SignUp.tsx';
 import {
-  adminLoader,
   authLoader,
   checkIfUserVerified,
   checkUser,
 } from './utils/routeLoaders.ts';
-import UserSettingsPage from './pages/UserSettings.tsx';
 import LogInPage from './pages/LogIn.tsx';
 import VerifyEmailPage from './pages/VerifyEmail.tsx';
+import SettingsPage from './pages/Settings.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -34,11 +33,10 @@ export const router = createBrowserRouter([
         path: '/agregar/prestamo',
         Component: BookScanner,
       },
-      { path: 'configuracion', Component: UserSettingsPage },
+      { path: 'configuracion', Component: SettingsPage },
 
       {
         path: '/admin',
-        loader: adminLoader,
         children: [
           {
             index: true,
@@ -52,6 +50,10 @@ export const router = createBrowserRouter([
           {
             path: 'alumnos',
             Component: StudentsPage,
+          },
+          {
+            path: 'configuracion',
+            Component: SettingsPage,
           },
           {
             path: 'agregar/libro',

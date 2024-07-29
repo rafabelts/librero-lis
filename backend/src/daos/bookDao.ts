@@ -73,19 +73,7 @@ export class BookDao {
       const copiesInfo = await db.query.copies.findMany({
         where: (model, { eq }) => eq(model.bookId, isbn),
       });
-
-      const copiesWithLoanStatus = await Promise.all(
-        copiesInfo.map(async (copy) => {
-          const inLoan = await this.checkIfCopyInLoan(copy.id);
-          return {
-            id: copy.id,
-            inLoan: inLoan,
-            bookId: copy.bookId,
-          };
-        })
-      );
-
-      return copiesWithLoanStatus;
+      return copiesInfo;
     } catch (error) {
       throw new Error(`Failed to get copies: ${error}`);
     }

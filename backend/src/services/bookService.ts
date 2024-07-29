@@ -42,7 +42,18 @@ export class BookService {
 
   async getCopies(isbn: string): Promise<Array<BookCopy>> {
     try {
-      const copiesInfo = await this.bookDao.getCopies(isbn);
+      const copies = await this.bookDao.getCopies(isbn);
+
+      const copiesInfo = await Promise.all(
+        copies.map(async (copy) => {
+          const inLoan = await this.bookDao.checkIfCopyInLoan(copy.id!);
+          return {
+            id: copy.id,
+            inLoan: inLoan,
+            bookId: copy.bookId,
+          };
+        })
+      );
 
       return copiesInfo;
     } catch (error) {
