@@ -1,7 +1,6 @@
-import { z, ZodType } from 'zod';
-import { SignUpFormData } from './auth';
+import { z } from 'zod';
 
-export const signUpSchema: ZodType<SignUpFormData> = z
+export const signUpSchema = z
   .object({
     email: z
       .string()

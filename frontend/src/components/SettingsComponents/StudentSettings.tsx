@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 import { LockIcon } from '../../assets/lockIcon';
 import { PersonIcon } from '../../assets/personIcon';
-import { signUserOut } from '../../utils/auth';
-import styles from './StudentSettings.module.css';
+import { signUserOut } from '../../services/auth';
+import styles from './SettingsComponent.module.css';
 
 export function StudentSettingsComponents() {
   const user = JSON.parse(localStorage.getItem('user')!);
@@ -9,15 +10,15 @@ export function StudentSettingsComponents() {
   return (
     <div className={styles.configContainer}>
       <h2>Hola, {user.name}!</h2>
-      <span className={styles.configItem}>
+      <Link to="/configuracion/nombre" className={styles.configItem}>
         <PersonIcon />
         <p>Cambiar nombre</p>
-      </span>
+      </Link>
 
-      <span className={styles.configItem}>
+      <Link to="/configuracion/contrasena" className={styles.configItem}>
         <LockIcon />
         <p>Cambiar contraseña</p>
-      </span>
+      </Link>
 
       <div className={styles.settingsButtons}>
         <button className={styles.signOutButton} onClick={() => signUserOut()}>

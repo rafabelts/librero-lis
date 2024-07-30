@@ -4,31 +4,39 @@ import { redirect } from 'react-router-dom';
 import { addUserService, getUser } from '../services/userServices';
 
 export async function checkUser() {
-  const user: { uid: string; userData: any; verified: boolean } | null =
-    await new Promise((resolve) => {
+  const user: { uid: string; verified: boolean } | null = await new Promise(
+    (resolve) => {
       const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
         unsubscribe();
-
-        const userData = await getUser(user!.uid);
 
         resolve(
           user
             ? {
                 uid: user.uid,
-                userData: userData,
                 verified: user.emailVerified,
               }
             : null
         );
       });
-    });
+    }
+  );
 
-  const userIsAdmin = user?.userData.type === 'admin';
-  localStorage.setItem('user', JSON.stringify(user?.userData));
-
-  if (!user?.userData.id) return redirect('/auth/login');
+  const userData = await getUser(user!.uid);
+  const isAdmin = userData?.type === 'admin';
+  localStorage.setItem('user', JSON.stringify(userData));
+  if (!userData?.id) return redirect('/auth/login');
   if (!user?.verified) return redirect('/verify');
-  return { isAdmin: userIsAdmin };
+  if (isAdmin) return redirect('/admin');
+
+  return { isAdmin: isAdmin };
+}
+
+export function checkIfUserIsAdmin() {
+  const user = JSON.parse(localStorage.getItem('user')!);
+  const type = user.type;
+
+  if (type === 'admin') return null;
+  else return redirect('/');
 }
 
 export function checkIfUserVerified() {

@@ -1,6 +1,6 @@
-import { SignUpForm } from '../components/AuthForms/SignUpForm';
+import { RecoverEmailForm } from '../components/ChangeSettingsForm/RecoverEmailForm';
 
-export default function SignUpPage() {
+export default function SendRecoverEmailPage() {
   return (
     <div
       style={{
@@ -11,7 +11,7 @@ export default function SignUpPage() {
       }}
     >
       <h1> Bienvenido! Crea tu cuenta </h1>
-      <SignUpForm />
+      <RecoverEmailForm />
     </div>
   );
 }

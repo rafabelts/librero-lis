@@ -66,4 +66,14 @@ export class UserController {
         .send({ success: false, message: 'Error adding new user' });
     }
   }
+
+  async changeUserName(req: Request, res: Response) {
+    try {
+      const { newName, userId } = req.body;
+      await this.userService.changeUserName(newName, userId);
+      res.status(201).send({ success: true });
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
 }

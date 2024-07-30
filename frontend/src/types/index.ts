@@ -8,6 +8,15 @@ import {
 export type CanBeNull<T> = T | null | undefined;
 export type CanBeUndefined<T> = T | undefined;
 
+export interface User {
+  id: string;
+  studentId: string;
+  type: string;
+  name: string;
+  email: string;
+  userVerified: boolean;
+}
+
 export interface BookFormData {
   isbn: string;
   title: string;

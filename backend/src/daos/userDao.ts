@@ -74,4 +74,17 @@ export class UserDao {
       throw new Error(error as string);
     }
   }
+
+  async changeUserName(newName: string, userId: string) {
+    try {
+      await db
+        .update(users)
+        .set({
+          name: newName,
+        })
+        .where(eq(users.id, userId));
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
 }

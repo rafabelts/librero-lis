@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { FormField } from '../../components/FormField/FormField.tsx';
-import { SignUpFormData, signUp } from '../../utils/auth.ts';
+import { FormField } from '../FormField/FormField.tsx';
+import { SignUpFormData, signUp } from '../../services/auth.ts';
 import { FormFieldProps } from '../../types/index.ts';
 import { signUpSchema } from '../../utils/signUpSchema.ts';
-
+import styles from './AuthForms.module.css';
+import { Link } from 'react-router-dom';
 export function SignUpForm() {
   const {
     register,
@@ -65,7 +66,7 @@ export function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
-      <div>
+      <div className={styles.fieldsContainer}>
         {bookFields.map((field) => (
           <FormField
             key={field.name}
@@ -78,13 +79,14 @@ export function SignUpForm() {
           />
         ))}
       </div>
-
       <p style={{ marginBottom: '1rem' }}>
         Al continuar, aceptas los Términos y Condiciones, y la Política de
         Privacidad
       </p>
-
       <button className="appButton">Continuar</button>
+      <Link to="/auth/login" className={styles.navigate2}>
+        ¿Ya tienes una cuenta? Inicia sesión
+      </Link>
     </form>
   );
 }

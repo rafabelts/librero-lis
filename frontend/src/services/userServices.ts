@@ -1,5 +1,5 @@
 import { User } from '../types';
-import { SignUpFormData } from '../utils/auth';
+import { SignUpFormData } from './auth';
 
 export async function checkIfUserAlreadyAdded(studentId: string) {
   const response = await fetch(
@@ -80,6 +80,25 @@ export async function addUserService(userId: string, userData: SignUpFormData) {
         studentId: userData.studentId,
         name: userData.name,
         email: userData.email,
+      }),
+    }
+  );
+  return response;
+}
+
+export async function changeNameService(newName: string, userId: string) {
+  const response = await fetch(
+    'http://localhost:3030/api/user/change/name',
+
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        newName: newName,
+        userId: userId,
       }),
     }
   );

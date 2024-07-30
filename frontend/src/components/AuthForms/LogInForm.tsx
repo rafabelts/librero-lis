@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { FormField } from '../../components/FormField/FormField.tsx';
-import { LogInFormData, logIn } from '../../utils/auth.ts';
+import { FormField } from '../FormField/FormField.tsx';
+import { LogInFormData, logIn } from '../../services/auth.ts';
 import { FormFieldProps } from '../../types/index.ts';
 import { logInSchema } from '../../utils/logInSchema.ts';
-
+import styles from './AuthForms.module.css';
+import { Link } from 'react-router-dom';
 export function LogInForm() {
   const {
     register,
@@ -38,10 +39,9 @@ export function LogInForm() {
       error: errors.password,
     },
   ];
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
-      <div>
+      <div className={styles.fieldsContainer}>
         {bookFields.map((field) => (
           <FormField
             key={field.name}
@@ -55,16 +55,13 @@ export function LogInForm() {
         ))}
       </div>
 
-      <p
-        style={{
-          marginBottom: '2rem',
-          textAlign: 'right',
-          fontSize: '1.2rem',
-        }}
-      >
-        Olvido su contrasena?{' '}
-      </p>
+      <Link to="/auth/recuperacion" className={styles.forgotPassword}>
+        ¿Olvido su contraseña?{' '}
+      </Link>
       <button className="appButton">Iniciar sesion</button>
+      <Link to="/auth/signup" className={styles.navigate2}>
+        ¿Aún no tienes una cuenta? Crea una!
+      </Link>
     </form>
   );
 }

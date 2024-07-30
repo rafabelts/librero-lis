@@ -1,14 +1,8 @@
 import { NavBar } from './components/NavBar/NavBar';
-import {
-  Outlet,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { BackIcon } from './assets/backIcon';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Toaster } from 'sonner';
-import { useAppContext } from './context/ctxt';
 
 const titlePaths: Record<string, string> = {
   '/': 'Mis adeudos',
@@ -17,6 +11,7 @@ const titlePaths: Record<string, string> = {
   '/admin/alumnos': 'Alumnos registrados',
   '/admin/agregar/libro': 'Agregar nuevo libro',
   '/configuracion': 'Configuracion',
+  '/configuracion/nombre': 'Cambiar nombre',
 };
 
 const hideNavBarPaths = new Set([
@@ -24,11 +19,10 @@ const hideNavBarPaths = new Set([
   '/admin/libro/:isbn',
   '/admin/devolucion',
   '/agregar/prestamo',
+  '/configuracion/nombre',
 ]);
 
 export default function Layout() {
-  const { isAdmin } = useLoaderData();
-  const navigate = useNavigate();
   const path = useLocation().pathname;
 
   const { showNavBar, title, goBackPath } = useMemo(
@@ -40,7 +34,7 @@ export default function Layout() {
         path.includes('devolucion') ||
         path.startsWith('/agregar/prestamo')
           ? ''
-          : path.includes('configuracion')
+          : path === '/configuracion' || path === '/admin/configuracion'
           ? 'Configuracion'
           : titlePaths[path] || 'Not Found',
 
@@ -48,11 +42,6 @@ export default function Layout() {
     }),
     [path]
   );
-
-  useEffect(() => {
-    if (isAdmin) navigate('/admin', { replace: true });
-    else navigate('/', { replace: true });
-  }, [isAdmin]);
 
   return (
     <div>

@@ -62,11 +62,17 @@ export class UserService {
 
   async addUser(userData: UserData): Promise<boolean> {
     try {
-      console.log('User Added');
       await this.userDao.addUserData(userData);
       return true;
     } catch (error) {
-      console.log(error);
+      throw new Error(error as string);
+    }
+  }
+
+  async changeUserName(newName: string, userId: string) {
+    try {
+      await this.userDao.changeUserName(newName, userId);
+    } catch (error) {
       throw new Error(error as string);
     }
   }

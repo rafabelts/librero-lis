@@ -11,4 +11,5 @@ router.post(
 );
 router.post('/get', userController.getUserData.bind(userController));
 router.post('/users', userController.getUsers.bind(userController));
+router.post('/change/name', userController.changeUserName.bind(userController));
 export default router;
