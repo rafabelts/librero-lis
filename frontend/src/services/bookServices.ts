@@ -1,51 +1,53 @@
+import { firebaseAuth } from '../firebase_options';
 import { BookFormData } from '../types';
-
 export async function addBookService(bookData: BookFormData) {
-    const response = await fetch(
-        'http://localhost:3030/api/books/add',
+  const userId = firebaseAuth.currentUser!.uid;
 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+  const response = await fetch(
+    'http://localhost:3030/api/books/add',
 
-            body: JSON.stringify(bookData),
-        }
-    );
-    return response;
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({ userId: userId, ...bookData }),
+    }
+  );
+  return response;
 }
 
 export async function getBooksService() {
-    const response = await fetch(
-        'http://localhost:3030/api/books/get',
+  const response = await fetch(
+    'http://localhost:3030/api/books/get',
 
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }
-    );
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 
-    return response;
+  return response;
 }
 
 export async function getCopiesService(isbn: string) {
-    const response = await fetch(
-        'http://localhost:3030/api/books/get/copies',
+  const response = await fetch(
+    'http://localhost:3030/api/books/get/copies',
 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
 
-            body: JSON.stringify({
-                isbn: isbn,
-            }),
-        }
-    );
+      body: JSON.stringify({
+        isbn: isbn,
+      }),
+    }
+  );
 
-    return response;
+  return response;
 }

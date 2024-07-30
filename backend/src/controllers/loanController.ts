@@ -1,4 +1,3 @@
-import { DataForLoan } from '../models/loans';
 import { LoanService } from '../services/loanService';
 import { Request, Response } from 'express';
 export class LoanController {
@@ -15,7 +14,18 @@ export class LoanController {
 
       res.status(201).json({ success: true, message: loanData });
     } catch (error) {
-      res.status(505).send({ success: false, message: 'Error getting loans' });
+      res.status(505).send({ success: false });
+    }
+  }
+
+  async devolution(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId, copyId } = req.body;
+      await this.loanService.devolution(userId, copyId);
+      res.status(201).json({ success: true });
+    } catch (error) {
+      console.log(error);
+      res.status(505).send({ success: false });
     }
   }
 
@@ -23,9 +33,9 @@ export class LoanController {
     try {
       const loanData = req.body;
       await this.loanService.addLoan(loanData);
-      res.status(201).json({ success: true, message: 'New loan added' });
+      res.status(201).json({ success: true });
     } catch (error) {
-      res.status(505).send({ success: false, message: 'Error getting loans' });
+      res.status(505).send({ success: false });
     }
   }
 
@@ -35,18 +45,7 @@ export class LoanController {
       const debts = await this.loanService.getDebts(studentId);
       res.status(201).json({ success: true, message: debts });
     } catch (error) {
-      res.status(505).send({ success: false, message: 'Error getting debts' });
-    }
-  }
-
-  async devolution(req: Request, res: Response): Promise<void> {
-    try {
-      const { copyId } = req.body;
-      await this.loanService.devolution(copyId);
-      res.status(201).json({ success: true, message: 'Book returned' });
-    } catch (error) {
-      console.log('Error desde capa controlador: ', error);
-      res.status(505).send({ success: false, message: 'Error returning book' });
+      res.status(505).send({ success: false });
     }
   }
 }

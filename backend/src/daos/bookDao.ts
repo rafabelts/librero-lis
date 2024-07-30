@@ -4,21 +4,6 @@ import { books, copies } from '../config/db/schema';
 import { BookCopy, BookData } from '../models/books';
 
 export class BookDao {
-  async checkIfBookAlreadyInDb(isbn: string): Promise<boolean> {
-    try {
-      const bookInDb = await db.query.books.findFirst({
-        where: (model, { eq }) => eq(model.isbn, isbn),
-        columns: {
-          isbn: true,
-        },
-      });
-
-      return bookInDb ? true : false;
-    } catch (error) {
-      throw new Error(error as string);
-    }
-  }
-
   async addBook(bookData: BookData): Promise<void> {
     try {
       await db.insert(books).values({

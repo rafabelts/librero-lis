@@ -20,7 +20,6 @@ export class UserController {
     } catch (error) {
       res.status(505).send({
         success: false,
-        message: 'Error checking if user is already in db',
       });
     }
   }
@@ -34,7 +33,6 @@ export class UserController {
       console.log(error);
       res.status(505).send({
         success: false,
-        message: 'Error fetching user',
       });
     }
   }
@@ -48,7 +46,6 @@ export class UserController {
       console.log(error);
       res.status(505).send({
         success: false,
-        message: 'Error fetching users',
       });
     }
   }
@@ -58,12 +55,10 @@ export class UserController {
       const userData = req.body;
       await this.userService.addUser(userData);
       console.log('Added');
-      res.status(201).send({ success: true, message: 'Added user data' });
+      res.status(201).send({ success: true });
     } catch (error) {
       console.log(error);
-      res
-        .status(505)
-        .send({ success: false, message: 'Error adding new user' });
+      res.status(505).send({ success: false });
     }
   }
 
@@ -73,7 +68,8 @@ export class UserController {
       await this.userService.changeUserName(newName, userId);
       res.status(201).send({ success: true });
     } catch (error) {
-      throw new Error(error as string);
+      console.log(error);
+      res.status(505).send({ success: false });
     }
   }
 }
