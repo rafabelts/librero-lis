@@ -27,8 +27,7 @@ const hideNavBarPaths = new Set([
 ]);
 
 export default function Layout() {
-  const { isAdmin } = useLoaderData();
-  const ctxt = useAppContext();
+  //const { isAdmin } = useLoaderData();
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -50,11 +49,10 @@ export default function Layout() {
     [path]
   );
 
-  useEffect(() => {
-    ctxt?.updateUser(JSON.parse(localStorage.getItem('user')!));
+  /*useEffect(() => {
     if (isAdmin) navigate('/admin', { replace: true });
     else navigate('/', { replace: true });
-  }, [isAdmin]);
+  }, [isAdmin]);*/
 
   return (
     <div>
@@ -63,7 +61,7 @@ export default function Layout() {
         {!showNavBar && (
           <>
             <BackIcon path={goBackPath} />
-            <h1>{title}</h1>{' '}
+            <h1>{title}</h1>
           </>
         )}
         <Outlet />

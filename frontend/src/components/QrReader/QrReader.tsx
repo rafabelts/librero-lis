@@ -3,26 +3,30 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './QrReader.module.css';
 import { addLoanService, devolutionService } from '../../services/loanServices';
 import { toast } from 'sonner';
-import { useAppContext } from '../../context/ctxt';
+
 export function BookQrReader() {
   const scanner = useRef<QrScanner>();
   const videoElement = useRef<HTMLVideoElement>(null);
   const [qrOn, setQrOn] = useState(true);
-  const ctxt = useAppContext();
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [copyId, setCopyId] = useState<string | undefined>();
+  function onScanSuccess(result: QrScanner.ScanResult) {
+    const resultData = JSON.parse(result?.data);
 
-  function onScanSuccess() {
-    console.log('Success');
-  }
-
-  function onScanFail() {
-    console.log('Error');
+    if (resultData.copyId) {
+      setCopyId(resultData.copyId);
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+      toast.error('Error. No se encontro la copia del libro');
+    }
   }
 
   useEffect(() => {
     if (videoElement?.current && !scanner.current) {
       // Instantiate the QR Scanner
       scanner.current = new QrScanner(videoElement?.current, onScanSuccess, {
-        onDecodeError: onScanFail,
+        //        onDecodeError: onScanFail,
         // "environment" -> back camera and "user" -> front camera
         preferredCamera: 'environment',
         // Helps position a "QrFrame.svg"
@@ -48,21 +52,24 @@ export function BookQrReader() {
       }
     };
   }, []);
+
   useEffect(() => {
     if (!qrOn) {
       alert('Camara no detectada');
     }
   }, [qrOn]);
 
-  async function userButtonOnClick(copyId: string, studentId: string) {
-    const response = await addLoanService(copyId, studentId);
+  async function userButtonOnClick() {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    const studentId = user.studentId;
+    const response = await addLoanService(copyId!, studentId);
     if (response === 201) {
       window.location.href = '/';
     }
   }
 
-  async function adminButtonOnClick(copyId: string) {
-    const response = await devolutionService(copyId);
+  async function adminButtonOnClick() {
+    const response = await devolutionService(copyId!);
     if (response === 201) {
       toast.success('Loan Added');
     }
@@ -72,15 +79,12 @@ export function BookQrReader() {
 
   return (
     <>
-      {/*<video ref={videoElement} className={styles.qrReader} /> */}
+      <video ref={videoElement} className={styles.qrReader} />
       <button
+        disabled={buttonDisabled}
+        className="appButton"
         onClick={() => {
-          path.includes('admin')
-            ? adminButtonOnClick('00440f0e-1e89-44d1-9c23-45554fafe8fc')
-            : userButtonOnClick(
-                '00440f0e-1e89-44d1-9c23-45554fafe8fc',
-                ctxt?.user?.studentId as string
-              );
+          path.includes('admin') ? adminButtonOnClick() : userButtonOnClick();
         }}
       >
         Add

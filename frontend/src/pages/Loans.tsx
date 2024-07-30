@@ -9,9 +9,9 @@ export default function LoansPage() {
 
   const ctxt = useAppContext();
 
-  return ctxt?.loan.length > 0 ? (
+  return ctxt?.loan.length! > 0 ? (
     <BookList>
-      {ctxt.loan.map((loan: LoanAndBook) => (
+      {ctxt!.loan.map((loan: LoanAndBook) => (
         <BookContainer key={loan.loan.id} {...loan.book} />
       ))}
     </BookList>

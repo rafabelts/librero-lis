@@ -1,5 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { BookData, CanBeNull, LoanAndBook, User } from '../types';
+import { BookData, CanBeNull, LoanAndBook } from '../types';
 
 export interface AppContextType {
   books: Array<BookData>;
@@ -7,9 +7,6 @@ export interface AppContextType {
 
   loan: Array<LoanAndBook>;
   updateLoans: (loans: Array<LoanAndBook>) => void;
-
-  user: User | null;
-  updateUser: (user: User | null) => void;
 }
 
 const AppContext = createContext<CanBeNull<AppContextType>>(undefined);
@@ -17,11 +14,9 @@ const AppContext = createContext<CanBeNull<AppContextType>>(undefined);
 export const AppContextProvider = ({ children }: PropsWithChildren) => {
   const [books, setBooks] = useState<Array<BookData>>([]);
   const [loan, setLoan] = useState<Array<LoanAndBook>>([]);
-  const [user, setUser] = useState<User | null>(null);
 
   const updateBooks = (books: Array<BookData>) => setBooks(books);
   const updateLoans = (loans: Array<LoanAndBook>) => setLoan(loans);
-  const updateUser = (user: User | null) => setUser(user);
 
   return (
     <AppContext.Provider
@@ -30,8 +25,6 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
         updateBooks,
         loan,
         updateLoans,
-        user,
-        updateUser,
       }}
     >
       {children}

@@ -20,16 +20,11 @@ export function BookCopiesTable({
     usePagination<BookCopiesInfo>(paginationData);
 
   async function downloadQr(bookTitle: string, copyId: string) {
-    const qrCodeImage = await QRCode.toDataURL(
-      JSON.stringify({
-        title: bookTitle,
-        copyId: copyId,
-      })
-    );
+    const qrCodeImage = await QRCode.toDataURL(copyId);
 
     const link = document.createElement('a');
     link.href = qrCodeImage;
-    link.download = `QR_${bookTitle}_${copyId}.png`;
+    link.download = `QR_${bookTitle}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -50,7 +45,7 @@ export function BookCopiesTable({
             return (
               <tr key={obj.id}>
                 <td>{obj.id}</td>
-                <td>{capitalize(obj.status)}</td>
+                <td>{capitalize(obj.status!)}</td>
                 <td
                   className={styles.downloadQrButton}
                   onClick={() => downloadQr(bookTitle, obj.id)}

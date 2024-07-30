@@ -6,7 +6,6 @@ export function SettingsIcon() {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-6"
       style={{ width: '1.8rem', height: '1.8rem' }}
     >
       <path

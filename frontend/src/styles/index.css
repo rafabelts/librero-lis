@@ -41,6 +41,10 @@ h2 {
   background: blueviolet;
 }
 
+.appButton:disabled {
+  background: gray;
+}
+
 .bookImage {
   width: 20rem;
   height: 25rem;

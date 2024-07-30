@@ -26,7 +26,7 @@ export async function checkUser() {
   const userIsAdmin = user?.userData.type === 'admin';
   localStorage.setItem('user', JSON.stringify(user?.userData));
 
-  if (!user.userData.id) return redirect('/auth/login');
+  if (!user?.userData.id) return redirect('/auth/login');
   if (!user?.verified) return redirect('/verify');
   return { isAdmin: userIsAdmin };
 }

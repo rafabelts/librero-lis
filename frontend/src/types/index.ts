@@ -18,14 +18,6 @@ export interface BookFormData {
   bookImage?: string;
 }
 
-export interface User {
-  id: string;
-  studentId: string;
-  type: string;
-  name: string;
-  email: string;
-}
-
 // VF for the valid form names and FD for the field values (example, the BookFormData interface)
 export interface FormFieldProps<FD extends FieldValues> {
   type: string;
