@@ -1,5 +1,3 @@
-import { like } from 'drizzle-orm';
-import { users } from '../config/db/schema';
 import { UserService } from '../services/userService';
 import { Request, Response } from 'express';
 export class UserController {
@@ -10,55 +8,70 @@ export class UserController {
   }
 
   async checkIfUserAlreadyAdded(req: Request, res: Response) {
+    const { studentId } = req.body;
     try {
-      const { studentId } = req.body;
-
       const userAlreadyAdded =
         await this.userService.checkIfUserAlreadyAdded(studentId);
 
       res.status(201).send({ success: true, message: userAlreadyAdded });
     } catch (error) {
-      res.status(505).send({
+      res.status(500).send({
         success: false,
+        message: 'Error al checar si el estudiante ya ha sido registrado',
       });
     }
   }
 
   async getUserData(req: Request, res: Response) {
+    const { userId } = req.body;
     try {
-      const { userId } = req.body;
       const userData = await this.userService.getUserData(userId);
       res.status(201).send({ success: true, message: userData });
     } catch (error) {
-      console.log(error);
       res.status(505).send({
         success: false,
+        message: 'Error al obtener la información del usuario',
       });
     }
   }
 
-  async getUsers(req: Request, res: Response) {
+  async getStudents(req: Request, res: Response) {
     try {
       const { userId } = req.body;
       const usersData = await this.userService.getStudents(userId);
       res.status(201).send({ success: true, message: usersData });
     } catch (error) {
-      console.log(error);
-      res.status(505).send({
-        success: false,
-      });
+      const errorMessage = (error as Error).message;
+      let statusCode: number;
+      let message: string;
+
+      switch (true) {
+        case errorMessage.includes(
+          'You dont have permission to get students info'
+        ):
+          statusCode = 403;
+          message =
+            'Error. No tiene permisos para obtener la información de los usuarios';
+          break;
+        default:
+          statusCode = 500;
+          message =
+            'Se produjo un error en el servidor, intente de nuevo más tarde';
+      }
+
+      res.status(statusCode).json({ success: false, message });
     }
   }
 
   async addUser(req: Request, res: Response) {
+    const userData = req.body;
     try {
-      const userData = req.body;
       await this.userService.addUser(userData);
-      console.log('Added');
-      res.status(201).send({ success: true });
+      res.status(201).send({ success: true, message: 'Usuario agregado' });
     } catch (error) {
-      console.log(error);
-      res.status(505).send({ success: false });
+      res
+        .status(500)
+        .send({ success: false, message: 'Error al agregar usuario' });
     }
   }
 
@@ -66,10 +79,15 @@ export class UserController {
     try {
       const { newName, userId } = req.body;
       await this.userService.changeUserName(newName, userId);
-      res.status(201).send({ success: true });
+      res.status(201).send({
+        success: true,
+        message: 'Se ha cambiado el nombre de usuario',
+      });
     } catch (error) {
-      console.log(error);
-      res.status(505).send({ success: false });
+      res.status(500).send({
+        success: false,
+        message: 'Error al cambiar el nombre de usuario',
+      });
     }
   }
 }

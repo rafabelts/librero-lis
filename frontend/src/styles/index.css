@@ -41,6 +41,16 @@ h2 {
   background: blueviolet;
 }
 
+.deleteButton {
+  margin-top: 8rem;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  width: 100%;
+  border: 1px solid red;
+  background: none;
+  color: red;
+}
+
 .appButton:disabled {
   background: gray;
 }

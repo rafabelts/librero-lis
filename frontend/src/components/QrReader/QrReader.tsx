@@ -10,9 +10,9 @@ export function BookQrReader() {
   const [qrOn, setQrOn] = useState(true);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [copyId, setCopyId] = useState<string | undefined>();
+
   function onScanSuccess(result: QrScanner.ScanResult) {
     const resultData = JSON.parse(result?.data);
-
     if (resultData.copyId) {
       setCopyId(resultData.copyId);
       setButtonDisabled(false);
@@ -62,26 +62,20 @@ export function BookQrReader() {
   async function userButtonOnClick() {
     const user = JSON.parse(localStorage.getItem('user')!);
     const studentId = user.studentId;
-    const response = await addLoanService(copyId!, studentId);
-    if (response === 201) {
-      window.location.href = '/';
-    }
+    await addLoanService(copyId!, studentId);
   }
 
   async function adminButtonOnClick() {
-    const response = await devolutionService(copyId!);
-    if (response === 201) {
-      toast.success('Loan Added');
-    }
+    await devolutionService(copyId!);
   }
 
   const path = location.pathname;
 
   return (
     <>
-      <video ref={videoElement} className={styles.qrReader} />
+      {/*     <video ref={videoElement} className={styles.qrReader} /> */}
       <button
-        disabled={buttonDisabled}
+        //        disabled={buttonDisabled}
         className="appButton"
         onClick={() => {
           path.includes('admin') ? adminButtonOnClick() : userButtonOnClick();

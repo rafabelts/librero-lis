@@ -1,11 +1,10 @@
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { db } from '../config/db';
-import { books, copies, loans } from '../config/db/schema';
-import { DataForLoan, LoanAndBook, LoanData } from '../models/loans';
-import { canHaveModifiers } from 'typescript';
+import { books, copies, loans, users } from '../config/db/schema';
+import { DataForLoan, LoanAndBook } from '../models/loans';
 
 export class LoanDao {
-  async getUserLoans(studentId: string): Promise<Array<LoanAndBook>> {
+  async getUserLoans(userId: string): Promise<Array<LoanAndBook>> {
     try {
       const userLoans = await db
         .select({
@@ -22,7 +21,8 @@ export class LoanDao {
         .from(loans)
         .leftJoin(copies, eq(copies.id, loans.copyId))
         .leftJoin(books, eq(copies.bookId, books.isbn))
-        .where(eq(loans.studentId, studentId));
+        .leftJoin(users, eq(loans.studentId, users.studentId))
+        .where(eq(users.id, userId));
 
       return userLoans;
     } catch (error) {

@@ -28,12 +28,12 @@ td {
 }
 
 .backButton {
-  border: 1px solid red;
+  border: 1px solid blue;
   background: none;
 }
 
 .nextButton {
-  background: red;
+  background: blue;
   border: none;
   color: white;
 }
@@ -41,6 +41,7 @@ td {
 .backButton,
 .nextButton {
   cursor: pointer;
+  border-radius: 0.6rem;
   font-size: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -52,9 +53,11 @@ td {
   .copiesTable {
     width: fit-content;
   }
+
   th {
     font-size: 1rem;
   }
+
   td {
     font-size: 0.8rem;
   }
@@ -62,10 +65,6 @@ td {
   th,
   td {
     padding: 0.8rem;
-  }
-
-  .navContainer {
-    width: fit-content;
   }
 
   .backButton,

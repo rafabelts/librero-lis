@@ -7,6 +7,7 @@ import { FormFieldProps } from '../../types/index.ts';
 import { logInSchema } from '../../utils/logInSchema.ts';
 import styles from './AuthForms.module.css';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 export function LogInForm() {
   const {
     register,

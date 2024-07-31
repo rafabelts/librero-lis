@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { User } from '../types';
 import { SignUpFormData } from './auth';
 
@@ -17,12 +18,11 @@ export async function checkIfUserAlreadyAdded(studentId: string) {
     }
   );
 
-  if (response.status === 201) {
-    const userInDb = await response.json();
-    return userInDb.message;
-  } else {
-    return true;
-  }
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }
 
 export async function getUser(userId: string): Promise<User | null> {
@@ -37,11 +37,10 @@ export async function getUser(userId: string): Promise<User | null> {
     }),
   });
 
-  if (response.status === 201) {
-    const userData = await response.json();
-    return userData.message;
-  }
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
+  if (responseData.success) return resposeMessage;
   return null;
 }
 
@@ -56,13 +55,11 @@ export async function getUsers(userId: string) {
       userId: userId,
     }),
   });
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
-  if (response.status === 201) {
-    const userData = await response.json();
-    return userData.message;
-  } else {
-    return true;
-  }
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }
 
 export async function addUserService(userId: string, userData: SignUpFormData) {
@@ -83,7 +80,12 @@ export async function addUserService(userId: string, userData: SignUpFormData) {
       }),
     }
   );
-  return response;
+
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
 }
 
 export async function changeNameService(newName: string, userId: string) {
@@ -102,5 +104,10 @@ export async function changeNameService(newName: string, userId: string) {
       }),
     }
   );
-  return response;
+
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
 }

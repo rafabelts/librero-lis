@@ -7,12 +7,8 @@ export function useGetBook() {
 
   useEffect(() => {
     async function handleFetchBooks() {
-      const response = await getBooksService();
-
-      if (response.status === 201) {
-        const data = await response.json();
-        ctxt?.updateBooks(data.message);
-      }
+      const books = await getBooksService();
+      ctxt?.updateBooks(books);
     }
 
     handleFetchBooks();

@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import { SignUpForm } from '../components/AuthForms/SignUpForm';
 
 export default function SignUpPage() {
@@ -12,6 +13,7 @@ export default function SignUpPage() {
     >
       <h1> Bienvenido! Crea tu cuenta </h1>
       <SignUpForm />
+      <Toaster />
     </div>
   );
 }

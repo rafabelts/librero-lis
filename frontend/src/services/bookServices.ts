@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { firebaseAuth } from '../firebase_options';
 import { BookFormData } from '../types';
 export async function addBookService(bookData: BookFormData) {
@@ -15,7 +16,11 @@ export async function addBookService(bookData: BookFormData) {
       body: JSON.stringify({ userId: userId, ...bookData }),
     }
   );
-  return response;
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
 }
 
 export async function getBooksService() {
@@ -29,8 +34,11 @@ export async function getBooksService() {
       },
     }
   );
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
-  return response;
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }
 
 export async function getCopiesService(isbn: string) {
@@ -48,6 +56,9 @@ export async function getCopiesService(isbn: string) {
       }),
     }
   );
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
-  return response;
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }

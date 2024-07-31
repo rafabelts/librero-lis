@@ -1,20 +1,24 @@
+import { toast } from 'sonner';
 import { firebaseAuth } from '../firebase_options';
 
-export async function getLoansService(studentId?: string) {
+export async function getLoansService() {
+  const userId = firebaseAuth.currentUser?.uid;
   const response = await fetch('http://localhost:3030/api/loans/get', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
 
-    body: studentId
-      ? JSON.stringify({
-          studentId: studentId,
-        })
-      : null,
+    body: JSON.stringify({
+      userId: userId,
+    }),
   });
 
-  return response;
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }
 
 export async function addLoanService(copyId: string, studentId: string) {
@@ -28,8 +32,11 @@ export async function addLoanService(copyId: string, studentId: string) {
       studentId: studentId,
     }),
   });
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
-  return response.status;
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
 }
 
 export async function getDebts(studentId: string) {
@@ -42,8 +49,11 @@ export async function getDebts(studentId: string) {
       studentId: studentId,
     }),
   });
-  const data = await response.json();
-  return data.message;
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return resposeMessage;
+  return toast.error(resposeMessage);
 }
 
 export async function devolutionService(copyId: string) {
@@ -58,6 +68,9 @@ export async function devolutionService(copyId: string) {
       copyId: copyId,
     }),
   });
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
 
-  return response.status;
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
 }

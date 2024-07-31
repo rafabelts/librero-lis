@@ -1,25 +1,28 @@
+import { BookDao } from '../daos/bookDao';
 import { LoanDao } from '../daos/loanDao';
 import { UserDao } from '../daos/userDao';
-import { DataForLoan, LoanAndBook, LoanData } from '../models/loans';
+import { DataForLoan, LoanAndBook } from '../models/loans';
 
 export class LoanService {
   private loanDao: LoanDao;
+  private bookDao: BookDao;
   private userDao: UserDao;
   constructor() {
     this.loanDao = new LoanDao();
+    this.bookDao = new BookDao();
     this.userDao = new UserDao();
   }
 
-  async getLoans(studentId?: string): Promise<Array<LoanAndBook>> {
+  async getLoans(userId: string): Promise<Array<LoanAndBook>> {
     try {
-      if (studentId) {
-        const userLoansData = await this.loanDao.getUserLoans(studentId);
-        return userLoansData;
+      const isAdmin = await this.userDao.checkIfUserIsAdmin(userId);
+      if (isAdmin) {
+        const loansData = await this.loanDao.getAllLoans();
+
+        return loansData;
       }
-
-      const loansData = await this.loanDao.getAllLoans();
-
-      return loansData;
+      const userLoansData = await this.loanDao.getUserLoans(userId);
+      return userLoansData;
     } catch (error) {
       throw new Error(error as string);
     }
@@ -46,7 +49,7 @@ export class LoanService {
       const totalDebts = debts.length;
 
       if (totalDebts > 0) {
-        throw new Error(`You havent returned ${totalDebts} books`);
+        throw new Error('User have debts');
       }
       await this.loanDao.addLoan(loanData);
       return true;
@@ -56,9 +59,11 @@ export class LoanService {
   }
   async devolution(userId: string, copyId: string): Promise<void> {
     try {
-      const isAdmin = this.userDao.checkIfUserIsAdmin(userId);
+      const isAdmin = await this.userDao.checkIfUserIsAdmin(userId);
+      const copyOnLoan = await this.bookDao.checkIfCopyInLoan(copyId);
       if (!isAdmin)
-        throw new Error("You don't have permission to return a copy");
+        throw new Error("You don't have permission to return a loan");
+      if (!copyOnLoan) throw new Error('The copy is not currenly on loan');
       await this.loanDao.devolution(copyId);
     } catch (error) {
       throw new Error(error as string);

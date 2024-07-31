@@ -1,13 +1,9 @@
 import { useForm } from 'react-hook-form';
-import {
-  changeNameSchema,
-  changePasswordSchema,
-} from '../../utils/settingsSchema';
+import { changePasswordSchema } from '../../utils/settingsSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { FormFieldProps } from '../../types';
 import { FormField } from '../FormField/FormField';
-import { changeNameService } from '../../services/userServices';
 import { changePassword } from '../../services/auth';
 
 interface ChangePasswordType {

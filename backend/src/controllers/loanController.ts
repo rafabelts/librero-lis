@@ -9,33 +9,79 @@ export class LoanController {
 
   async getLoans(req: Request, res: Response): Promise<void> {
     try {
-      const { studentId } = req.body;
-      const loanData = await this.loanService.getLoans(studentId);
+      const { userId } = req.body;
+      const loanData = await this.loanService.getLoans(userId);
 
       res.status(201).json({ success: true, message: loanData });
     } catch (error) {
-      res.status(505).send({ success: false });
+      res
+        .status(500)
+        .send({ success: false, message: 'Error al obtener prestamos' });
     }
   }
 
   async devolution(req: Request, res: Response): Promise<void> {
+    const { userId, copyId } = req.body;
     try {
-      const { userId, copyId } = req.body;
       await this.loanService.devolution(userId, copyId);
-      res.status(201).json({ success: true });
+      res.status(201).json({
+        success: true,
+        message: `Se ha devuelto la copia con id ${copyId}`,
+      });
     } catch (error) {
-      console.log(error);
-      res.status(505).send({ success: false });
+      const errorMessage = (error as Error).message;
+      let statusCode: number;
+      let message: string;
+      switch (true) {
+        case errorMessage.includes('The copy is not currenly on loan'):
+          statusCode = 404;
+          message = `Error. La copia ${copyId} no está en prestamo`;
+          break;
+        case errorMessage.includes(
+          "You don't have permission to return a loan"
+        ):
+          statusCode = 403;
+          message = 'Error. No tiene los permisos para devolver un prestamo';
+          break;
+        default:
+          statusCode = 500;
+          message =
+            'Se produjo un error en el servidor, intente de nuevo más tarde';
+      }
+
+      res.status(statusCode).json({ success: false, message });
     }
   }
 
   async addLoan(req: Request, res: Response): Promise<void> {
+    const loanData = req.body;
     try {
-      const loanData = req.body;
       await this.loanService.addLoan(loanData);
-      res.status(201).json({ success: true });
+      res
+        .status(201)
+        .json({ success: true, message: 'Se ha agregado un nuevo prestamo' });
     } catch (error) {
-      res.status(505).send({ success: false });
+      const errorMessage = (error as Error).message;
+      let statusCode: number;
+      let message: string;
+
+      switch (true) {
+        case errorMessage.includes('UNIQUE constraint failed'):
+          statusCode = 409;
+          message = `Error. La copia ${loanData.copyId} ya se encuentra en prestamo`;
+          break;
+        case errorMessage.includes('User have debts'):
+          statusCode = 403;
+          message =
+            'Error. Devuelve tus adeudos para poder sacar un nuevo prestamo';
+          break;
+        default:
+          statusCode = 500;
+          message =
+            'Se produjo un error en el servidor, intente de nuevo más tarde';
+      }
+
+      res.status(statusCode).json({ success: false, message });
     }
   }
 
@@ -45,7 +91,9 @@ export class LoanController {
       const debts = await this.loanService.getDebts(studentId);
       res.status(201).json({ success: true, message: debts });
     } catch (error) {
-      res.status(505).send({ success: false });
+      res
+        .status(500)
+        .send({ success: false, message: 'Error al obtener deudas' });
     }
   }
 }

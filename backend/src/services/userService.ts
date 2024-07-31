@@ -53,8 +53,9 @@ export class UserService {
           })
         );
         return userFullData;
+      } else {
+        throw new Error('You dont have permission to get students info');
       }
-      return [];
     } catch (error) {
       throw new Error(error as string);
     }

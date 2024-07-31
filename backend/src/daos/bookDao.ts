@@ -1,4 +1,3 @@
-import { eq } from 'drizzle-orm';
 import { db } from '../config/db';
 import { books, copies } from '../config/db/schema';
 import { BookCopy, BookData } from '../models/books';

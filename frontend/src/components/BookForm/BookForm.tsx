@@ -7,7 +7,8 @@ import { BookSchema } from '../../utils/bookSchema';
 import styles from './BookForm.module.css';
 import { BookImageSelector } from '../BookImageSelector/BookImageSelector.tsx';
 import { addBookService } from '../../services/bookServices.ts';
-import { toast } from 'sonner';
+import { Toaster } from 'sonner';
+
 export function AddBookForm() {
   const {
     register,
@@ -22,20 +23,8 @@ export function AddBookForm() {
     },
   });
 
-  const onSubmit = async (data: BookFormData) => {
-    try {
-      const response = await addBookService(data);
-      if (response.status === 201) {
-        const canAddData = await response.json();
-
-        if (canAddData.message) toast.success('Libro agregado');
-        else toast.error('Error. No se puede agregar el mismo libro 2 veces');
-      } else {
-        toast.error('Error al agregar libro');
-      }
-    } catch (e) {
-      toast.error('Error al agregar libro');
-    }
+  const onSubmit = (data: BookFormData) => {
+    addBookService(data);
   };
 
   const bookFields: Array<FormFieldProps<BookFormData>> = [
@@ -107,6 +96,7 @@ export function AddBookForm() {
       />
 
       <button className="appButton">Agregar</button>
+      <Toaster />
     </form>
   );
 }

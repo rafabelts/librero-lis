@@ -8,8 +8,8 @@ export function useGetStudents() {
 
   useEffect(() => {
     async function handleStudentsFetch(userId: string) {
-      const data = await getUsers(userId);
-      setStudents(data);
+      const students = await getUsers(userId);
+      setStudents(students);
     }
 
     handleStudentsFetch(userId);
