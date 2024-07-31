@@ -73,9 +73,9 @@ export function BookQrReader() {
 
   return (
     <>
-      {/*     <video ref={videoElement} className={styles.qrReader} /> */}
+      <video ref={videoElement} className={styles.qrReader} />
       <button
-        //        disabled={buttonDisabled}
+        disabled={buttonDisabled}
         className="appButton"
         onClick={() => {
           path.includes('admin') ? adminButtonOnClick() : userButtonOnClick();
