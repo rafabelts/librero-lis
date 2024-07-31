@@ -66,7 +66,6 @@ export interface BookCopiesInfo {
   id: string;
   status?: 'disponible' | 'en prestamo';
   inLoan?: boolean;
-  qrUrl: string;
 }
 
 export interface Student {

@@ -32,7 +32,6 @@ export function useSetBookData() {
           return {
             id: copy.id,
             status: copy.inLoan ? 'en prestamo' : 'disponible',
-            qrUrl: ' ',
           };
         })
       );
