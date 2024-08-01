@@ -19,12 +19,12 @@ const navItems: Record<string, Array<NavItemType>> = {
       text: 'Agregar Préstamo',
       path: '/agregar/prestamo',
       icon: <QrIcon />,
-      className: styles.addLoanButton,
+      className: styles.addButton,
     },
   ],
   admin: [
     { text: 'Inicio', path: '/admin', icon: <HomeIcon /> },
-    { text: 'Prestamos', path: '/admin/prestamos', icon: <LoansIcon /> },
+    { text: 'Préstamos', path: '/admin/prestamos', icon: <LoansIcon /> },
     { text: 'Alumnos', path: '/admin/alumnos', icon: <PersonIcon /> },
     {
       text: 'Configuración',
@@ -35,13 +35,13 @@ const navItems: Record<string, Array<NavItemType>> = {
       text: 'Agregar libro',
       path: '/admin/agregar/libro',
       icon: <AddIcon />,
-      className: styles.addLoanButton,
+      className: styles.addButton,
     },
     {
       text: 'Devolver Préstamo',
       path: '/admin/devolucion',
       icon: <QrIcon />,
-      className: styles.addLoanButton,
+      className: styles.addButton,
     },
   ],
 };

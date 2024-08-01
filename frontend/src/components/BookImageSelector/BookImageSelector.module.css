@@ -1,57 +1,58 @@
 .selectorContainer {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    gap: 10%;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    height: fit-content;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  gap: 10%;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  height: fit-content;
 }
 
 .imageButton {
-    background: blue;
-    padding: 1rem;
-    width: auto;
-    border: none;
-    border-radius: 0.8rem;
-    color: white;
+  width: 100%;
+  padding: 1rem;
+  width: auto;
+  border: none;
+  border-radius: 0.8rem;
+  color: white;
+  background: var(--secondary-filled-button-color);
 }
 
 .inputContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .errorMessage {
-    margin-top: auto;
-    color: red;
-    font-size: 0.8rem;
+  margin-top: auto;
+  color: red;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 1200px) {
-    .selectorContainer {
-        gap: 10%;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        height: fit-content;
-    }
+  .selectorContainer {
+    gap: 10%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: fit-content;
+  }
 
-    .inputContainer {
-        height: 13.125rem;
-        display: flex;
-        flex-direction: column;
-    }
+  .inputContainer {
+    height: 13.125rem;
+    display: flex;
+    flex-direction: column;
+  }
 }

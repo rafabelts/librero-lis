@@ -2,7 +2,7 @@
     width: 100%;
     justify-content: center;
     margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 th {
@@ -17,36 +17,13 @@ td {
 }
 
 .downloadQrButton {
-    color: red;
+    color: var(--secondary-filled-button-color);
 }
 
 .navContainer {
     display: flex;
     justify-content: end;
-    margin-top: 2rem;
     gap: 1rem;
-}
-
-.backButton {
-    border: 1px solid blue;
-    background: none;
-}
-
-.nextButton {
-    background: blue;
-    border: none;
-    color: white;
-}
-
-.backButton,
-.nextButton {
-    cursor: pointer;
-    border-radius: 0.6rem;
-    font-size: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-right: 4rem;
-    padding-left: 4rem;
 }
 
 @media (max-width: 1200px) {
@@ -65,13 +42,5 @@ td {
     th,
     td {
         padding: 0.8rem;
-    }
-
-    .backButton,
-    .nextButton {
-        cursor: pointer;
-        font-size: 0.7rem;
-        padding-right: 1rem;
-        padding-left: 1rem;
     }
 }

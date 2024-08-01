@@ -2,12 +2,14 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .infoContainer {
     position: absolute;
-    background-color: blue;
-    color: #fff;
+    background-color: var(--book-info-container-color);
+    color: black;
     padding: 10px;
     bottom: 0;
     left: 0;

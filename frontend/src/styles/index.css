@@ -2,6 +2,16 @@
 
 :root {
     --font: 'Lato', sans-serif;
+    --danger-color: rgba(205, 47, 27, 1);
+    --primary-filled-button-color: rgba(24, 82, 157, 1);
+    --primary-filled-button-hover: rgba(24, 82, 157, 0.9);
+    --secondary-filled-button-color: rgba(28, 123, 61, 1);
+    --secondary-filled-button-hover: rgba(28, 123, 61, 0.9);
+    --light-gray: rgba(200, 199, 204, 1);
+    --input: rgba(113, 111, 122, 1);
+    --input-focus: rgba(22, 75, 143, 1);
+    --table-item: rgba(28, 123, 61, 0.2);
+    --book-info-container-color: rgba(232, 238, 245, 1);
 }
 
 * {
@@ -31,14 +41,23 @@ h2 {
 }
 
 .appButton {
+    border: none;
     width: 100%;
     padding: 0.75rem;
-    border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.4rem;
     font-size: 1rem;
     font-weight: 500;
     color: white;
-    background: blueviolet;
+    background: var(--primary-filled-button-color);
+}
+
+.appButton:hover {
+    background: var(--primary-filled-button-hover);
+    cursor: pointer;
+}
+
+.appButton:disabled {
+    background: gray;
 }
 
 .dangerZoneButtons {
@@ -57,19 +76,19 @@ h2 {
 }
 
 .dangerButton {
-    background: red;
+    background: var(--danger-color);
     border: none;
     color: white;
 }
 
 .dangerButtonOutlined {
-    border: 1px solid red;
+    border: 1px solid var(--danger-color);
     background: none;
     color: red;
 }
 
-.appButton:disabled {
-    background: gray;
+.dangerButtonOutlined:hover {
+    cursor: pointer;
 }
 
 .bookImage {
@@ -79,7 +98,7 @@ h2 {
 }
 
 .noBookImage {
-    background: grey;
+    background: var(--light-gray);
     width: 15rem;
     height: 18rem;
     border-radius: 1rem;
@@ -134,7 +153,6 @@ h2 {
     .noBookImage {
         height: 13.125rem;
         width: 10.125rem;
-        background: grey;
     }
 
     .bookInfoDiv {

@@ -10,6 +10,7 @@ export function VisibleIcon({ onClick }: { onClick: () => void }) {
       style={{
         width: '1.8rem',
         height: '1.8rem',
+        color: 'var(--primary-filled-button-hover)',
       }}
     >
       <path
@@ -38,6 +39,7 @@ export function NotVisibleIcon({ onClick }: { onClick: () => void }) {
       style={{
         width: '1.8rem',
         height: '1.8rem',
+        color: 'var(--primary-filled-button-hover)',
       }}
     >
       <path

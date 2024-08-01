@@ -83,7 +83,10 @@ export function SignUpForm() {
             ],
           };
 
-          const [visible, setVisible] = passwordStates[field.name];
+          const [visible, setVisible] = passwordStates[field.name] ?? [
+            false,
+            () => {},
+          ];
 
           return (
             <div

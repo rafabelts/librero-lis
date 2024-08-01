@@ -16,7 +16,16 @@ export async function deleteBookService(bookIsbn: string) {
   const responseData = await response.json();
   const resposeMessage = responseData.message;
 
-  if (responseData.success) return toast.success(resposeMessage);
+  if (responseData.success) {
+    window.location.href = '/admin';
+
+    localStorage.setItem(
+      'showToast',
+      JSON.stringify({ show: true, message: resposeMessage })
+    );
+
+    return null;
+  }
   return toast.error(resposeMessage);
 }
 

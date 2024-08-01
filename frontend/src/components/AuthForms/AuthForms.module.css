@@ -9,10 +9,12 @@
     display: flex;
     justify-content: end;
     margin-bottom: 2rem;
-    color: violet;
+    text-decoration: none;
+    color: var(--secondary-filled-button-hover);
 }
 
 .navigate2 {
     text-decoration: none;
     text-align: center;
+    color: var(--input-focus);
 }

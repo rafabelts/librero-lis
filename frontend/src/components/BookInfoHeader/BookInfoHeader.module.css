@@ -14,7 +14,7 @@
 @media (max-width: 1200px) {
     .headerContainer {
         width: fit-content;
-        gap: 0.5rem;
+        gap: 64px;
     }
 
     .bookInfo {

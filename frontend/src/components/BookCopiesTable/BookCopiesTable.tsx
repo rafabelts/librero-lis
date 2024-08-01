@@ -4,6 +4,7 @@ import styles from './BookCopiesTable.module.css';
 import { capitalize } from '../../utils/capitalize';
 import QRCode from 'qrcode';
 import { useAppContext } from '../../context/ctxt';
+import { BackPageIcon, NextPageIcon } from '../../assets/paginationIcons';
 
 export function BookCopiesTable({
   bookTitle,
@@ -51,7 +52,9 @@ export function BookCopiesTable({
                 onClick={() => ctxt?.updateCopySelected(obj.id ?? null)}
                 style={
                   ctxt?.copySelected === obj.id
-                    ? { backgroundColor: 'red' }
+                    ? {
+                        backgroundColor: 'var(--table-item)',
+                      }
                     : {}
                 }
               >
@@ -69,12 +72,8 @@ export function BookCopiesTable({
         </tbody>
       </table>
       <div className={styles.navContainer}>
-        <button className={styles.backButton} onClick={goToPrevPage}>
-          Anterior
-        </button>
-        <button className={styles.nextButton} onClick={goToNextPage}>
-          Siguiente
-        </button>
+        <BackPageIcon onClick={goToPrevPage} />
+        <NextPageIcon onClick={goToNextPage} />
       </div>
     </div>
   );

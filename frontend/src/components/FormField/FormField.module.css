@@ -6,20 +6,19 @@
 .input {
     border: none;
     font-size: 1.2rem;
-    color: black;
+    color: var(--input-focus);
     font-weight: 400;
     padding: 1rem;
 }
 
 .input::placeholder {
-    color: gray;
+    color: var(--input);
     font-weight: 500;
 }
 
 .input:focus {
-    border: 1px solid blue;
+    outline: none;
     padding: 1rem;
-    border-radius: 1rem;
 }
 
 .errorMessage {
@@ -31,24 +30,26 @@
 
 @media (max-width: 1200px) {
     .input {
-        border: 0.5px solid blue;
+        border: 0.5px solid var(--input);
         font-size: 1.2rem;
         border-radius: 0.6rem;
         padding: 0.5rem;
     }
 
     .input::placeholder {
-        color: gray;
+        color: var(--input);
         font-weight: 500;
     }
 
     .input:focus {
+        outline: 1px solid var(--input-focus);
         padding: 0.5rem;
         border-radius: 0.6rem;
     }
 
     .errorMessage {
         font-size: 0.7rem;
+        color: var(--danger-color);
         margin-left: 0.8rem;
     }
 }
