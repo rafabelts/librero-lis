@@ -9,7 +9,7 @@ export function BookInfoHeader(headerInfo: BookData) {
         <p>ISBN: {headerInfo.isbn}</p>
         <p>Autor(es): {headerInfo.author}</p>
         <p>Editorial: {headerInfo.editorial}</p>
-        <p>Ano publicacion: {headerInfo.publicationYear}</p>
+        <p>Año de publicación: {headerInfo.publicationYear}</p>
       </div>
       <div className="noBookImage" />
     </div>

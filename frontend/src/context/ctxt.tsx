@@ -7,6 +7,9 @@ export interface AppContextType {
 
   loan: Array<LoanAndBook>;
   updateLoans: (loans: Array<LoanAndBook>) => void;
+
+  copySelected: CanBeNull<string>;
+  updateCopySelected: (copy: CanBeNull<string>) => void;
 }
 
 const AppContext = createContext<CanBeNull<AppContextType>>(undefined);
@@ -14,10 +17,10 @@ const AppContext = createContext<CanBeNull<AppContextType>>(undefined);
 export const AppContextProvider = ({ children }: PropsWithChildren) => {
   const [books, setBooks] = useState<Array<BookData>>([]);
   const [loan, setLoan] = useState<Array<LoanAndBook>>([]);
-
+  const [copySelected, setCopySelected] = useState<CanBeNull<string>>(null);
   const updateBooks = (books: Array<BookData>) => setBooks(books);
   const updateLoans = (loans: Array<LoanAndBook>) => setLoan(loans);
-
+  const updateCopySelected = (copy: CanBeNull<string>) => setCopySelected(copy);
   return (
     <AppContext.Provider
       value={{
@@ -25,6 +28,8 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
         updateBooks,
         loan,
         updateLoans,
+        copySelected,
+        updateCopySelected,
       }}
     >
       {children}

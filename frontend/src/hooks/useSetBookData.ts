@@ -6,8 +6,10 @@ import { useParams } from 'react-router-dom';
 
 export function useSetBookData() {
   const { isbn } = useParams();
-  const [copies, setCopies] = useState<Array<BookCopiesInfo>>([]);
-  const [headerInfo, setHeaderInfo] = useState<BookData>();
+  const [bookInfo, setBookInfo] = useState<{
+    headerInfo: BookData;
+    copies: Array<BookCopiesInfo>;
+  }>();
   const ctxt = useAppContext();
 
   useEffect(() => {
@@ -17,31 +19,28 @@ export function useSetBookData() {
       const copies = await getCopiesService(isbn);
       // Added header info
       if (book) {
-        setHeaderInfo({
-          title: book.title,
-          isbn: book.isbn,
-          author: book.author,
-          editorial: book.editorial,
-          publicationYear: book.publicationYear,
+        setBookInfo({
+          headerInfo: {
+            title: book.title,
+            isbn: book.isbn,
+            author: book.author,
+            editorial: book.editorial,
+            publicationYear: book.publicationYear,
+          },
+          copies: copies.map((copy: BookCopiesInfo) => {
+            return {
+              id: copy.id,
+              status: copy.inLoan ? 'en préstamo' : 'disponible',
+            };
+          }),
         });
       }
-
-      // Fetching copies
-      setCopies(
-        copies.map((copy: BookCopiesInfo) => {
-          return {
-            id: copy.id,
-            status: copy.inLoan ? 'en prestamo' : 'disponible',
-          };
-        })
-      );
     }
 
     handleFetchCopies(isbn!);
   }, []);
-
   return {
-    copies,
-    headerInfo,
+    isbn,
+    bookInfo,
   };
 }

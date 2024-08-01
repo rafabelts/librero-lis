@@ -8,9 +8,6 @@ export async function checkUser() {
     (resolve) => {
       const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
         unsubscribe();
-        if (!user) {
-          resolve(redirect('/auth/login'));
-        }
         resolve(
           user
             ? {
@@ -22,7 +19,7 @@ export async function checkUser() {
       });
     }
   );
-
+  if (!user) return redirect('/auth/login');
   const userData = await getUser(user!.uid);
   const isAdmin = userData?.type === 'admin';
   localStorage.setItem('user', JSON.stringify(userData));

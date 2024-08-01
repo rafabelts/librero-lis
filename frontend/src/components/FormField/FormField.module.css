@@ -5,7 +5,7 @@
 
 .input {
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: black;
     font-weight: 400;
     padding: 1rem;
@@ -49,5 +49,6 @@
 
     .errorMessage {
         font-size: 0.7rem;
+        margin-left: 0.8rem;
     }
 }

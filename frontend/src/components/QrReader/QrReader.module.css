@@ -1,11 +1,12 @@
 .qrReader {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 35rem;
+    margin-bottom: 1rem;
 }
 
 @media only screen and (max-width: 1200px) {
-  .qrReader {
-    width: 100%;
-    height: 30rem;
-  }
+    .qrReader {
+        width: 100%;
+        height: 30rem;
+    }
 }

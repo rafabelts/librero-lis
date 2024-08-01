@@ -22,7 +22,7 @@ export function ChangeNameForm() {
     await changeNameService(data.name, user.id);
   };
 
-  const bookFields: Array<FormFieldProps<ChangeName>> = [
+  const nameField: Array<FormFieldProps<ChangeName>> = [
     {
       type: 'text',
       placeholder: 'Nuevo nombre',
@@ -33,9 +33,13 @@ export function ChangeNameForm() {
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="formContainer"
+      style={{ marginTop: '1rem' }}
+    >
       <div style={{ marginBottom: '1rem' }}>
-        {bookFields.map((field) => (
+        {nameField.map((field) => (
           <FormField
             key={field.name}
             type={field.type}

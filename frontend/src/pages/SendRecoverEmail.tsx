@@ -1,3 +1,4 @@
+import { BackIcon } from '../assets/backIcon';
 import { RecoverEmailForm } from '../components/ChangeSettingsForm/RecoverEmailForm';
 
 export default function SendRecoverEmailPage() {
@@ -6,11 +7,12 @@ export default function SendRecoverEmailPage() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: '1rem',
+        gap: '2rem',
         padding: '1rem',
       }}
     >
-      <h1> Bienvenido! Crea tu cuenta </h1>
+      <BackIcon path="/auth/login" />
+      <h1> Por favor, ingresa tu correo electrónico </h1>
       <RecoverEmailForm />
     </div>
   );

@@ -7,7 +7,9 @@ import { FormFieldProps } from '../../types/index.ts';
 import { logInSchema } from '../../utils/logInSchema.ts';
 import styles from './AuthForms.module.css';
 import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
+import { useState } from 'react';
+import { NotVisibleIcon, VisibleIcon } from '../../assets/visibiltyIcons.tsx';
+
 export function LogInForm() {
   const {
     register,
@@ -24,17 +26,19 @@ export function LogInForm() {
     });
   };
 
-  const bookFields: Array<FormFieldProps<LogInFormData>> = [
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const logInFields: Array<FormFieldProps<LogInFormData>> = [
     {
       type: 'email',
-      placeholder: 'Correo electronico',
+      placeholder: 'Correo institucional',
       name: 'email',
       register: register,
       error: errors.email,
     },
     {
-      type: 'text',
-      placeholder: 'Contrasena',
+      type: passwordVisible ? 'text' : 'password',
+      placeholder: 'Contraseña',
       name: 'password',
       register: register,
       error: errors.password,
@@ -43,25 +47,39 @@ export function LogInForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div className={styles.fieldsContainer}>
-        {bookFields.map((field) => (
-          <FormField
+        {logInFields.map((field) => (
+          <div
             key={field.name}
-            type={field.type}
-            placeholder={field.placeholder}
-            name={field.name}
-            register={field.register}
-            error={field.error}
-            valueAsNumber={field.valueAsNumber}
-          />
+            className={field.name === 'password' ? 'passwordField' : ''}
+          >
+            <FormField
+              type={field.type}
+              placeholder={field.placeholder}
+              name={field.name}
+              register={field.register}
+              error={field.error}
+              valueAsNumber={field.valueAsNumber}
+            />
+            {field.name === 'password' &&
+              (passwordVisible ? (
+                <VisibleIcon
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                />
+              ) : (
+                <NotVisibleIcon
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                />
+              ))}
+          </div>
         ))}
       </div>
 
       <Link to="/auth/recuperacion" className={styles.forgotPassword}>
-        ¿Olvido su contraseña?{' '}
+        ¿Olvidó su contraseña?
       </Link>
-      <button className="appButton">Iniciar sesion</button>
+      <button className="appButton">Iniciar sesión</button>
       <Link to="/auth/signup" className={styles.navigate2}>
-        ¿Aún no tienes una cuenta? Crea una!
+        ¿Aún no tienes una cuenta? ¡Crea una!
       </Link>
     </form>
   );

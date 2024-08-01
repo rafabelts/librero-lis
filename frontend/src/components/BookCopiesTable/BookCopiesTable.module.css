@@ -1,77 +1,77 @@
 .copiesTable {
-  width: 100%;
-  justify-content: center;
-  margin-top: 4rem;
+    width: 100%;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 th {
-  font-size: 1.5rem;
-  background-color: #04aa6d;
+    font-size: 1.2rem;
 }
 
 th,
 td {
-  padding: 1.5rem;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 .downloadQrButton {
-  color: red;
+    color: red;
 }
 
 .navContainer {
-  display: flex;
-  justify-content: end;
-  margin-top: 2rem;
-  gap: 1rem;
+    display: flex;
+    justify-content: end;
+    margin-top: 2rem;
+    gap: 1rem;
 }
 
 .backButton {
-  border: 1px solid blue;
-  background: none;
+    border: 1px solid blue;
+    background: none;
 }
 
 .nextButton {
-  background: blue;
-  border: none;
-  color: white;
+    background: blue;
+    border: none;
+    color: white;
 }
 
 .backButton,
 .nextButton {
-  cursor: pointer;
-  border-radius: 0.6rem;
-  font-size: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-right: 4rem;
-  padding-left: 4rem;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 4rem;
+    padding-left: 4rem;
 }
 
 @media (max-width: 1200px) {
-  .copiesTable {
-    width: fit-content;
-  }
+    .copiesTable {
+        width: fit-content;
+    }
 
-  th {
-    font-size: 1rem;
-  }
+    th {
+        font-size: 1rem;
+    }
 
-  td {
-    font-size: 0.8rem;
-  }
+    td {
+        font-size: 0.8rem;
+    }
 
-  th,
-  td {
-    padding: 0.8rem;
-  }
+    th,
+    td {
+        padding: 0.8rem;
+    }
 
-  .backButton,
-  .nextButton {
-    cursor: pointer;
-    font-size: 0.7rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
+    .backButton,
+    .nextButton {
+        cursor: pointer;
+        font-size: 0.7rem;
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
 }

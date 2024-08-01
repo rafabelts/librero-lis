@@ -17,7 +17,8 @@ export class UserController {
     } catch (error) {
       res.status(500).send({
         success: false,
-        message: 'Error al checar si el estudiante ya ha sido registrado',
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
       });
     }
   }
@@ -30,7 +31,8 @@ export class UserController {
     } catch (error) {
       res.status(505).send({
         success: false,
-        message: 'Error al obtener la información del usuario',
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
       });
     }
   }
@@ -67,11 +69,15 @@ export class UserController {
     const userData = req.body;
     try {
       await this.userService.addUser(userData);
-      res.status(201).send({ success: true, message: 'Usuario agregado' });
-    } catch (error) {
       res
-        .status(500)
-        .send({ success: false, message: 'Error al agregar usuario' });
+        .status(201)
+        .send({ success: true, message: 'Nuevo usuario agregado' });
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
+      });
     }
   }
 
@@ -86,7 +92,8 @@ export class UserController {
     } catch (error) {
       res.status(500).send({
         success: false,
-        message: 'Error al cambiar el nombre de usuario',
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
       });
     }
   }

@@ -7,6 +7,8 @@ import { FormFieldProps } from '../../types/index.ts';
 import { signUpSchema } from '../../utils/signUpSchema.ts';
 import styles from './AuthForms.module.css';
 import { Link } from 'react-router-dom';
+import { NotVisibleIcon, VisibleIcon } from '../../assets/visibiltyIcons.tsx';
+import { Dispatch, SetStateAction, useState } from 'react';
 export function SignUpForm() {
   const {
     register,
@@ -26,10 +28,13 @@ export function SignUpForm() {
     });
   };
 
-  const bookFields: Array<FormFieldProps<SignUpFormData>> = [
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const signUpFields: Array<FormFieldProps<SignUpFormData>> = [
     {
       type: 'email',
-      placeholder: 'Correo electronico',
+      placeholder: 'Correo institucional',
       name: 'email',
       register: register,
       error: errors.email,
@@ -43,21 +48,21 @@ export function SignUpForm() {
     },
     {
       type: 'text',
-      placeholder: 'Matricula',
+      placeholder: 'Matrícula',
       name: 'studentId',
       register: register,
       error: errors.studentId,
     },
     {
-      type: 'text',
-      placeholder: 'Contrasena',
+      type: passwordVisible ? 'text' : 'password',
+      placeholder: 'Contraseña',
       name: 'password',
       register: register,
       error: errors.password,
     },
     {
-      type: 'text',
-      placeholder: 'Confirmar contrasena',
+      type: confirmPasswordVisible ? 'text' : 'password',
+      placeholder: 'Confirmar contraseña',
       name: 'confirmPassword',
       register: register,
       error: errors.confirmPassword,
@@ -67,17 +72,46 @@ export function SignUpForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div className={styles.fieldsContainer}>
-        {bookFields.map((field) => (
-          <FormField
-            key={field.name}
-            type={field.type}
-            placeholder={field.placeholder}
-            name={field.name}
-            register={field.register}
-            error={field.error}
-            valueAsNumber={field.valueAsNumber}
-          />
-        ))}
+        {signUpFields.map((field) => {
+          const passwordStates: {
+            [key: string]: [boolean, Dispatch<SetStateAction<boolean>>];
+          } = {
+            password: [passwordVisible, setPasswordVisible],
+            confirmPassword: [
+              confirmPasswordVisible,
+              setConfirmPasswordVisible,
+            ],
+          };
+
+          const [visible, setVisible] = passwordStates[field.name];
+
+          return (
+            <div
+              key={field.name}
+              className={
+                field.name === 'password' || field.name === 'confirmPassword'
+                  ? 'passwordField'
+                  : ''
+              }
+            >
+              <FormField
+                type={field.type}
+                placeholder={field.placeholder}
+                name={field.name}
+                register={field.register}
+                error={field.error}
+                valueAsNumber={field.valueAsNumber}
+              />
+              {(field.name === 'password' ||
+                field.name === 'confirmPassword') &&
+                (visible ? (
+                  <VisibleIcon onClick={() => setVisible(!visible)} />
+                ) : (
+                  <NotVisibleIcon onClick={() => setVisible(!visible)} />
+                ))}
+            </div>
+          );
+        })}
       </div>
       <p style={{ marginBottom: '1rem' }}>
         Al continuar, aceptas los Términos y Condiciones, y la Política de

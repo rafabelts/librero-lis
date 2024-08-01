@@ -64,7 +64,7 @@ export interface BookInfo {
 
 export interface BookCopiesInfo {
   id: string;
-  status?: 'disponible' | 'en prestamo';
+  status?: 'disponible' | 'en préstamo';
   inLoan?: boolean;
 }
 

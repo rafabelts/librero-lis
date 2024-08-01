@@ -11,6 +11,7 @@ export default function UserDebtsPage() {
   const ctxt = useAppContext();
   const user = JSON.parse(localStorage.getItem('user')!);
   const studentId = user.studentId;
+
   useGetLoans(studentId);
 
   const debts = useGetDebts(studentId);

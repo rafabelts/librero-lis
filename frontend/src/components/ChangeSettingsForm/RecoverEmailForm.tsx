@@ -21,10 +21,10 @@ export function RecoverEmailForm() {
     sendRecoverEmail(data.email);
   };
 
-  const bookFields: Array<FormFieldProps<RecoverEmail>> = [
+  const emailField: Array<FormFieldProps<RecoverEmail>> = [
     {
       type: 'email',
-      placeholder: 'Correo electronico',
+      placeholder: 'Correo electrónico',
       name: 'email',
       register: register,
       error: errors.email,
@@ -34,7 +34,7 @@ export function RecoverEmailForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="formContainer">
       <div style={{ marginBottom: '1rem' }}>
-        {bookFields.map((field) => (
+        {emailField.map((field) => (
           <FormField
             key={field.name}
             type={field.type}
@@ -47,7 +47,7 @@ export function RecoverEmailForm() {
         ))}
       </div>
 
-      <button className="appButton">Enviar correo confirmación</button>
+      <button className="appButton">Enviar correo</button>
     </form>
   );
 }

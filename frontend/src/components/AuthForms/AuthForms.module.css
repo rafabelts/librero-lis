@@ -1,18 +1,18 @@
 .fieldsContainer {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
-  gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 1.5rem;
 }
 
 .forgotPassword {
-  display: flex;
-  justify-content: end;
-  margin-bottom: 2rem;
-  color: violet;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 2rem;
+    color: violet;
 }
 
 .navigate2 {
-  text-decoration: none;
-  text-align: center;
+    text-decoration: none;
+    text-align: center;
 }

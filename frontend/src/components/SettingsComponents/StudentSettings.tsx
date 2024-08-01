@@ -20,11 +20,11 @@ export function StudentSettingsComponents() {
         <p>Cambiar contraseña</p>
       </Link>
 
-      <div className={styles.settingsButtons}>
-        <button className={styles.signOutButton} onClick={() => signUserOut()}>
+      <div className="dangerZoneButtons">
+        <button className="dangerButton" onClick={() => signUserOut()}>
           Cerrar sesión
         </button>
-        <button className={styles.deleteAccountButton}>Eliminar cuenta</button>
+        <button className="dangerButtonOutlined">Eliminar cuenta</button>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { BookCopiesInfo } from '../../types';
 import styles from './BookCopiesTable.module.css';
 import { capitalize } from '../../utils/capitalize';
 import QRCode from 'qrcode';
+import { useAppContext } from '../../context/ctxt';
 
 export function BookCopiesTable({
   bookTitle,
@@ -13,11 +14,13 @@ export function BookCopiesTable({
 }) {
   const paginationData = {
     data: copiesData,
-    totalValuesPerPage: 5,
+    totalValuesPerPage: 3,
   };
 
   const { dataToDisplay, goToPrevPage, goToNextPage } =
     usePagination<BookCopiesInfo>(paginationData);
+
+  const ctxt = useAppContext();
 
   async function downloadQr(bookTitle: string, copyId: string) {
     const qrCodeImage = await QRCode.toDataURL(copyId);
@@ -36,14 +39,22 @@ export function BookCopiesTable({
         <thead className={styles.tableHead}>
           <tr>
             <th>ID</th>
-            <th>Status</th>
+            <th>Estatus</th>
             <th>QR</th>
           </tr>
         </thead>
         <tbody className={styles.tableBody}>
           {dataToDisplay.map((obj) => {
             return (
-              <tr key={obj.id}>
+              <tr
+                key={obj.id}
+                onClick={() => ctxt?.updateCopySelected(obj.id ?? null)}
+                style={
+                  ctxt?.copySelected === obj.id
+                    ? { backgroundColor: 'red' }
+                    : {}
+                }
+              >
                 <td>{obj.id}</td>
                 <td>{capitalize(obj.status!)}</td>
                 <td

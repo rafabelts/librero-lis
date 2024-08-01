@@ -12,8 +12,8 @@ export function AdminSettingsComponents() {
       </Link>
 
       <button
-        style={{ marginTop: '38rem' }}
-        className={styles.signOutButton}
+        style={{ marginTop: '2rem' }}
+        className={'dangerButton'}
         onClick={() => signUserOut()}
       >
         Cerrar sesión

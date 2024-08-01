@@ -14,9 +14,11 @@ export class LoanController {
 
       res.status(201).json({ success: true, message: loanData });
     } catch (error) {
-      res
-        .status(500)
-        .send({ success: false, message: 'Error al obtener prestamos' });
+      res.status(500).send({
+        success: false,
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
+      });
     }
   }
 
@@ -93,7 +95,11 @@ export class LoanController {
     } catch (error) {
       res
         .status(500)
-        .send({ success: false, message: 'Error al obtener deudas' });
+        .send({
+          success: false,
+          message:
+            'Se produjo un error en el servidor, intente de nuevo más tarde',
+        });
     }
   }
 }

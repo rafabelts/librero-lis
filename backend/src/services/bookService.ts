@@ -1,3 +1,4 @@
+import { error } from 'console';
 import { BookDao } from '../daos/bookDao';
 import { UserDao } from '../daos/userDao';
 import { BookCopy, BookData } from '../models/books';
@@ -20,6 +21,50 @@ export class BookService {
       });
 
       await Promise.all(insertCopies);
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async deleteBook(userId: string, isbn: string) {
+    try {
+      const isAdmin = this.userDao.checkIfUserIsAdmin(userId);
+      const bookInDb = this.bookDao.checkIfBookExists(isbn);
+
+      if (!isAdmin)
+        throw new Error("You don't have permission to delete a book");
+
+      if (!bookInDb) throw new Error("Book doesn't exists");
+
+      await this.bookDao.deleteBook(isbn);
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async deleteCopy(userId: string, copyId: string) {
+    try {
+      const isAdmin = this.userDao.checkIfUserIsAdmin(userId);
+      const bookInDb = this.bookDao.checkIfCopyExists(copyId);
+
+      if (!isAdmin)
+        throw new Error("You don't have permission to delete a copy");
+
+      if (!bookInDb) throw new Error("Copy doesn't exists");
+
+      await this.bookDao.deleteCopy(copyId);
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async addBookCopy(userId: string, bookIsbn: string): Promise<void> {
+    try {
+      const isAdmin = this.userDao.checkIfUserIsAdmin(userId);
+      if (!isAdmin)
+        throw new Error("You don't have permission to add a new copy");
+
+      await this.bookDao.addBookCopy(bookIsbn);
     } catch (error) {
       throw new Error(error as string);
     }

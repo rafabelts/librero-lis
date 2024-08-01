@@ -37,7 +37,7 @@ export function AddBookForm() {
     },
     {
       type: 'text',
-      placeholder: 'Titulo del libro',
+      placeholder: 'Título del libro',
       name: 'title',
       register: register,
       error: errors.title,
@@ -58,7 +58,7 @@ export function AddBookForm() {
     },
     {
       type: 'number',
-      placeholder: 'Ano de publicacion',
+      placeholder: 'Año de publicación',
       name: 'publicationYear',
       register: register,
       error: errors.publicationYear,

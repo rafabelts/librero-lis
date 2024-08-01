@@ -5,12 +5,11 @@ import { useMemo } from 'react';
 import { Toaster } from 'sonner';
 
 const titlePaths: Record<string, string> = {
-  '/': 'Mis adeudos',
-  '/admin': 'Libros en el librero',
-  '/admin/prestamos': 'Libros en prestamo',
-  '/admin/alumnos': 'Alumnos registrados',
+  '/': 'Mis préstamos',
+  '/admin': 'Libros',
+  '/admin/prestamos': 'En préstamo',
+  '/admin/alumnos': 'Alumnos',
   '/admin/agregar/libro': 'Agregar nuevo libro',
-  '/configuracion': 'Configuracion',
   '/configuracion/nombre': 'Cambiar nombre',
 };
 
@@ -20,6 +19,8 @@ const hideNavBarPaths = new Set([
   '/admin/devolucion',
   '/agregar/prestamo',
   '/configuracion/nombre',
+  '/configuracion/contrasena',
+  '/admin/configuracion/contrasena',
 ]);
 
 export default function Layout() {
@@ -35,8 +36,10 @@ export default function Layout() {
         path.startsWith('/agregar/prestamo')
           ? ''
           : path === '/configuracion' || path === '/admin/configuracion'
-          ? 'Configuracion'
-          : titlePaths[path] || 'Not Found',
+            ? 'Configuración'
+            : path.includes('/configuracion/contrasena')
+              ? 'Cambiar contraseña'
+              : titlePaths[path] || 'Not Found',
 
       goBackPath: path.includes('admin') ? '/admin' : '/',
     }),

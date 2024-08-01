@@ -1,24 +1,23 @@
 .headerContainer {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .bookInfo {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  font-size: 1.2rem;
-  gap: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.2rem;
+    gap: 1rem;
 }
 
 @media (max-width: 1200px) {
-  .headerContainer {
-    width: fit-content;
-    gap: 0.5rem;
-  }
+    .headerContainer {
+        width: fit-content;
+        gap: 0.5rem;
+    }
 
-  .bookInfo {
-    font-size: 0.6rem;
-  }
+    .bookInfo {
+        font-size: 0.6rem;
+    }
 }

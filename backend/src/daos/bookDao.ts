@@ -1,8 +1,38 @@
 import { db } from '../config/db';
 import { books, copies } from '../config/db/schema';
 import { BookCopy, BookData } from '../models/books';
+import { eq } from 'drizzle-orm';
 
 export class BookDao {
+  async checkIfBookExists(isbn: string): Promise<boolean> {
+    try {
+      const bookInDb = await db.query.books.findFirst({
+        where: (model, { eq }) => eq(model.isbn, isbn),
+        columns: {
+          isbn: true,
+        },
+      });
+
+      return bookInDb ? true : false;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async checkIfCopyExists(copyId: string): Promise<boolean> {
+    try {
+      const copyInDb = await db.query.copies.findFirst({
+        where: (model, { eq }) => eq(model.id, copyId),
+        columns: {
+          id: true,
+        },
+      });
+      return copyInDb ? true : false;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
   async addBook(bookData: BookData): Promise<void> {
     try {
       await db.insert(books).values({
@@ -13,6 +43,23 @@ export class BookDao {
         publicationYear: bookData.publicationYear,
         copies: bookData.copies,
       });
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async deleteBook(isbn: string): Promise<void> {
+    try {
+      await db.delete(copies).where(eq(copies.bookId, isbn));
+      await db.delete(books).where(eq(books.isbn, isbn));
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+
+  async deleteCopy(copyId: string): Promise<void> {
+    try {
+      await db.delete(copies).where(eq(copies.id, copyId));
     } catch (error) {
       throw new Error(error as string);
     }
@@ -59,7 +106,7 @@ export class BookDao {
       });
       return copiesInfo;
     } catch (error) {
-      throw new Error(`Failed to get copies: ${error}`);
+      throw new Error(error as string);
     }
   }
 }

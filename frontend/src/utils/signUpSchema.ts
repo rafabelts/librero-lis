@@ -4,23 +4,27 @@ export const signUpSchema = z
   .object({
     email: z
       .string()
-      .email()
+      .min(1, {
+        message: 'Por favor, ingresa tu correo electrónico institucional',
+      })
+      .email({ message: 'Por favor, ingresa un correo electrónico válido' })
       .refine((email) => email.endsWith('@estudiantes.uv.mx'), {
-        message: 'Por favor usa tu correo institucional',
+        message: 'Por favor, usa tu correo institucional',
       }),
-    name: z.string().min(1, { message: 'Por favor ingresa tu nombre' }),
+    name: z.string().min(1, { message: 'Por favor, ingresa tu nombre' }),
     studentId: z.string().refine((id) => id.length === 9, {
-      message: 'Recuerda que la matricula es sin la z',
+      message: 'Recuerda que la matrícula es sin la z',
     }),
     password: z
       .string()
+      .min(1, { message: 'Por favor, ingresa una contraseña' })
       .refine((password) => password.length <= 14 && password.length >= 8, {
-        message: 'La contrasena debe tener una longitud de 8 a 14 caracteres',
+        message: 'La contraseña debe tener una longitud de 8 a 14 carácteres',
       }),
 
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Las contrasenas no coinciden',
+    message: 'Las contraseñas no coinciden',
     path: ['confirmPassword'],
   });
