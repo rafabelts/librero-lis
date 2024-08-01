@@ -1,5 +1,6 @@
 export interface BookOnLoan {
   title: string;
+  imageUrl: string | null;
 }
 
 export interface DataForLoan {

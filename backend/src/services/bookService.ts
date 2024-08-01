@@ -10,13 +10,13 @@ export class BookService {
     this.userDao = new UserDao();
   }
 
-  async addBook(bookData: BookData): Promise<void> {
+  async addBook(bookData: BookData, copies: number): Promise<void> {
     try {
       const isAdmin = this.userDao.checkIfUserIsAdmin(bookData.userId!);
       if (!isAdmin) throw new Error("You don't have permission to add a book");
       await this.bookDao.addBook(bookData);
 
-      const insertCopies = Array.from({ length: bookData.copies }, () => {
+      const insertCopies = Array.from({ length: copies }, () => {
         return this.bookDao.addBookCopy(bookData.isbn);
       });
 

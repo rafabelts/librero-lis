@@ -16,6 +16,7 @@ export class LoanDao {
           },
           book: {
             title: books.title,
+            imageUrl: books.imageUrl,
           },
         })
         .from(loans)
@@ -41,6 +42,7 @@ export class LoanDao {
           },
           book: {
             title: books.title,
+            imageUrl: books.imageUrl,
           },
         })
         .from(loans)

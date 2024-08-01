@@ -35,14 +35,7 @@ export class BookDao {
 
   async addBook(bookData: BookData): Promise<void> {
     try {
-      await db.insert(books).values({
-        isbn: bookData.isbn,
-        title: bookData.title,
-        author: bookData.author,
-        editorial: bookData.editorial,
-        publicationYear: bookData.publicationYear,
-        copies: bookData.copies,
-      });
+      await db.insert(books).values(bookData);
     } catch (error) {
       throw new Error(error as string);
     }

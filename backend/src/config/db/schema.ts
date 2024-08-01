@@ -16,7 +16,7 @@ export const books = sqliteTable('books', {
   author: text('author').notNull(),
   editorial: text('editorial').notNull(),
   publicationYear: integer('publicationYear').notNull(),
-  copies: integer('copies').notNull(),
+  imageUrl: text('imageUrl'),
 });
 
 export const copies = sqliteTable('copies', {

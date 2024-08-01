@@ -11,7 +11,7 @@ export class BookController {
   async addBook(req: Request, res: Response): Promise<void> {
     const bookData = req.body;
     try {
-      await this.bookService.addBook(bookData);
+      await this.bookService.addBook(bookData, bookData.copies);
       res.status(201).send({ success: true, message: 'Nuevo libro agregado' });
     } catch (error) {
       const errorMessage = (error as Error).message;

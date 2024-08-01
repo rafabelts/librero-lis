@@ -1,6 +1,56 @@
 import { toast } from 'sonner';
 import { firebaseAuth } from '../firebase_options';
 import { BookFormData } from '../types';
+import { uploadFile } from './imageUploader';
+
+export async function addBookService(bookData: BookFormData) {
+  const imageUrl = await uploadFile(bookData.bookImage, bookData.title);
+  const userId = firebaseAuth.currentUser!.uid;
+
+  const response = await fetch(
+    'https://librero-lis.onrender.com/api/books/add',
+
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        userId: userId,
+        isbn: bookData.isbn,
+        title: bookData.title,
+        author: bookData.author,
+        editorial: bookData.editorial,
+        publicationYear: bookData.publicationYear,
+        imageUrl: imageUrl,
+      }),
+    }
+  );
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
+}
+
+export async function addCopyService(bookIsbn: string) {
+  const userId = firebaseAuth.currentUser!.uid;
+
+  const response = await fetch('http://localhost:3030/api/books/add/copy', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+    body: JSON.stringify({ userId: userId, bookIsbn: bookIsbn }),
+  });
+  const responseData = await response.json();
+  const resposeMessage = responseData.message;
+
+  if (responseData.success) return toast.success(resposeMessage);
+  return toast.error(resposeMessage);
+}
 
 export async function deleteBookService(bookIsbn: string) {
   const userId = firebaseAuth.currentUser!.uid;
@@ -39,46 +89,6 @@ export async function deleteCopyService(copyId: string) {
     },
 
     body: JSON.stringify({ userId: userId, copyId: copyId }),
-  });
-  const responseData = await response.json();
-  const resposeMessage = responseData.message;
-
-  if (responseData.success) return toast.success(resposeMessage);
-  return toast.error(resposeMessage);
-}
-
-export async function addBookService(bookData: BookFormData) {
-  const userId = firebaseAuth.currentUser!.uid;
-
-  const response = await fetch(
-    'https://librero-lis.onrender.com/api/books/add',
-
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-
-      body: JSON.stringify({ userId: userId, ...bookData }),
-    }
-  );
-  const responseData = await response.json();
-  const resposeMessage = responseData.message;
-
-  if (responseData.success) return toast.success(resposeMessage);
-  return toast.error(resposeMessage);
-}
-
-export async function addCopyService(bookIsbn: string) {
-  const userId = firebaseAuth.currentUser!.uid;
-
-  const response = await fetch('http://localhost:3030/api/books/add/copy', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-
-    body: JSON.stringify({ userId: userId, bookIsbn: bookIsbn }),
   });
   const responseData = await response.json();
   const resposeMessage = responseData.message;

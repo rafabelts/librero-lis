@@ -5,7 +5,7 @@ export interface BookData {
   author: string;
   editorial: string;
   publicationYear: number;
-  copies: number;
+  imageUrl: string | null;
 }
 
 export interface BookCopy {
