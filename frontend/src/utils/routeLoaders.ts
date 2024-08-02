@@ -33,15 +33,14 @@ export async function checkUser() {
     localStorage.setItem('user', JSON.stringify(userDataToStore));
     window.location.reload();
   }
-
   const isAdmin = userData?.type === 'admin';
   if (!userData.emailVerified) return redirect('/verify');
-  if (isAdmin) return redirect('/admin');
+  if (isAdmin) return redirect('admin');
   return null;
 }
 
 export function checkIfUserIsAdmin() {
-  const user = JSON.parse(localStorage.getItem('u)ser')!);
+  const user = JSON.parse(localStorage.getItem('user')!);
   const type = user.type;
 
   if (type === 'admin') return null;
