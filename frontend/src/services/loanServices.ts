@@ -2,7 +2,9 @@ import { toast } from 'sonner';
 import { firebaseAuth } from '../firebase_options';
 
 export async function getLoansService() {
-  const userId = firebaseAuth.currentUser?.uid;
+  const userData = JSON.parse(localStorage.getItem('user') ?? '{}');
+  const userId = userData.id;
+
   const response = await fetch('http://localhost:3030/api/loans/get', {
     method: 'POST',
     headers: {

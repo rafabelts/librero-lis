@@ -93,13 +93,11 @@ export class LoanController {
       const debts = await this.loanService.getDebts(studentId);
       res.status(201).json({ success: true, message: debts });
     } catch (error) {
-      res
-        .status(500)
-        .send({
-          success: false,
-          message:
-            'Se produjo un error en el servidor, intente de nuevo más tarde',
-        });
+      res.status(500).send({
+        success: false,
+        message:
+          'Se produjo un error en el servidor, intente de nuevo más tarde',
+      });
     }
   }
 }

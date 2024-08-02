@@ -45,8 +45,10 @@ export async function getUser(userId: string): Promise<User | null> {
   return null;
 }
 
-export async function getUsers(userId: string) {
-  const response = await fetch('http://localhost:3030/api/user/users', {
+export async function getStudents() {
+  const userData = JSON.parse(localStorage.getItem('user') ?? '{}');
+  const userId = userData.id;
+  const response = await fetch('http://localhost:3030/api/user/students', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

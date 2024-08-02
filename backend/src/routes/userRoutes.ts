@@ -10,7 +10,7 @@ router.post(
   userController.checkIfUserAlreadyAdded.bind(userController)
 );
 router.post('/get', userController.getUserData.bind(userController));
-router.post('/users', userController.getStudents.bind(userController));
+router.post('/students', userController.getStudents.bind(userController));
 router.post('/change/name', userController.changeUserName.bind(userController));
 router.post('/delete', userController.deleteUser.bind(userController));
 export default router;
