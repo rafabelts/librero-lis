@@ -77,4 +77,12 @@ export class UserService {
       throw new Error(error as string);
     }
   }
+
+  async deleteUser(userId: string) {
+    try {
+      await this.userDao.deleteUser(userId);
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
 }

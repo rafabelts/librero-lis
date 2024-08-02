@@ -28,3 +28,7 @@ export const changePasswordSchema = z
     message: 'Las contraseñas no coinciden',
     path: ['confirmNewPassword'],
   });
+
+export const deleteUserSchema = z.object({
+  password: z.string().min(1, { message: 'Por favor, ingresa tu contraseña' }),
+});

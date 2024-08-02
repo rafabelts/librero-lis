@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { sendEmailVerification } from 'firebase/auth';
 import { firebaseAuth } from '../firebase_options';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 export default function VerifyEmailPage() {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -41,7 +41,7 @@ export default function VerifyEmailPage() {
     <div style={{ padding: '1rem' }}>
       <Outlet />
       <h1>Por favor verifica tu cuenta!</h1>
-      <p style={{ marginBottom: '3rem' }}>
+      <p style={{ marginTop: '1rem', marginBottom: '3rem' }}>
         Checa tu correo electronico para obtener el enlace de verificacion
       </p>
       <button className="appButton" onClick={handleClick} disabled={isDisabled}>
@@ -49,6 +49,7 @@ export default function VerifyEmailPage() {
           ? `Por favor espera: ${countdown} segundos`
           : 'Reenviar correo'}
       </button>
+      <Toaster />
     </div>
   );
 }

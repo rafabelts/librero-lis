@@ -87,4 +87,12 @@ export class UserDao {
       throw new Error(error as string);
     }
   }
+
+  async deleteUser(userId: string) {
+    try {
+      await db.delete(users).where(eq(users.id, userId));
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
 }

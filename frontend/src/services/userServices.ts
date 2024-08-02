@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 import { User } from '../types';
-import { SignUpFormData } from './auth';
+import { deleteAccount, SignUpFormData } from './auth';
+import { firebaseAuth } from '../firebase_options';
 
 export async function checkIfUserAlreadyAdded(studentId: string) {
   const response = await fetch(
@@ -115,4 +116,29 @@ export async function changeNameService(newName: string, userId: string) {
 
   if (responseData.success) return toast.success(resposeMessage);
   return toast.error(resposeMessage);
+}
+
+export async function deleteUserService(password: string) {
+  const userId = firebaseAuth.currentUser!.uid;
+  const response = await fetch('http://localhost:3030/api/user/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+    body: JSON.stringify({
+      userId: userId,
+    }),
+  });
+
+  const responseData = await response.json();
+
+  if (responseData.success) {
+    localStorage.clear();
+    await deleteAccount(password);
+  } else {
+    toast.error(
+      'Se produjo un error al eliminar la cuenta, intenta de nuevo más tarde'
+    );
+  }
 }

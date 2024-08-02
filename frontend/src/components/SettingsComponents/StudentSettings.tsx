@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { LockIcon } from '../../assets/lockIcon';
 import { PersonIcon } from '../../assets/personIcon';
 import { signUserOut } from '../../services/auth';
@@ -24,7 +24,9 @@ export function StudentSettingsComponents() {
         <button className="dangerButton" onClick={() => signUserOut()}>
           Cerrar sesión
         </button>
-        <button className="dangerButtonOutlined">Eliminar cuenta</button>
+        <NavLink to="/configuracion/eliminar">
+          <button className="dangerButtonOutlined">Eliminar cuenta</button>
+        </NavLink>
       </div>
     </div>
   );

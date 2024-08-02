@@ -21,6 +21,7 @@ import SettingsPage from './pages/Settings.tsx';
 import ChangePasswordScreen from './pages/ChangePassword.tsx';
 import ChangeNameScreen from './pages/ChangeName.tsx';
 import SendRecoverEmailPage from './pages/SendRecoverEmail.tsx';
+import DeleteUserPage from './pages/DeleteUser.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
           {
             path: 'contrasena',
             Component: ChangePasswordScreen,
+          },
+          {
+            path: 'eliminar',
+            Component: DeleteUserPage,
           },
         ],
       },

@@ -97,4 +97,18 @@ export class UserController {
       });
     }
   }
+
+  async deleteUser(req: Request, res: Response) {
+    try {
+      const { userId } = req.body;
+      await this.userService.deleteUser(userId);
+      res.status(201).send({
+        success: true,
+      });
+    } catch (error) {
+      res.status(500).send({
+        success: false,
+      });
+    }
+  }
 }
