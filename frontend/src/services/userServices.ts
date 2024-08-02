@@ -5,7 +5,7 @@ import { firebaseAuth } from '../firebase_options';
 
 export async function checkIfUserAlreadyAdded(studentId: string) {
   const response = await fetch(
-    'https://librero-lis.onrender.com/api/user/check',
+    'http://localhost:3030/api/user/check',
 
     {
       method: 'POST',
@@ -20,58 +20,52 @@ export async function checkIfUserAlreadyAdded(studentId: string) {
   );
 
   const responseData = await response.json();
-  const resposeMessage = responseData.message;
+  const responseMessage = responseData.message;
 
-  if (responseData.success) return resposeMessage;
-  return toast.error(resposeMessage);
+  if (responseData.success) return responseMessage;
+  return toast.error(responseMessage);
 }
 
 export async function getUser(userId: string): Promise<User | null> {
-  const response = await fetch(
-    'https://librero-lis.onrender.com/api/user/get',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const response = await fetch('http://localhost:3030/api/user/get', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
 
-      body: JSON.stringify({
-        userId: userId,
-      }),
-    }
-  );
+    body: JSON.stringify({
+      userId: userId,
+    }),
+  });
 
   const responseData = await response.json();
-  const resposeMessage = responseData.message;
+  const responseMessage = responseData.message;
 
-  if (responseData.success) return resposeMessage;
+  if (responseData.success) return responseMessage;
   return null;
 }
 
 export async function getUsers(userId: string) {
-  const response = await fetch(
-    'https://librero-lis.onrender.com/api/user/users',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const response = await fetch('http://localhost:3030/api/user/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
 
-      body: JSON.stringify({
-        userId: userId,
-      }),
-    }
-  );
+    body: JSON.stringify({
+      userId: userId,
+    }),
+  });
   const responseData = await response.json();
-  const resposeMessage = responseData.message;
+  const responseMessage = responseData.message;
 
-  if (responseData.success) return resposeMessage;
-  return toast.error(resposeMessage);
+  if (responseData.success) return responseMessage;
+  return toast.error(responseMessage);
 }
 
 export async function addUserService(userId: string, userData: SignUpFormData) {
   const response = await fetch(
-    'https://librero-lis.onrender.com/api/user/add',
+    'http://localhost:3030/api/user/add',
 
     {
       method: 'POST',
@@ -89,33 +83,30 @@ export async function addUserService(userId: string, userData: SignUpFormData) {
   );
 
   const responseData = await response.json();
-  const resposeMessage = responseData.message;
+  const responseMessage = responseData.message;
 
-  if (responseData.success) return toast.success(resposeMessage);
-  return toast.error(resposeMessage);
+  if (responseData.success) return toast.success(responseMessage);
+  return toast.error(responseMessage);
 }
 
 export async function changeNameService(newName: string, userId: string) {
-  const response = await fetch(
-    'https://librero-lis.onrender.com/api/user/change/name',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  const response = await fetch('http://localhost:3030/api/user/change/name', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
 
-      body: JSON.stringify({
-        newName: newName,
-        userId: userId,
-      }),
-    }
-  );
+    body: JSON.stringify({
+      newName: newName,
+      userId: userId,
+    }),
+  });
 
   const responseData = await response.json();
-  const resposeMessage = responseData.message;
+  const responseMessage = responseData.message;
 
-  if (responseData.success) return toast.success(resposeMessage);
-  return toast.error(resposeMessage);
+  if (responseData.success) return toast.success(responseMessage);
+  return toast.error(responseMessage);
 }
 
 export async function deleteUserService(password: string) {

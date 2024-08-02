@@ -4,34 +4,44 @@ import { redirect } from 'react-router-dom';
 import { addUserService, getUser } from '../services/userServices';
 
 export async function checkUser() {
-  const user: { uid: string; verified: boolean } | null = await new Promise(
-    (resolve) => {
-      const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
-        unsubscribe();
-        resolve(
-          user
-            ? {
-                uid: user.uid,
-                verified: user.emailVerified,
-              }
-            : null
-        );
-      });
-    }
-  );
-  if (!user) return redirect('/auth/login');
-  const userData = await getUser(user!.uid);
+  // Check if user data is already in localStorage
+  const storedUserData = localStorage.getItem('user');
+  const userData = storedUserData ? JSON.parse(storedUserData) : null;
+  if (!userData) {
+    const user: { uid: string; verified: boolean } | null = await new Promise(
+      (resolve) => {
+        const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+          unsubscribe();
+          resolve(
+            user
+              ? {
+                  uid: user.uid,
+                  verified: user.emailVerified,
+                }
+              : null
+          );
+        });
+      }
+    );
+    if (!user) return redirect('/auth/login');
+
+    const fetchedUserData = await getUser(user!.uid);
+    const userDataToStore = {
+      ...fetchedUserData,
+      emailVerified: user.verified,
+    };
+    localStorage.setItem('user', JSON.stringify(userDataToStore));
+    window.location.reload();
+  }
+
   const isAdmin = userData?.type === 'admin';
-  localStorage.setItem('user', JSON.stringify(userData));
-
-  if (!user?.verified) return redirect('/verify');
+  if (!userData.emailVerified) return redirect('/verify');
   if (isAdmin) return redirect('/admin');
-
-  return { isAdmin: isAdmin };
+  return null;
 }
 
 export function checkIfUserIsAdmin() {
-  const user = JSON.parse(localStorage.getItem('user')!);
+  const user = JSON.parse(localStorage.getItem('u)ser')!);
   const type = user.type;
 
   if (type === 'admin') return null;
