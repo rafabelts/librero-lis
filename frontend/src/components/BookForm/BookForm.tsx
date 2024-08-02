@@ -8,6 +8,7 @@ import styles from './BookForm.module.css';
 import { BookImageSelector } from '../BookImageSelector/BookImageSelector.tsx';
 import { addBookService } from '../../services/bookServices.ts';
 import { Toaster } from 'sonner';
+import { useAppContext } from '../../context/ctxt.tsx';
 
 export function AddBookForm() {
   const {
@@ -17,10 +18,6 @@ export function AddBookForm() {
     formState: { errors },
   } = useForm<z.infer<typeof BookSchema>>({
     resolver: zodResolver(BookSchema),
-
-    defaultValues: {
-      bookImage: ' ',
-    },
   });
 
   const onSubmit = (data: BookFormData) => {

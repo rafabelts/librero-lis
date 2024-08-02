@@ -1,16 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/ctxt';
 import { getLoansService } from '../services/loanServices';
+import { LoanAndBook } from '../types';
 
 export function useGetLoans() {
-  const ctxt = useAppContext();
-
+  const [loans, setLoans] = useState<Array<LoanAndBook>>();
   useEffect(() => {
     async function handleFetchLoan() {
       const loans = await getLoansService();
-      ctxt?.updateLoans(loans);
+      setLoans(loans);
     }
 
     handleFetchLoan();
   }, []);
+
+  return { loans: loans };
 }

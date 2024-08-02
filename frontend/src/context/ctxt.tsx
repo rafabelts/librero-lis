@@ -1,35 +1,23 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { BookData, CanBeNull, LoanAndBook } from '../types';
+import { CanBeNull } from '../types';
 
 export interface AppContextType {
-  books: Array<BookData>;
-  updateBooks: (books: Array<BookData>) => void;
-
-  loan: Array<LoanAndBook>;
-  updateLoans: (loans: Array<LoanAndBook>) => void;
-
-  copySelected: CanBeNull<string>;
-  updateCopySelected: (copy: CanBeNull<string>) => void;
+  copyToDelete: CanBeNull<string>;
+  updateCopyToDelete: (copy: CanBeNull<string>) => void;
 }
 
 const AppContext = createContext<CanBeNull<AppContextType>>(undefined);
 
 export const AppContextProvider = ({ children }: PropsWithChildren) => {
-  const [books, setBooks] = useState<Array<BookData>>([]);
-  const [loan, setLoan] = useState<Array<LoanAndBook>>([]);
-  const [copySelected, setCopySelected] = useState<CanBeNull<string>>(null);
-  const updateBooks = (books: Array<BookData>) => setBooks(books);
-  const updateLoans = (loans: Array<LoanAndBook>) => setLoan(loans);
-  const updateCopySelected = (copy: CanBeNull<string>) => setCopySelected(copy);
+  const [copyToDelete, setCopyToDelete] = useState<CanBeNull<string>>(null);
+
+  const updateCopyToDelete = (copy: CanBeNull<string>) => setCopyToDelete(copy);
+
   return (
     <AppContext.Provider
       value={{
-        books,
-        updateBooks,
-        loan,
-        updateLoans,
-        copySelected,
-        updateCopySelected,
+        copyToDelete,
+        updateCopyToDelete,
       }}
     >
       {children}

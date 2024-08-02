@@ -1,6 +1,5 @@
 import { BookInfoHeader } from '../components/BookInfoHeader/BookInfoHeader';
 import { BookCopiesTable } from '../components/BookCopiesTable/BookCopiesTable';
-import { useSetBookData } from '../hooks/useSetBookData';
 import { Suspense } from 'react';
 import { useAppContext } from '../context/ctxt';
 import {
@@ -8,9 +7,10 @@ import {
   deleteBookService,
   deleteCopyService,
 } from '../services/bookServices';
+import { useCopyData } from '../hooks/useCopyData';
 
 export default function BookInfoPage() {
-  const { isbn, bookInfo } = useSetBookData();
+  const { isbn, bookInfo } = useCopyData();
   const ctxt = useAppContext();
 
   async function handleAddCopy() {
@@ -22,20 +22,20 @@ export default function BookInfoPage() {
   }
 
   async function deleteCopy() {
-    await deleteCopyService(ctxt?.copySelected ?? '');
+    await deleteCopyService(ctxt?.copyToDelete ?? '');
   }
 
   return (
     <div
       className="bookInfoDiv"
       onClick={() =>
-        ctxt?.copySelected !== null ? ctxt?.updateCopySelected(null) : null
+        ctxt?.copyToDelete !== null ? ctxt?.updateCopyToDelete(null) : null
       }
     >
       <Suspense fallback={<p>Loading...</p>}>
         <BookInfoHeader {...bookInfo?.headerInfo} />
         <BookCopiesTable
-          bookTitle={bookInfo?.headerInfo?.title ?? ''}
+          bookTitle={bookInfo?.headerInfo.title}
           copiesData={bookInfo?.copies ?? []}
         />
       </Suspense>
@@ -43,9 +43,8 @@ export default function BookInfoPage() {
         className="dangerZoneButtons"
         style={{ marginTop: '60px', background: 'white' }}
       >
-        {ctxt?.copySelected !== null ? (
+        {ctxt?.copyToDelete !== null ? (
           <button className="dangerButton" onClick={() => deleteCopy()}>
-            {' '}
             Eliminar copia
           </button>
         ) : (
@@ -53,6 +52,7 @@ export default function BookInfoPage() {
             Añadir copia
           </button>
         )}
+
         <button className="dangerButtonOutlined" onClick={() => deleteBook()}>
           Eliminar libro
         </button>

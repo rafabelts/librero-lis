@@ -46,7 +46,6 @@ export class BookController {
         message: `El libro con isbn ${bookIsbn} ha sido eliminado`,
       });
     } catch (error) {
-      console.log(error);
       const errorMessage = (error as Error).message;
       let statusCode: number;
       let message: string;

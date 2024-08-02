@@ -49,9 +49,9 @@ export function BookCopiesTable({
             return (
               <tr
                 key={obj.id}
-                onClick={() => ctxt?.updateCopySelected(obj.id ?? null)}
+                onClick={() => ctxt?.updateCopyToDelete(obj.id ?? null)}
                 style={
-                  ctxt?.copySelected === obj.id
+                  ctxt?.copyToDelete === obj.id
                     ? {
                         backgroundColor: 'var(--table-item)',
                       }

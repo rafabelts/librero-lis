@@ -2,6 +2,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../firebase_options';
 import { redirect } from 'react-router-dom';
 import { addUserService, getUser } from '../services/userServices';
+import { getBooksService } from '../services/bookServices';
 
 export async function checkUser() {
   // Check if user data is already in localStorage
@@ -26,11 +27,14 @@ export async function checkUser() {
     if (!user) return redirect('/auth/login');
 
     const fetchedUserData = await getUser(user!.uid);
+
     const userDataToStore = {
       ...fetchedUserData,
       emailVerified: user.verified,
     };
     localStorage.setItem('user', JSON.stringify(userDataToStore));
+    if (fetchedUserData?.type === 'admin') await getBooksService();
+
     window.location.reload();
   }
   const isAdmin = userData?.type === 'admin';
