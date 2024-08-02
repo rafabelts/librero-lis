@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   EmailAuthProvider,
   getAuth,
   reauthenticateWithCredential,
@@ -45,7 +46,10 @@ export async function signUp(userData: SignUpFormData) {
           toast.error(
             `Ya existe una cuenta registrada con el correo ${userData.email}`
           );
-        else toast.error('Error al crear cuenta, intente de nuevo más tarde');
+        else
+          toast.error(
+            'Se produjo un error al crear cuenta, intente de nuevo más tarde'
+          );
       });
   }
 }
@@ -72,7 +76,7 @@ export function sendRecoverEmail(email: string) {
     })
     .catch(() => {
       toast.error(
-        'Se produjo un error en el servidor, intente de nuevo más tarde'
+        'Se produjo un error al iniciar sesión, intente de nuevo más tarde'
       );
     });
 }
@@ -95,7 +99,6 @@ export async function changePassword(
   newPassword: string
 ) {
   const reAuthenticated = await reAuthenticateUser(userPassword);
-  console.log(reAuthenticated);
   const user = firebaseAuth.currentUser;
   if (reAuthenticated) {
     updatePassword(user!, newPassword)
@@ -117,4 +120,20 @@ export function signUserOut() {
       window.location.href = '/auth/login';
     })
     .catch(() => {});
+}
+
+export async function deleteAccount(userPassword: string) {
+  const reAuthenticated = await reAuthenticateUser(userPassword);
+  const user = firebaseAuth.currentUser;
+  if (reAuthenticated) {
+    deleteUser(user!)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(() => {
+        toast.error(
+          'Se produjo un error en el servidor, intente de nuevo más tarde'
+        );
+      });
+  }
 }

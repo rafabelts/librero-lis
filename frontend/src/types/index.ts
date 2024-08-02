@@ -45,20 +45,21 @@ export interface NavItemType {
 }
 
 export interface BookData {
-  image?: CanBeUndefined<string>;
-  title?: CanBeUndefined<string>;
-  author?: CanBeUndefined<string>;
-  editorial?: CanBeUndefined<string>;
-  publicationYear?: CanBeUndefined<number>;
-  isbn?: CanBeUndefined<string>;
-  devolutionDate?: CanBeUndefined<Date>;
-  loanedTo?: CanBeUndefined<undefined>;
+  imageUrl: string;
+  title: string;
+  author?: string;
+  editorial?: string;
+  publicationYear?: number;
+  isbn?: string;
+  devolutionDate?: Date;
+  studentId?: string;
 }
 
 export interface BookInfo {
   title: string;
   publicationYear: Date;
   isbn: string;
+  bookImage: string;
   copies: Array<BookCopiesInfo>;
 }
 
@@ -87,6 +88,6 @@ export interface LoanAndBook {
   loan: LoanData;
   book: {
     title: string;
-    image: string;
-  } | null;
+    imageUrl: string;
+  };
 }

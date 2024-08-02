@@ -18,7 +18,7 @@ export default function BookInfoPage() {
   }
 
   async function deleteBook() {
-    await deleteBookService(isbn!);
+    await deleteBookService(isbn!, bookInfo!.headerInfo.imageUrl as string);
   }
 
   async function deleteCopy() {

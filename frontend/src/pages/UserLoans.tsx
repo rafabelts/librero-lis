@@ -3,7 +3,7 @@ import { BookContainer } from '../components/BookContainer/BookContainer';
 import { BookList } from '../components/BookList/BookList';
 import { useAppContext } from '../context/ctxt';
 import { useGetLoans } from '../hooks/useGetLoans';
-import { LoanAndBook } from '../types';
+import { BookData, BookFormData, LoanAndBook } from '../types';
 import { useGetDebts } from '../hooks/useGetDebts';
 import { toast } from 'sonner';
 
@@ -12,7 +12,7 @@ export default function UserDebtsPage() {
   const user = JSON.parse(localStorage.getItem('user')!);
   const studentId = user.studentId;
 
-  useGetLoans(studentId);
+  useGetLoans();
 
   const debts = useGetDebts(studentId);
 
@@ -20,11 +20,15 @@ export default function UserDebtsPage() {
     if (debts! > 0) toast(`Tienes ${debts} adeudos`);
   }, [debts]);
 
-  return ctxt?.loan.length! > 0 ? (
+  return ctxt!.loan.length! > 0 ? (
     <BookList>
-      {ctxt!.loan.map((loan: LoanAndBook) => (
-        <BookContainer key={loan.loan.id} {...loan.book} />
-      ))}
+      {ctxt!.loan.map((loan: LoanAndBook) => {
+        const bookData: BookData = {
+          devolutionDate: new Date(loan.loan.devolutionDate!),
+          ...loan.book,
+        };
+        return <BookContainer key={loan.loan.id} {...bookData} />;
+      })}
     </BookList>
   ) : (
     <div>

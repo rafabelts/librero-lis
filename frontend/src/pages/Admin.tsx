@@ -5,6 +5,7 @@ import { useAppContext } from '../context/ctxt';
 import { useGetBook } from '../hooks/useGetBooks';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+
 export default function AdminPage() {
   useGetBook();
   const ctxt = useAppContext();
@@ -21,9 +22,9 @@ export default function AdminPage() {
     }
   }, []);
 
-  return ctxt?.books.length > 0 ? (
+  return ctxt!.books.length > 0 ? (
     <BookList>
-      {ctxt.books.map((info: BookData) => (
+      {ctxt!.books.map((info: BookData) => (
         <BookContainer key={info.isbn} {...info} />
       ))}
     </BookList>

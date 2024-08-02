@@ -21,11 +21,11 @@ function ContainerWrapper({
 export function BookContainer(bookInfo: BookData) {
   return (
     <ContainerWrapper isbn={bookInfo.isbn}>
-      {bookInfo.image ? (
+      {bookInfo.imageUrl ? (
         <img
-          src={bookInfo.image}
+          src={bookInfo.imageUrl}
           className="bookImage"
-          alt={`Imagen del libro ${bookInfo.image}`}
+          alt={`Imagen del libro ${bookInfo.title}`}
         />
       ) : (
         <div className="noBookImage" />
@@ -39,15 +39,15 @@ export function BookContainer(bookInfo: BookData) {
           </p>
         )}
 
-        {bookInfo.loanedTo && (
+        {bookInfo.studentId && (
           <p className={styles.info}>
-            Prestado a: <b>{bookInfo.loanedTo}</b>
+            Prestado a: <b>{bookInfo.studentId}</b>
           </p>
         )}
 
         {bookInfo.devolutionDate && (
           <p className={styles.info}>
-            Fecha de devolucion:{' '}
+            Fecha de devolución:{' '}
             <b>{bookInfo.devolutionDate.toLocaleDateString('es-MX')}</b>
           </p>
         )}

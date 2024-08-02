@@ -1,6 +1,11 @@
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getMetadata,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from 'firebase/storage';
 import { firebaseStorage } from '../firebase_options';
-import { toast } from 'sonner';
 import { dataURLToBlob } from '../utils/base64ToBlob';
 
 // Function to upload a file and get its URL
@@ -26,9 +31,24 @@ export async function uploadFile(base64: string, bookTitle: string) {
 
     return downloadURL;
   } catch (error) {
-    console.log(error);
-    toast.error(
-      'Se produjo un error al subir la imagen, intenta de nuevo más tarde'
-    );
+    throw new Error(error as string);
+  }
+}
+
+// Function to delete a file
+export async function deleteFile(imageUrl: string) {
+  try {
+    // Create a reference to get the file metadata
+    const storageRef = ref(firebaseStorage, imageUrl);
+    const imageData = await getMetadata(storageRef);
+
+    // Get image path
+    const imagePath = imageData.fullPath;
+
+    // Reference to delete the file
+    const imageRef = ref(firebaseStorage, imagePath);
+    await deleteObject(imageRef);
+  } catch (error) {
+    throw new Error(error as string);
   }
 }

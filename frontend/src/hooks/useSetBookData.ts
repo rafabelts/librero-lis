@@ -26,6 +26,7 @@ export function useSetBookData() {
             author: book.author,
             editorial: book.editorial,
             publicationYear: book.publicationYear,
+            imageUrl: book.imageUrl,
           },
           copies: copies.map((copy: BookCopiesInfo) => {
             return {

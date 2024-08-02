@@ -11,7 +11,16 @@ export function BookInfoHeader(headerInfo: BookData) {
         <p>Editorial: {headerInfo.editorial}</p>
         <p>Año de publicación: {headerInfo.publicationYear}</p>
       </div>
-      <div className="noBookImage" />
+
+      {headerInfo.imageUrl ? (
+        <img
+          src={headerInfo.imageUrl}
+          className="bookImage"
+          alt={`Imagen del libro ${headerInfo.title}`}
+        />
+      ) : (
+        <div className="noBookImage" />
+      )}
     </div>
   );
 }
