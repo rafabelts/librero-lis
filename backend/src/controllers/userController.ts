@@ -15,6 +15,7 @@ export class UserController {
 
       res.status(201).send({ success: true, message: userAlreadyAdded });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         success: false,
         message:
