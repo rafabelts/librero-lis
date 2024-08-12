@@ -49,7 +49,7 @@ const navItems: Record<string, Array<NavItemType>> = {
 export function getOrderedNavItems(
   inPhone: boolean,
   location: string
-): Array<NavItemType> {
+): Array<NavItemType | unknown> {
   const isAdmin = location.startsWith('/admin');
 
   const adminButton =
