@@ -18,7 +18,7 @@ export default function UserDebtsPage() {
     if (debts! > 0) toast(`Tienes ${debts} adeudos`);
   }, [debts]);
 
-  return loans?.length > 0 ? (
+  return loans!.length > 0 ? (
     <BookList>
       {loans?.map((loan: LoanAndBook) => {
         const bookData: BookData = {

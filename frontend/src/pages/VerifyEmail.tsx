@@ -9,7 +9,7 @@ export default function VerifyEmailPage() {
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    let timer: number;
+    let timer: ReturnType<typeof setTimeout>;
     if (isDisabled && countdown > 0) {
       timer = setTimeout(() => {
         setCountdown(countdown - 1);
