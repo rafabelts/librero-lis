@@ -6,7 +6,7 @@ import { useGetBook } from '../hooks/useGetBooks';
 export default function AdminPage() {
   const { books } = useGetBook();
 
-  return books ? (
+  return books?.length > 0 ? (
     <BookList>
       {books.map((info: BookData) => (
         <BookContainer key={info.isbn} {...info} />

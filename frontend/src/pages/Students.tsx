@@ -5,7 +5,7 @@ import { useGetStudents } from '../hooks/useGetStudents';
 export default function StudentsPage() {
   const students = useGetStudents();
 
-  return students ? (
+  return students.length > 0 ? (
     <div className="studentsGrid">
       {students.map((student: Student) => (
         <StudentInfoContainer key={student.studentId} {...student} />
