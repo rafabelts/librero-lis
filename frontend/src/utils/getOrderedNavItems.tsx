@@ -49,25 +49,25 @@ const navItems: Record<string, Array<NavItemType>> = {
 export function getOrderedNavItems(
   inPhone: boolean,
   location: string
-): Array<NavItemType | unknown> {
+): Array<NavItemType> {
   const isAdmin = location.startsWith('/admin');
 
-  const adminButton =
-    location === '/admin' ? (
-      navItems.admin[4]
-    ) : location === '/admin/prestamos' ? (
-      navItems.admin[5]
-    ) : (
-      <></>
-    );
+  let adminButton: NavItemType | null = null;
+  if (location === '/admin') {
+    adminButton = navItems.admin[4];
+  } else if (location === '/admin/prestamos') {
+    adminButton = navItems.admin[5];
+  }
 
-  const adminNavItems = [...navItems.admin.slice(0, 4), adminButton];
+  const adminNavItems = adminButton
+    ? [...navItems.admin.slice(0, 4), adminButton]
+    : navItems.admin.slice(0, 4);
 
   const items = isAdmin ? adminNavItems : navItems.student;
 
   if (!inPhone) return items;
 
   return isAdmin
-    ? [items[0], items[1], adminButton, items[2], items[3]]
+    ? [items[0], items[1], adminButton!, items[2], items[3]]
     : [items[0], items[2], items[1]];
 }
