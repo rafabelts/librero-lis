@@ -1,7 +1,5 @@
-import { useAppContext } from '../context/ctxt';
 import { useEffect } from 'react';
 import { getBooksService } from '../services/bookServices';
-import { BookData } from '../types';
 
 export function useGetBook() {
   async function fetchBooks() {

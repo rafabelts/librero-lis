@@ -6,7 +6,7 @@ import { BookData, LoanAndBook } from '../types';
 export default function LoansPage() {
   const { loans } = useGetLoans();
 
-  return loans?.length > 0 ? (
+  return loans!.length > 0 ? (
     <BookList>
       {loans?.map((loan: LoanAndBook) => {
         const bookData: BookData = {

@@ -8,74 +8,74 @@ import { deleteUserService } from '../../services/userServices';
 import { useState } from 'react';
 import { NotVisibleIcon, VisibleIcon } from '../../assets/visibiltyIcons';
 import { useGetLoans } from '../../hooks/useGetLoans';
-import { useAppContext } from '../../context/ctxt';
 import { toast } from 'sonner';
 
 type DeleteUser = { password: string };
 
 export function DeleteUserForm() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<z.infer<typeof deleteUserSchema>>({
-        resolver: zodResolver(deleteUserSchema),
-    });
-    useGetLoans();
-    const ctxt = useAppContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof deleteUserSchema>>({
+    resolver: zodResolver(deleteUserSchema),
+  });
+  useGetLoans();
 
-    const onSubmit = async (data: DeleteUser) => {
-        const loans = ctxt?.loan.length;
-        if (loans! > 0)
-            return toast.error(
-                'No se puede eliminar una cuenta con préstamos activos'
-            );
+  const { loans } = useGetLoans();
 
-        await deleteUserService(data.password);
-    };
+  const onSubmit = async (data: DeleteUser) => {
+    const total_loans = loans!.length;
+    if (total_loans > 0)
+      return toast.error(
+        'No se puede eliminar una cuenta con préstamos activos'
+      );
 
-    const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-    const passwordField: Array<FormFieldProps<DeleteUser>> = [
-        {
-            type: passwordVisible ? 'text' : 'password',
-            placeholder: 'Contraseña',
-            name: 'password',
-            register: register,
-            error: errors.password,
-        },
-    ];
+    await deleteUserService(data.password);
+  };
 
-    return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="formContainer"
-            style={{ marginTop: '1rem' }}
-        >
-            <div style={{ marginBottom: '1rem' }}>
-                {passwordField.map((field) => (
-                    <div key={field.name} className="passwordField">
-                        <FormField
-                            type={field.type}
-                            placeholder={field.placeholder}
-                            name={field.name}
-                            register={field.register}
-                            error={field.error}
-                            valueAsNumber={field.valueAsNumber}
-                        />
-                        {passwordVisible ? (
-                            <VisibleIcon
-                                onClick={() => setPasswordVisible(!passwordVisible)}
-                            />
-                        ) : (
-                            <NotVisibleIcon
-                                onClick={() => setPasswordVisible(!passwordVisible)}
-                            />
-                        )}
-                    </div>
-                ))}
-            </div>
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const passwordField: Array<FormFieldProps<DeleteUser>> = [
+    {
+      type: passwordVisible ? 'text' : 'password',
+      placeholder: 'Contraseña',
+      name: 'password',
+      register: register,
+      error: errors.password,
+    },
+  ];
 
-            <button className="dangerButton">Continuar</button>
-        </form>
-    );
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="formContainer"
+      style={{ marginTop: '1rem' }}
+    >
+      <div style={{ marginBottom: '1rem' }}>
+        {passwordField.map((field) => (
+          <div key={field.name} className="passwordField">
+            <FormField
+              type={field.type}
+              placeholder={field.placeholder}
+              name={field.name}
+              register={field.register}
+              error={field.error}
+              valueAsNumber={field.valueAsNumber}
+            />
+            {passwordVisible ? (
+              <VisibleIcon
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              />
+            ) : (
+              <NotVisibleIcon
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <button className="dangerButton">Continuar</button>
+    </form>
+  );
 }

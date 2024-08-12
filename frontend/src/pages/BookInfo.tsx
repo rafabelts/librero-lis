@@ -33,15 +33,15 @@ export default function BookInfoPage() {
       }
     >
       <Suspense fallback={<p>Loading...</p>}>
-        <BookInfoHeader {...bookInfo?.headerInfo} />
+        <BookInfoHeader {...bookInfo!.headerInfo} />
         <BookCopiesTable
-          bookTitle={bookInfo?.headerInfo.title}
+          bookTitle={bookInfo?.headerInfo.title ?? ''}
           copiesData={bookInfo?.copies ?? []}
         />
       </Suspense>
       <div
         className="dangerZoneButtons"
-        style={{ marginTop: '60px', background: 'white' }}
+        style={{ marginTop: '30px', background: 'white' }}
       >
         {ctxt?.copyToDelete !== null ? (
           <button className="dangerButton" onClick={() => deleteCopy()}>

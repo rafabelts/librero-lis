@@ -1,46 +1,46 @@
 .copiesTable {
-    width: 100%;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 th {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 th,
 td {
-    padding: 0.5rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .downloadQrButton {
-    color: var(--secondary-filled-button-color);
+  color: var(--secondary-filled-button-color);
 }
 
 .navContainer {
-    display: flex;
-    justify-content: end;
-    gap: 1rem;
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
 }
 
 @media (max-width: 1200px) {
-    .copiesTable {
-        width: fit-content;
-    }
+  .copiesTable {
+    width: fit-content;
+  }
 
-    th {
-        font-size: 1rem;
-    }
+  th {
+    font-size: 1rem;
+  }
 
-    td {
-        font-size: 0.8rem;
-    }
+  td {
+    font-size: 0.8rem;
+  }
 
-    th,
-    td {
-        padding: 0.8rem;
-    }
+  th,
+  td {
+    padding: 0.8rem;
+  }
 }
