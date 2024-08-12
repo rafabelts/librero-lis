@@ -10,7 +10,7 @@ export default function UserDebtsPage() {
   const user = JSON.parse(localStorage.getItem('user')!);
   const studentId = user.studentId;
 
-  const { loans } = useGetLoans();
+  const { loans = [] } = useGetLoans();
 
   const debts = useGetDebts(studentId);
 
@@ -18,9 +18,9 @@ export default function UserDebtsPage() {
     if (debts! > 0) toast(`Tienes ${debts} adeudos`);
   }, [debts]);
 
-  return loans?.length > 0 ? (
+  return loans.length > 0 ? (
     <BookList>
-      {loans?.map((loan: LoanAndBook) => {
+      {loans.map((loan: LoanAndBook) => {
         const bookData: BookData = {
           devolutionDate: new Date(loan.loan.devolutionDate!),
           ...loan.book,
