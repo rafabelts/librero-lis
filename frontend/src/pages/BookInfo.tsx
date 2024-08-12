@@ -33,7 +33,11 @@ export default function BookInfoPage() {
       }
     >
       <Suspense fallback={<p>Loading...</p>}>
-        <BookInfoHeader {...bookInfo!.headerInfo} />
+        {bookInfo ? (
+          <BookInfoHeader {...bookInfo?.headerInfo} />
+        ) : (
+          <p> No se encontro información del libro</p>
+        )}
         <BookCopiesTable
           bookTitle={bookInfo?.headerInfo.title ?? ''}
           copiesData={bookInfo?.copies ?? []}

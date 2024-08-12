@@ -5,11 +5,13 @@ import { useGetStudents } from '../hooks/useGetStudents';
 export default function StudentsPage() {
   const students = useGetStudents();
 
-  return (
+  return students ? (
     <div className="studentsGrid">
       {students.map((student: Student) => (
         <StudentInfoContainer key={student.studentId} {...student} />
       ))}
     </div>
+  ) : (
+    <div>No se encontraron alumnos registrados</div>
   );
 }
