@@ -2,6 +2,7 @@ import { toast } from 'sonner';
 import { firebaseAuth } from '../firebase_options';
 import { BookFormData } from '../types';
 import { deleteFile, uploadFile } from './storageBucket';
+import { redirect } from 'react-router-dom';
 
 export async function addBookService(
   bookData: BookFormData,
@@ -39,6 +40,7 @@ export async function addBookService(
       localStorage.removeItem('books');
       localStorage.setItem('refetchBooks', 'true');
       toast.dismiss(loadingToast);
+      redirect('/admin');
       return toast.success(responseMessage);
     }
     return toast.error(responseMessage);

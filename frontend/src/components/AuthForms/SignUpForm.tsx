@@ -9,6 +9,7 @@ import styles from './AuthForms.module.css';
 import { Link } from 'react-router-dom';
 import { NotVisibleIcon, VisibleIcon } from '../../assets/visibiltyIcons.tsx';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { capitalize } from '../../utils/capitalize.ts';
 export function SignUpForm() {
   const {
     register,
@@ -22,7 +23,7 @@ export function SignUpForm() {
     await signUp({
       email: data.email,
       name: data.name,
-      studentId: data.studentId,
+      studentId: capitalize(data.studentId),
       password: data.password,
       confirmPassword: data.confirmPassword,
     });

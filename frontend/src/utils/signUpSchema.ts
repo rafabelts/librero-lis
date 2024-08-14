@@ -12,9 +12,11 @@ export const signUpSchema = z
         message: 'Por favor, usa tu correo institucional',
       }),
     name: z.string().min(1, { message: 'Por favor, ingresa tu nombre' }),
-    studentId: z.string().refine((id) => id.length === 9, {
-      message: 'Recuerda que la matrícula es sin la z',
-    }),
+    studentId: z
+      .string()
+      .refine((id) => id.length === 9 && id.startsWith('s'), {
+        message: 'Recuerda que la matrícula es sin la z',
+      }),
     password: z
       .string()
       .min(1, { message: 'Por favor, ingresa una contraseña' })
