@@ -39,7 +39,8 @@ export async function addBookService(
       localStorage.removeItem('books');
       localStorage.setItem('refetchBooks', 'true');
       toast.dismiss(loadingToast);
-      return toast.success(responseMessage);
+      toast.success(responseMessage);
+      return (window.location.href = '/admin');
     }
     return toast.error(responseMessage);
   } catch {
@@ -71,7 +72,6 @@ export async function addCopyService(bookIsbn: string) {
 }
 
 export async function deleteBookService(bookIsbn: string, imageUrl: string) {
-  await deleteFile(imageUrl);
   const userId = firebaseAuth.currentUser!.uid;
 
   const response = await fetch(
@@ -89,6 +89,7 @@ export async function deleteBookService(bookIsbn: string, imageUrl: string) {
   const responseMessage = responseData.message;
 
   if (responseData.success) {
+    await deleteFile(imageUrl);
     localStorage.removeItem('books');
     localStorage.setItem('refetchBooks', 'true');
     window.location.href = '/admin';

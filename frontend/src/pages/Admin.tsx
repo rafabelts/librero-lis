@@ -4,8 +4,7 @@ import { BookContainer } from '../components/BookContainer/BookContainer';
 import { useGetBook } from '../hooks/useGetBooks';
 
 export default function AdminPage() {
-  const { books = [] } = useGetBook();
-
+  const { books } = useGetBook();
   return books.length > 0 ? (
     <BookList>
       {books.map((info: BookData) => (
