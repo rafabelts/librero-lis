@@ -3,7 +3,10 @@ import { firebaseAuth } from '../firebase_options';
 import { BookFormData } from '../types';
 import { deleteFile, uploadFile } from './storageBucket';
 
-export async function addBookService(bookData: BookFormData) {
+export async function addBookService(
+  bookData: BookFormData,
+  loadingToast: string | number | undefined
+) {
   try {
     const imageUrl = await uploadFile(bookData.bookImage!, bookData.title);
     const userId = firebaseAuth.currentUser!.uid;
@@ -35,6 +38,7 @@ export async function addBookService(bookData: BookFormData) {
     if (responseData.success) {
       localStorage.removeItem('books');
       localStorage.setItem('refetchBooks', 'true');
+      toast.dismiss(loadingToast);
       return toast.success(responseMessage);
     }
     return toast.error(responseMessage);

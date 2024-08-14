@@ -19,14 +19,9 @@ export function AddBookForm() {
     resolver: zodResolver(BookSchema),
   });
 
-  const onSubmit = async (data: BookFormData) => {
+  const onSubmit = (data: BookFormData) => {
     const loadingToast = toast.loading('Añadiendo libro...');
-
-    try {
-      await addBookService(data);
-    } finally {
-      toast.dismiss(loadingToast);
-    }
+    addBookService(data, loadingToast);
   };
 
   const bookFields: Array<FormFieldProps<BookFormData>> = [
