@@ -1,4 +1,4 @@
-import { onAuthStateChanged, unlink } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../firebase_options';
 import { redirect } from 'react-router-dom';
 import { addUserService, getUser } from '../services/userServices';
