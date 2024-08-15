@@ -75,7 +75,7 @@ export function checkIfUserIsAdmin() {
 export async function checkIfUserVerified() {
   // Wait for Firebase to initialize
   await new Promise<void>((resolve) => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
+    const unsubscribe = firebaseAuth.onAuthStateChanged(() => {
       unsubscribe();
       resolve();
     });
