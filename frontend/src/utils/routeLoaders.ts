@@ -51,7 +51,7 @@ export function checkIfUserIsAdmin() {
   else return redirect('/');
 }
 
-export function checkIfUserVerified() {
+/*export function checkIfUserVerified() {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       unsubscribe();
@@ -70,6 +70,42 @@ export function checkIfUserVerified() {
       resolve(null);
     });
   });
+}*/
+
+export async function checkIfUserVerified() {
+  // Wait for Firebase to initialize
+  await new Promise<void>((resolve) => {
+    const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
+      unsubscribe();
+      resolve();
+    });
+  });
+
+  const user = firebaseAuth.currentUser;
+
+  if (!user) {
+    return redirect('/auth/login');
+  }
+
+  // Force a token refresh to get the latest email verification status
+  try {
+    await user.getIdToken(true);
+    await user.reload();
+  } catch (error) {
+    console.error('Error refreshing user data:', error);
+    return null;
+  }
+
+  if (user.emailVerified) {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+      await addUserService(user.uid, JSON.parse(userData));
+      localStorage.removeItem('userData');
+    }
+    return redirect('/');
+  }
+
+  return null;
 }
 
 export function authLoader() {
