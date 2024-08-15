@@ -9,12 +9,10 @@ export class LoanController {
 
   async getLoans(req: Request, res: Response): Promise<void> {
     const { userId } = req.body;
-    console.log(userId);
     try {
       const loanData = await this.loanService.getLoans(userId);
       res.status(201).json({ success: true, message: loanData });
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         success: false,
         message:
@@ -90,12 +88,10 @@ export class LoanController {
 
   async getDebts(req: Request, res: Response): Promise<void> {
     const { studentId } = req.body;
-    console.log(studentId);
     try {
       const debts = await this.loanService.getDebts(studentId);
       res.status(201).json({ success: true, message: debts });
     } catch (error) {
-      console.log(error);
       res.status(500).send({
         success: false,
         message:
