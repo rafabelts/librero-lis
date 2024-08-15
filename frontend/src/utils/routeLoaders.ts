@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, unlink } from 'firebase/auth';
 import { firebaseAuth } from '../firebase_options';
 import { redirect } from 'react-router-dom';
 import { addUserService, getUser } from '../services/userServices';
@@ -51,7 +51,7 @@ export function checkIfUserIsAdmin() {
   else return redirect('/');
 }
 
-export function checkIfUserVerified() {
+/*export function checkIfUserVerified() {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       unsubscribe();
@@ -68,6 +68,38 @@ export function checkIfUserVerified() {
         resolve(redirect('/'));
       }
       resolve(null);
+    });
+  });
+} */
+
+export function checkIfUserVerified() {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+      if (!user) {
+        unsubscribe();
+        resolve(redirect('/auth/login'));
+      } else {
+        try {
+          // recarga token para obtener la ultima informacion del usuario
+          await user.getIdToken(true);
+          await user.reload();
+
+          if (user.emailVerified) {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+              addUserService(user.uid, JSON.parse(userData));
+              localStorage.removeItem('userData');
+            }
+            unsubscribe();
+            resolve(redirect('/'));
+          } else {
+            resolve(null);
+          }
+        } catch (error) {
+          unsubscribe();
+          resolve(null);
+        }
+      }
     });
   });
 }

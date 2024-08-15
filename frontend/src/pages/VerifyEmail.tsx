@@ -45,8 +45,9 @@ export default function VerifyEmailPage() {
         Checa tu correo electronico para obtener el enlace de verificacion
       </p>
 
-      <p style={{ marginTop: '1rem', marginBottom: '3rem' }}>
-        Nota, si al verificar no ves ningun cambio, por favor refresca la página
+      <p style={{ marginTop: '0.3rem', marginBottom: '3rem' }}>
+        Nota!! Si al verificar no ves ningun cambio, por favor refresca la
+        página
       </p>
 
       <button className="appButton" onClick={handleClick} disabled={isDisabled}>
