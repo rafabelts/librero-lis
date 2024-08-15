@@ -14,6 +14,7 @@ export class LoanController {
 
       res.status(201).json({ success: true, message: loanData });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         success: false,
         message:
@@ -93,6 +94,7 @@ export class LoanController {
       const debts = await this.loanService.getDebts(studentId);
       res.status(201).json({ success: true, message: debts });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         success: false,
         message:
