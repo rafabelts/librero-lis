@@ -44,6 +44,11 @@ export default function VerifyEmailPage() {
       <p style={{ marginTop: '1rem', marginBottom: '3rem' }}>
         Checa tu correo electronico para obtener el enlace de verificacion
       </p>
+
+      <p style={{ marginTop: '1rem', marginBottom: '3rem' }}>
+        Nota, si al verificar no ves ningun cambio, por favor refresca la página
+      </p>
+
       <button className="appButton" onClick={handleClick} disabled={isDisabled}>
         {isDisabled
           ? `Por favor espera: ${countdown} segundos`
